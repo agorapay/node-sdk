@@ -1,5 +1,5 @@
-import { OrderStatus, TransactionStatus } from '../../utils/enums';
-declare class Payment {
+import { OrderStatus, TransactionStatus } from "../../utils/enums";
+export default class Payment {
     /** Order id obtained in order creation and to provide in each next request. */
     orderId?: number;
     /**
@@ -36,4 +36,3 @@ declare class Payment {
         [key: string]: any;
     });
 }
-export default Payment;

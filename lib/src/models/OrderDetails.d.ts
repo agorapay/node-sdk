@@ -1,7 +1,7 @@
-import { OrderStatus } from '../../utils/enums';
-import Amount from './Amount';
-import Transaction from './Transaction';
-declare class OrderDetails {
+import { OrderStatus } from "../../utils/enums";
+import Amount from "./Amount";
+import Transaction from "./Transaction";
+export default class OrderDetails {
     /**  */
     orderAmount?: Amount;
     /**  */
@@ -18,9 +18,8 @@ declare class OrderDetails {
      */
     orderStatus?: OrderStatus;
     /** */
-    transactionList?: Array<Transaction>;
+    transactionList?: Transaction[];
     constructor(data: {
         [key: string]: any;
     });
 }
-export default OrderDetails;

@@ -1,8 +1,8 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing a commission.
  */
-declare class Commission implements Encodable {
+export default class Commission implements Encodable {
     /** The commission amount. */
     amount: number;
     /** The commission account number. */
@@ -38,4 +38,3 @@ declare class Commission implements Encodable {
         [key: string]: any;
     };
 }
-export default Commission;

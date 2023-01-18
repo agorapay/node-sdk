@@ -1,5 +1,5 @@
-import Encodable from './Encodable';
-declare class Payer implements Encodable {
+import Encodable from "./Encodable";
+export default class Payer implements Encodable {
     /** IP Address of the customer. */
     IPAddress?: string;
     /** reference of the customer from the marketplace. */
@@ -20,4 +20,3 @@ declare class Payer implements Encodable {
         [key: string]: any;
     };
 }
-export default Payer;

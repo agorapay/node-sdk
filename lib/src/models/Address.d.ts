@@ -1,8 +1,8 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing an address.
  */
-declare class Address implements Encodable {
+export default class Address implements Encodable {
     /** Number and road name. */
     address: string;
     /**  */
@@ -51,4 +51,3 @@ declare class Address implements Encodable {
         [key: string]: any;
     };
 }
-export default Address;

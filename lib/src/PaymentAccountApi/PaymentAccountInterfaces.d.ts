@@ -1,7 +1,7 @@
-import { FileType, PaymentMethodKey, PayoutAutoFrequency } from '../../utils/enums';
-import ListingOptions from '../models/ListingOptions';
-import ListingResponse from '../models/ListingResponse';
-import PaymentAccount from '../models/PaymentAccount';
+import { FileType, PaymentMethodKey, PayoutAutoFrequency } from "../../utils/enums";
+import ListingOptions from "../models/ListingOptions";
+import ListingResponse from "../models/ListingResponse";
+import PaymentAccount from "../models/PaymentAccount";
 /**
  * @prop {string | undefined} accountNumber
  * @prop {string | undefined} currency
@@ -26,7 +26,7 @@ interface PaymentAccountListOptions extends ListingOptions {
  */
 interface PaymentAccountListResponse extends ListingResponse {
     /** The list of payment account */
-    paymentAccountList: Array<PaymentAccount>;
+    paymentAccountList: PaymentAccount[];
 }
 /**
  * @prop {string} accountNumber
@@ -122,6 +122,6 @@ interface PaymentAccountSetIBANResponse {
     /** ID to identify processing request. */
     requestId?: string;
     /** Alias for the payment method */
-    paymentMathodAlias?: string;
+    paymentMethodAlias?: string;
 }
 export { PaymentAccountListOptions, PaymentAccountListResponse, PaymentAccountCreditOptions, PaymentAccountCreditResponse, PaymentAccountPayoutAutoOptions, PaymentAccountSetIBANOptions, PaymentAccountSetIBANResponse };

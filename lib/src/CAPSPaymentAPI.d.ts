@@ -1,16 +1,19 @@
-import OperationApi from './OperationApi/OperationApi';
-import Config from './models/Config';
-import PayoutApi from './PayoutApi/PayoutApi';
-import TransferApi from './TransferApi/TransferApi';
-import PayinApi from './PayinApi/PayinApi';
-import PaymentAccountApi from './PaymentAccountApi/PaymentAccountApi';
-import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
+import OperationApi from "./OperationApi/OperationApi";
+import PayoutApi from "./PayoutApi/PayoutApi";
+import TransferApi from "./TransferApi/TransferApi";
+import PayinApi from "./PayinApi/PayinApi";
+import PaymentAccountApi from "./PaymentAccountApi/PaymentAccountApi";
+import AccountHolderApi from "./AccountHolderApi/AccountHolderApi";
+import CommonApi from "./CommonApi/CommonApi";
 /**
  * @example
  * ````typescript
  * import { CAPSPaymentAPI } from 'caps-payment'
  *
- * const capsPaymentApi = new CAPSPaymentAPI('myTokenUser', 'myTokenPassword', 'https://myTokenAuthUrl', 'https://theCAPSPaymentURL', 2000)
+ * const capsPaymentApi = new CAPSPaymentAPI('myTokenUser', 'myTokenPassword', 'https://myTokenAuthUrl', 'https://theCAPSPaymentURL', 2000);
+ *
+ * // for serverless functions you can pass a stored authToken
+ * capsPaymentApi.commonApi().getAuthToken().then((authToken) => {
  *
  * const operationApi = capsPaymentApi.operationApi()
  * const payoutApi = capsPaymentApi.payoutApi()
@@ -18,10 +21,11 @@ import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
  * const payinApi = capsPaymentApi.payinApi()
  * const paymentAccountApi = capsPaymentApi.paymentAccountApi()
  * const accountHolderApi = capsPaymentApi.accountHolderApi()
- *  ````
+ * const commonApi = capsPaymentApi.commonApi()
+ * ````
  */
-declare class CAPSPaymentAPI {
-    config: Config;
+export default class CAPSPaymentAPI {
+    private readonly config;
     /**
      * @param tokenUser - Token authentication username.
      * @param tokenPassword - Token authentication password.
@@ -36,5 +40,5 @@ declare class CAPSPaymentAPI {
     payinApi(): PayinApi;
     paymentAccountApi(): PaymentAccountApi;
     accountHolderApi(): AccountHolderApi;
+    commonApi(): CommonApi;
 }
-export default CAPSPaymentAPI;

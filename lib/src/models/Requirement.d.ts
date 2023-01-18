@@ -1,6 +1,6 @@
-import { RequirementFileType, RequirementStatus } from '../../utils/enums';
-import Encodable from './Encodable';
-declare class Requirement implements Encodable {
+import { RequirementFileType, RequirementStatus } from "../../utils/enums";
+import Encodable from "./Encodable";
+export default class Requirement implements Encodable {
     /** Requirement identification number. */
     id: string;
     /** Type of file provided in fileContent (PDF). */
@@ -28,4 +28,3 @@ declare class Requirement implements Encodable {
         [key: string]: any;
     };
 }
-export default Requirement;

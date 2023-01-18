@@ -1,13 +1,10 @@
-import { Gender } from '../../utils/enums';
-import Encodable from './Encodable';
+import { Gender } from "../../utils/enums";
+import Encodable from "./Encodable";
 /**
  * Class representing a person.
  */
-declare class Owner implements Encodable {
-    /**
-     * * Male (M),
-     * * Female (F)
-     */
+export default class Owner implements Encodable {
+    /**  */
     gender: Gender;
     /**  */
     firstName: string;
@@ -46,4 +43,3 @@ declare class Owner implements Encodable {
         [key: string]: any;
     };
 }
-export default Owner;

@@ -1,8 +1,8 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing an amount with a value and a currency.
  */
-declare class Amount implements Encodable {
+export default class Amount implements Encodable {
     /** The amount value. */
     value: number;
     /** Currency code in 3 characters ISO format/ */
@@ -40,4 +40,3 @@ declare class Amount implements Encodable {
         [key: string]: any;
     };
 }
-export default Amount;

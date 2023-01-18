@@ -1,8 +1,8 @@
-import ApiRest from '../../utils/apiRest';
-import Requirement from '../models/Requirement';
-import { RegisterAccountHolderOptions, UpdateAccountHolderOptions } from './AccountHolderInterfaces';
-import AccountHolder from '../models/AccountHolder';
-declare class AccountHolderApi extends ApiRest {
+import ApiRest from "../../utils/ApiRest";
+import Requirement from "../models/Requirement";
+import { RegisterAccountHolderOptions, UpdateAccountHolderOptions } from "./AccountHolderInterfaces";
+import AccountHolder from "../models/AccountHolder";
+export default class AccountHolderApi extends ApiRest {
     /**
      * Creates a new accountHolder.
      * @param {RegisterAccountHolderOptions} options accountHolder registering options.
@@ -124,4 +124,3 @@ declare class AccountHolderApi extends ApiRest {
      */
     unregister(requestId: string, accountNumber?: string): Promise<null>;
 }
-export default AccountHolderApi;

@@ -1,11 +1,11 @@
-import ApiRest from '../../utils/apiRest';
-import { TicketFormat, TicketType } from '../../utils/enums';
-import OrderDetails from '../models/OrderDetails';
-import Payment from '../models/Payment';
-import SignedMandateFile from '../models/SignedMandateFile';
-import Ticket from '../models/Ticket';
-import { PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, PaymentDetailsOptions, PaymentMethodOptions, PaymentMethodResponse, CaptureOptions, CaptureResponse, CancelOptions, CancelResponse, AdjustPaymentOptions, PaymentIFrameOptions, PaymentIFrameResponse, RefundOptions, RefundResponse } from './PayinInterfaces';
-declare class PayinApi extends ApiRest {
+import ApiRest from "../../utils/ApiRest";
+import { TicketFormat, TicketType } from "../../utils/enums";
+import OrderDetails from "../models/OrderDetails";
+import Payment from "../models/Payment";
+import SignedMandateFile from "../models/SignedMandateFile";
+import Ticket from "../models/Ticket";
+import { AdjustPaymentOptions, CancelOptions, CancelResponse, CaptureOptions, CaptureResponse, PaymentDetailsOptions, PaymentIFrameOptions, PaymentIFrameResponse, PaymentMethodOptions, PaymentMethodResponse, PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, RefundOptions, RefundResponse } from "./PayinInterfaces";
+export default class PayinApi extends ApiRest {
     /**
      * Submit a payment.
      * @description When your shopper choose a payment method, this call submit the choice and any data if already given. The return can be final, (transaction completed) or ask to authentification details, or redirect the shopper to PSP or 3DS pages.
@@ -299,4 +299,3 @@ declare class PayinApi extends ApiRest {
      */
     ticket(transactionId: string, type: TicketType, format: TicketFormat, message?: string): Promise<Ticket>;
 }
-export default PayinApi;

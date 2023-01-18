@@ -1,8 +1,8 @@
-import { Amount } from '../..';
-import ApiRest from '../../utils/apiRest';
-import PaymentAccount from '../models/PaymentAccount';
-import { PaymentAccountListOptions, PaymentAccountCreditOptions, PaymentAccountCreditResponse, PaymentAccountPayoutAutoOptions, PaymentAccountSetIBANOptions, PaymentAccountSetIBANResponse, PaymentAccountListResponse } from './PaymentAccountInterfaces';
-declare class PaymentAccountApi extends ApiRest {
+import { Amount } from "../..";
+import ApiRest from "../../utils/ApiRest";
+import PaymentAccount from "../models/PaymentAccount";
+import { PaymentAccountCreditOptions, PaymentAccountCreditResponse, PaymentAccountListOptions, PaymentAccountListResponse, PaymentAccountPayoutAutoOptions, PaymentAccountSetIBANOptions, PaymentAccountSetIBANResponse } from "./PaymentAccountInterfaces";
+export default class PaymentAccountApi extends ApiRest {
     /**
      * get Account details.
      * @description Get account details.
@@ -147,8 +147,8 @@ declare class PaymentAccountApi extends ApiRest {
      */
     disableIBAN(requestId?: string, accountNumber?: string): Promise<null>;
     /**
-     * @param {string} requestId
      * @param {string} accountNumber
+     * @param {Amount} amount
      * @example
      * ````javascript
      *paymentAccountApi.setFloorLimit("123456789", new Amount(100, "EUR")).then(resp => {
@@ -160,4 +160,3 @@ declare class PaymentAccountApi extends ApiRest {
      */
     setFloorLimit(accountNumber: string, amount: Amount): Promise<null>;
 }
-export default PaymentAccountApi;

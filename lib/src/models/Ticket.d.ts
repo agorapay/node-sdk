@@ -1,7 +1,7 @@
-import { TransactionStatus, TicketSide, TicketMode } from '../../utils/enums';
-import Amount from './Amount';
-declare class Ticket {
-    /** Id of the payment transaction. */
+import { TicketMode, TicketSide, TransactionStatus } from "../../utils/enums";
+import Amount from "./Amount";
+export default class Ticket {
+    /** ID of the payment transaction. */
     transactionId?: string;
     name?: string;
     brand?: string;
@@ -33,4 +33,3 @@ declare class Ticket {
         [key: string]: any;
     });
 }
-export default Ticket;

@@ -1,6 +1,6 @@
-import ApiRest from '../../utils/apiRest';
-import { CreateTransferOptions } from './TransferApiInterfaces';
-declare class TransferApi extends ApiRest {
+import ApiRest from "../../utils/ApiRest";
+import { CreateTransferOptions } from "./TransferApiInterfaces";
+export default class TransferApi extends ApiRest {
     /**
      * Ask for a transfer between two accounts.
      * @description submit a transfer from one account (accountNumber) to another (accountCtpNumber).
@@ -14,7 +14,7 @@ declare class TransferApi extends ApiRest {
      * @returns {number} The transfer transaction Id.
      * @example
      * ````javascript
-      payoutApi.createPayout({
+     payoutApi.createPayout({
         endToEndId: "1",
         accountNumber: "12345678",
         paymentMethodAlias: "12334566",
@@ -28,4 +28,3 @@ declare class TransferApi extends ApiRest {
      */
     createTransfer(options: CreateTransferOptions): Promise<number>;
 }
-export default TransferApi;

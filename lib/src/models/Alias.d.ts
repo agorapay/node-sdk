@@ -1,8 +1,8 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing an alias.
  */
-declare class Alias implements Encodable {
+export default class Alias implements Encodable {
     /** Identifier for the alias. */
     id: string;
     /** format MMYY. */
@@ -18,4 +18,3 @@ declare class Alias implements Encodable {
         [key: string]: any;
     };
 }
-export default Alias;
