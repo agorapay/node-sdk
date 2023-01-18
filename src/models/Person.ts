@@ -1,27 +1,25 @@
-import { Gender, Role } from '../../utils/enums';
-import Encodable from './Encodable';
+import { Gender, Role } from "../../utils/enums";
+import Encodable from "./Encodable";
+import Utils from "../../utils/Utils";
 
 /**
  * Class representing a person.
  */
-class Person implements Encodable {
-  /**
-   * * Male (M),
-   * * Female (F)
-   */
-  gender: Gender;
+export default class Person implements Encodable {
   /**  */
-  firstName: string;
+  public gender: Gender;
   /**  */
-  lastName: string;
+  public firstName: string;
   /**  */
-  email?: string;
+  public lastName: string;
   /**  */
-  phoneNumber?: string;
+  public email?: string;
   /**  */
-  roles: Array<Role>;
+  public phoneNumber?: string;
+  /**  */
+  public roles: Array<Role>;
   /** */
-  birthDate?: string;
+  public birthDate?: string;
 
   /**
    * @constructor
@@ -74,28 +72,24 @@ class Person implements Encodable {
   constructor(data: { [key: string]: any });
   constructor(...args: any[]) {
     if (args.length === 1) {
-      const data = args[0];
+      const data: Partial<Person> = args[0];
+      const gender = Utils.hasEnumOrDefault(data.gender, Gender, null);
 
-      if (
-        data.gender &&
-        Object.values(Gender).some((gender: string) => gender === data.gender)
-      )
-        this.gender = <Gender>data.gender;
-      else throw new Error('Missing required field or invalid data: gender');
-
-      if (!data.firstName) throw new Error('Missing required field: firstName');
-      if (!data.lastName) throw new Error('Missing required field: lastName');
+      if (!gender) {
+        throw new Error("Missing required field or invalid data: gender");
+      } else if (!data.firstName) {
+        throw new Error("Missing required field: firstName");
+      } else if (!data.lastName) {
+        throw new Error("Missing required field: lastName");
+      } else if (!data.roles) {
+        throw new Error("Missing required field: roles");
+      } else if (data.roles.some(role => Utils.hasEnumOrDefault(role, Role, null) === null)) {
+        throw new Error("Invalid data: roles");
+      }
       // if (!data.birthDate) throw new Error('Missing required field: birthDate');
-      if (!data.roles) throw new Error('Missing required field: roles');
 
-      this.roles = [];
-      data.roles.forEach((x: any) => {
-        if (Object.values(Role).some((role: string) => role === x))
-          this.roles.push(<Role>x);
-        else throw new Error('Invalid data: role');
-      });
-
-      this.gender = data.gender;
+      this.gender = gender;
+      this.roles = data.roles;
       this.firstName = data.firstName;
       this.lastName = data.lastName;
       this.email = data.email;
@@ -112,7 +106,7 @@ class Person implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       gender: this.gender,
       firstName: this.firstName,
@@ -122,13 +116,11 @@ class Person implements Encodable {
       birthDate: this.birthDate,
       roles: this.roles
         ? this.roles.map((x) => {
-            return {
-              role: x
-            };
-          })
+          return {
+            role: x
+          };
+        })
         : []
     };
   }
 }
-
-export default Person;

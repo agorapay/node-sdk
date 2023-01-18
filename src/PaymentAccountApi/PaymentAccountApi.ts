@@ -1,17 +1,17 @@
-import { Amount } from '../..';
-import ApiRest from '../../utils/apiRest';
-import PaymentAccount from '../models/PaymentAccount';
+import { Amount } from "../..";
+import ApiRest from "../../utils/ApiRest";
+import PaymentAccount from "../models/PaymentAccount";
 import {
-  PaymentAccountListOptions,
   PaymentAccountCreditOptions,
   PaymentAccountCreditResponse,
+  PaymentAccountListOptions,
+  PaymentAccountListResponse,
   PaymentAccountPayoutAutoOptions,
   PaymentAccountSetIBANOptions,
-  PaymentAccountSetIBANResponse,
-  PaymentAccountListResponse
-} from './PaymentAccountInterfaces';
+  PaymentAccountSetIBANResponse
+} from "./PaymentAccountInterfaces";
 
-class PaymentAccountApi extends ApiRest {
+export default class PaymentAccountApi extends ApiRest {
   /**
    * get Account details.
    * @description Get account details.
@@ -27,19 +27,8 @@ class PaymentAccountApi extends ApiRest {
    * ````
    */
   details(accountNumber: string): Promise<PaymentAccount> {
-    return new Promise((success, reject) => {
-      return this.sendToApiGet('/paymentAccount', {
-        accountNumber: accountNumber
-      }).then((resp: any) => {
-        if (+resp.resultCode !== 0)
-          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        try {
-          success(new PaymentAccount(resp));
-        } catch (err) {
-          reject(err);
-        }
-      });
-    });
+    return this.sendToApiGet<PaymentAccount>("/paymentAccount", { accountNumber: accountNumber })
+      .then(result => new PaymentAccount(result));
   }
 
   /**
@@ -64,29 +53,16 @@ class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  list(
-    options: PaymentAccountListOptions
-  ): Promise<PaymentAccountListResponse> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/list', options).then(
-        (resp: any) => {
-          console.log(resp);
-          if (+resp.resultCode !== 0)
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-          try {
-            success({
-              pagination: options.pagination,
-              offset: options.offset,
-              lineCount: +resp.lineCount,
-              paymentAccountList:
-                resp.accountList?.map((x: any) => new PaymentAccount(x)) ?? []
-            });
-          } catch (err) {
-            reject(err);
-          }
-        }
-      );
-    });
+  list(options: PaymentAccountListOptions): Promise<PaymentAccountListResponse> {
+    return this.sendToApiPost<PaymentAccountListResponse & { accountList: PaymentAccount[] | null }>("/paymentAccount/list", options)
+      .then(result => {
+        return {
+          pagination: options.pagination,
+          offset: options.offset,
+          lineCount: +result.lineCount,
+          paymentAccountList: (result.accountList ?? []).map((x: any) => new PaymentAccount(x))
+        };
+      });
   }
 
   /**
@@ -111,25 +87,14 @@ class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  credit(
-    options: PaymentAccountCreditOptions
-  ): Promise<PaymentAccountCreditResponse> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/credit', options).then(
-        (resp: any) => {
-          if (+resp.resultCode !== 0)
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-          try {
-            success({
-              virtualIban: resp.virtualIban,
-              transactionId: resp.transactionId
-            });
-          } catch (err) {
-            reject(err);
-          }
-        }
-      );
-    });
+  credit(options: PaymentAccountCreditOptions): Promise<PaymentAccountCreditResponse> {
+    return this.sendToApiPost<PaymentAccountCreditResponse>("/paymentAccount/credit", options)
+      .then(result => {
+        return {
+          virtualIban: result.virtualIban,
+          transactionId: result.transactionId
+        };
+      });
   }
 
   /**
@@ -158,19 +123,8 @@ class PaymentAccountApi extends ApiRest {
    * ````
    */
   payoutAuto(options: PaymentAccountPayoutAutoOptions): Promise<null> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/payoutAuto', options).then(
-        (resp: any) => {
-          if (+resp.resultCode !== 0)
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-          try {
-            success(null);
-          } catch (err) {
-            reject(err);
-          }
-        }
-      );
-    });
+    return this.sendToApiPost<void>("/paymentAccount/payoutAuto", options)
+      .then(() => null);
   }
 
   /**
@@ -213,25 +167,14 @@ class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  setIBAN(
-    options: PaymentAccountSetIBANOptions
-  ): Promise<PaymentAccountSetIBANResponse> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/setIBAN', options, true).then(
-        (resp: any) => {
-          if (+resp.resultCode !== 0)
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-          try {
-            success({
-              requestId: resp.requestId,
-              paymentMathodAlias: resp.paymentMathodAlias
-            });
-          } catch (err) {
-            reject(err);
-          }
-        }
-      );
-    });
+  setIBAN(options: PaymentAccountSetIBANOptions): Promise<PaymentAccountSetIBANResponse> {
+    return this.sendToApiPost<PaymentAccountSetIBANResponse>("/paymentAccount/setIBAN", options, true)
+      .then(result => {
+        return {
+          requestId: result.requestId,
+          paymentMethodAlias: result.paymentMethodAlias
+        };
+      });
   }
 
   /**
@@ -249,25 +192,16 @@ class PaymentAccountApi extends ApiRest {
    * ````
    */
   disableIBAN(requestId?: string, accountNumber?: string): Promise<null> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/disableIBAN', {
-        requestId: requestId,
-        accountNumber: accountNumber
-      }).then((resp: any) => {
-        if (+resp.resultCode !== 0)
-          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        try {
-          success(null);
-        } catch (err) {
-          reject(err);
-        }
-      });
-    });
+    return this.sendToApiPost<void>("/paymentAccount/disableIBAN", {
+      requestId: requestId,
+      accountNumber: accountNumber
+    })
+      .then(() => null);
   }
 
   /**
-   * @param {string} requestId
    * @param {string} accountNumber
+   * @param {Amount} amount
    * @example
    * ````javascript
    *paymentAccountApi.setFloorLimit("123456789", new Amount(100, "EUR")).then(resp => {
@@ -278,21 +212,10 @@ class PaymentAccountApi extends ApiRest {
    * ````
    */
   setFloorLimit(accountNumber: string, amount: Amount): Promise<null> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/setFloorLimit', {
-        accountNumber: accountNumber,
-        amount: amount
-      }).then((resp: any) => {
-        if (+resp.resultCode !== 0)
-          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        try {
-          success(null);
-        } catch (err) {
-          reject(err);
-        }
-      });
-    });
+    return this.sendToApiPost<void>("/paymentAccount/setFloorLimit", {
+      accountNumber: accountNumber,
+      amount: amount
+    })
+      .then(() => null);
   }
 }
-
-export default PaymentAccountApi;

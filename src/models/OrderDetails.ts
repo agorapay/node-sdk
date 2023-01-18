@@ -1,14 +1,15 @@
-import { OrderStatus } from '../../utils/enums';
-import Amount from './Amount';
-import Transaction from './Transaction';
+import { OrderStatus } from "../../utils/enums";
+import Amount from "./Amount";
+import Transaction from "./Transaction";
+import Utils from "../../utils/Utils";
 
-class OrderDetails {
+export default class OrderDetails {
   /**  */
-  orderAmount?: Amount;
+  public orderAmount?: Amount;
   /**  */
-  orderRemainingAmount?: Amount;
+  public orderRemainingAmount?: Amount;
   /** Order id obtained in order creation and to provide in each next request. */
-  orderId?: number;
+  public orderId?: number;
   /**
    * Status of an order. the following status can be provided:
    * * `Created`: The order is created
@@ -17,33 +18,15 @@ class OrderDetails {
    * * `PartialComplete`: Payment is completed but all order amount is not payed
    * * `Canceled`: The order is canceled
    */
-  orderStatus?: OrderStatus;
+  public orderStatus?: OrderStatus;
   /** */
-  transactionList?: Array<Transaction>;
+  public transactionList?: Transaction[];
 
   constructor(data: { [key: string]: any }) {
-    this.orderAmount = data.orderAmount
-      ? new Amount(data.orderAmount)
-      : undefined;
-    this.orderRemainingAmount = data.orderRemainingAmount
-      ? new Amount(data.orderRemainingAmount)
-      : undefined;
+    this.orderAmount = data.orderAmount ? new Amount(data.orderAmount) : undefined;
+    this.orderRemainingAmount = data.orderRemainingAmount ? new Amount(data.orderRemainingAmount) : undefined;
     this.orderId = +data.orderId;
-
-    if (
-      Object.values(OrderStatus).some(
-        (orderStatus: string) => orderStatus === data.orderStatus
-      )
-    ) {
-      this.orderStatus = <OrderStatus>data.orderStatus;
-    } else {
-      this.orderStatus = undefined;
-    }
-
-    this.transactionList = data.transactionList
-      ? data.transactionList.map((x: any) => new Transaction(x))
-      : undefined;
+    this.orderStatus = Utils.hasEnumOrDefault(data.orderStatus, OrderStatus, undefined);
+    this.transactionList = data.transactionList?.map((x: any) => new Transaction(x)) ?? undefined;
   }
 }
-
-export default OrderDetails;

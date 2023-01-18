@@ -1,14 +1,13 @@
-import Amount from './Amount';
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 
 /**
  * Class representing a commission.
  */
-class Commission implements Encodable {
+export default class Commission implements Encodable {
   /** The commission amount. */
-  amount: number;
+  public amount: number;
   /** The commission account number. */
-  account?: string;
+  public account?: string;
 
   /**
    * @constructor
@@ -56,12 +55,10 @@ class Commission implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       amount: this.amount.toString(),
       account: this.account
     };
   }
 }
-
-export default Commission;

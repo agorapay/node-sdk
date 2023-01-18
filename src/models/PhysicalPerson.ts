@@ -1,18 +1,18 @@
-import Requirement from './Requirement';
-import Encodable from './Encodable';
+import Requirement from "./Requirement";
+import Encodable from "./Encodable";
 
 /**
  * Class representing a person.
  */
-class PhysicalPersons implements Encodable {
+export default class PhysicalPerson implements Encodable {
   /**  */
-  firstName: string;
+  public firstName: string;
   /**  */
-  lastName: string;
+  public lastName: string;
   /**  */
-  id: string;
+  public id: string;
   /**  */
-  requirements: Array<Requirement> = [];
+  public requirements: Array<Requirement> = [];
 
   /**
    * @constructor
@@ -22,19 +22,20 @@ class PhysicalPersons implements Encodable {
   constructor(data: { [key: string]: any });
   constructor(...args: any[]) {
     if (args.length === 1) {
-      const data = args[0];
+      const data: Partial<PhysicalPerson> = args[0];
 
-      if (!data.firstName) throw new Error('Missing required field: firstName');
-      if (!data.lastName) throw new Error('Missing required field: lastName');
-      if (!data.id) throw new Error('Missing required field: id');
-      // if (!data.requirements) throw new Error('Missing required field: requirements')
+      if (!data.firstName) {
+        throw new Error("Missing required field: firstName");
+      } else if (!data.lastName) {
+        throw new Error("Missing required field: lastName");
+      } else if (!data.id) {
+        throw new Error("Missing required field: id");
+      }
 
       this.firstName = data.firstName;
       this.lastName = data.lastName;
       this.id = data.id;
-      this.requirements = data.requirements
-        ? data.requirements.map((x: any) => new Requirement(x))
-        : [];
+      this.requirements = (data.requirements ?? []).map((x: any) => new Requirement(x));
     } else {
       this.firstName = args[0];
       this.lastName = args[1];
@@ -43,7 +44,7 @@ class PhysicalPersons implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       firstName: this.firstName,
       lastName: this.lastName,
@@ -52,5 +53,3 @@ class PhysicalPersons implements Encodable {
     };
   }
 }
-
-export default PhysicalPersons;

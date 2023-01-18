@@ -1,11 +1,11 @@
-import Alias from '../models/Alias';
-import Amount from '../models/Amount';
-import Breakdown from '../models/Breakdown';
-import Cart from '../models/Cart';
-import Payer from '../models/Payer';
-import PaymentMethod from '../models/PaymentMethod';
-import { CbChallenge, OrderStatus, PaymentSequence } from '../../utils/enums';
-import Transaction from '../models/Transaction';
+import Alias from "../models/Alias";
+import Amount from "../models/Amount";
+import Breakdown from "../models/Breakdown";
+import Cart from "../models/Cart";
+import Payer from "../models/Payer";
+import PaymentMethod from "../models/PaymentMethod";
+import { CbChallenge, OrderStatus, PaymentSequence } from "../../utils/enums";
+import Transaction from "../models/Transaction";
 
 /**
  * @prop {string} transPaymentMethod

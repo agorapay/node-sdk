@@ -1,13 +1,13 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 
 /**
  * Class representing an amount with a value and a currency.
  */
-class Amount implements Encodable {
+export default class Amount implements Encodable {
   /** The amount value. */
-  value: number;
+  public value: number;
   /** Currency code in 3 characters ISO format/ */
-  currency: string;
+  public currency: string;
 
   /**
    * @constructor
@@ -39,9 +39,12 @@ class Amount implements Encodable {
   constructor(...args: any[]) {
     if (args.length === 1) {
       const data = args[0];
-      if (data.value === null || data.value === undefined)
-        throw new Error('Missing required field: value');
-      if (!data.currency) throw new Error('Missing required field: currency');
+      if (data.value === null || data.value === undefined) {
+        throw new Error("Missing required field: value");
+      }
+      if (!data.currency) {
+        throw new Error("Missing required field: currency");
+      }
       this.value = +data.value;
       this.currency = data.currency;
     } else {
@@ -50,12 +53,10 @@ class Amount implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       value: this.value.toString(),
       currency: this.currency
     };
   }
 }
-
-export default Amount;

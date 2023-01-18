@@ -1,4 +1,4 @@
-import Amount from '../models/Amount';
+import Amount from "../models/Amount";
 
 /**
  * @prop {string} accountCptNumber - A string representing the account number.

@@ -1,8 +1,9 @@
-import { OrderStatus, TransactionStatus } from '../../utils/enums';
+import { OrderStatus, TransactionStatus } from "../../utils/enums";
+import Utils from "../../utils/Utils";
 
-class Payment {
+export default class Payment {
   /** Order id obtained in order creation and to provide in each next request. */
-  orderId?: number;
+  public orderId?: number;
 
   /**
    * Status of an order. the following status can be provided:
@@ -12,10 +13,10 @@ class Payment {
    * * `PartialComplete`: Payment is completed but all order amount is not payed
    * * `Canceled`: The order is canceled
    */
-  orderStatus?: OrderStatus;
+  public orderStatus?: OrderStatus;
 
   /** Id of the payment transaction. */
-  transactionId?: string;
+  public transactionId?: string;
 
   /**
    * Status of a transaction. The following value may be provided:
@@ -27,46 +28,25 @@ class Payment {
    * * `Refused`: payment is refused
    * * `Abandonned` : Payment is not performed
    */
-  transactionStatus?: TransactionStatus;
+  public transactionStatus?: TransactionStatus;
 
   /** Iban to make payment to for SCT or SWIFT method */
-  virtualIban?: string;
+  public virtualIban?: string;
 
   /** Url to redirect the client to to continue the payment with an external partner. The marketplace must redirect his/her client to this url to continue payment process.  */
-  redirectUrl?: string;
+  public redirectUrl?: string;
 
   /** Mandate reference. */
-  reference?: string;
+  public reference?: string;
 
   /** 1 if user must be redirect to the redirectUrl site. */
-  redirectInd?: string;
+  public redirectInd?: string;
 
   constructor(data: { [key: string]: any }) {
-    this.orderId = +data.orderId;
-
-    if (
-      Object.values(OrderStatus).some(
-        (orderStatus: string) => orderStatus === data.orderStatus
-      )
-    ) {
-      this.orderStatus = <OrderStatus>data.orderStatus;
-    } else {
-      this.orderStatus = undefined;
-    }
-
+    this.orderId = Utils.hasIntegerOrDefault(data.orderId, undefined);
+    this.orderStatus = Utils.hasEnumOrDefault(data.orderStatus, OrderStatus, undefined);
     this.transactionId = data.transactionId;
-
-    if (
-      Object.values(TransactionStatus).some(
-        (transactionStatus: string) =>
-          transactionStatus === data.transactionStatus
-      )
-    ) {
-      this.transactionStatus = <TransactionStatus>data.transactionStatus;
-    } else {
-      this.transactionStatus = undefined;
-    }
-
+    this.transactionStatus = Utils.hasEnumOrDefault(data.transactionStatus, TransactionStatus, undefined);
     this.virtualIban = data.virtualIban;
     this.redirectUrl = data.redirectUrl;
     this.reference = data.reference;
@@ -74,4 +54,3 @@ class Payment {
   }
 }
 
-export default Payment;

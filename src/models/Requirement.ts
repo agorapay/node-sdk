@@ -1,28 +1,24 @@
-import { RequirementFileType, RequirementStatus } from '../../utils/enums';
-import Encodable from './Encodable';
+import { RequirementFileType, RequirementStatus } from "../../utils/enums";
+import Encodable from "./Encodable";
+import Utils from "../../utils/Utils";
 
-class Requirement implements Encodable {
+export default class Requirement implements Encodable {
   /** Requirement identification number. */
-  id: string;
+  public id: string;
   /** Type of file provided in fileContent (PDF). */
-  fileExt?: string | undefined;
+  public fileExt?: string | undefined;
   /** Content of the document base64 encoded. */
-  fileContent?: string | undefined;
+  public fileContent?: string | undefined;
   /** Document status. */
-  status?: RequirementStatus | undefined;
+  public status?: RequirementStatus | undefined;
   /** Date of validation of the document in ISO8601 format. */
-  validationDate?: string | undefined;
+  public validationDate?: string | undefined;
   /** Date of document reception in ISO8601 format */
-  receiptDate?: string | undefined;
+  public receiptDate?: string | undefined;
   /**  */
-  fileType?: RequirementFileType;
+  public fileType?: RequirementFileType;
 
-  constructor(
-    id: string,
-    fileExt: string,
-    fileContent: string,
-    fileType: RequirementFileType
-  );
+  constructor(id: string, fileExt: string, fileContent: string, fileType: RequirementFileType);
   /**
    * @constructor
    * @param data - Object which contains required requirement attributes.
@@ -31,24 +27,17 @@ class Requirement implements Encodable {
   constructor(data: { [key: string]: any });
   constructor(...args: any[]) {
     if (args.length === 1) {
-      const data = args[0];
-      if (!data.id) throw new Error('Missing required field: id');
-      if (!data.mandatory) throw new Error('Missing required fielmandatory');
-      if (!data.label) throw new Error('Missing required label');
+      const data: Partial<Requirement> = args[0];
+
+      if (!data.id) {
+        throw new Error("Missing required field: id");
+      }
+
       this.id = data.id;
       // this.label = data.label;
       this.fileExt = data.fileExt;
       this.fileContent = data.fileContent;
-
-      if (
-        data.status &&
-        Object.values(RequirementStatus).some(
-          (status: string) => status === data.status
-        )
-      )
-        this.status = <RequirementStatus>data.status;
-      else this.status = undefined;
-
+      this.status = Utils.hasEnumOrDefault(data.status, RequirementStatus, undefined);
       this.validationDate = data.validationDate;
       this.receiptDate = data.receiptDate;
     } else {
@@ -59,7 +48,7 @@ class Requirement implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       id: this.id,
       fileExt: this.fileExt,
@@ -71,5 +60,3 @@ class Requirement implements Encodable {
     };
   }
 }
-
-export default Requirement;

@@ -1,20 +1,17 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 
 /**
  * Class representing an account.
  */
-class Account implements Encodable {
+export default class Account implements Encodable {
   /** The ISO country code in 3 characters format. */
-  country: string;
-
+  public country: string;
   /** Currency code in 3 characters ISO format. */
-  currency: string;
-
+  public currency: string;
   /** International Bank Account Number. */
-  iban: string;
-
+  public iban: string;
   /** Floor limit in currency unit. */
-  floorLimit: number;
+  public floorLimit: number;
 
   /**
    * @constructor
@@ -27,12 +24,7 @@ class Account implements Encodable {
    *let account = new Account("FRA", "EUR", "AZERTYU12345", 2000)
    * ````
    */
-  constructor(
-    country: string,
-    currency: string,
-    iban: string,
-    floorLimit: number
-  );
+  constructor(country: string, currency: string, iban: string, floorLimit: number);
   /**
    * @constructor
    * @param data - Object which contains required account attributes.
@@ -54,6 +46,7 @@ class Account implements Encodable {
    * ````
    */
   constructor(data: { [key: string]: any });
+
   constructor(...args: any[]) {
     if (args.length === 1) {
       const data = args[0];
@@ -74,7 +67,7 @@ class Account implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       country: this.country,
       currency: this.currency,
@@ -83,5 +76,3 @@ class Account implements Encodable {
     };
   }
 }
-
-export default Account;

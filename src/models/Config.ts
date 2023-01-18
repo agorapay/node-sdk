@@ -1,5 +1,9 @@
-/** Class representing a config. */
-class Config {
+import Utils from "../../utils/Utils";
+
+/**
+ * Class representing a config.
+ */
+export default class Config {
   /** Token authentication username. */
   tokenUser: string;
   /** Token authentication password. */
@@ -11,32 +15,18 @@ class Config {
   /** HTTP requests timeout. Default is `0` (no timeout). */
   timeout: number;
 
-  tokenValue?: string;
-  tokenExpiry = 0;
-  tokenId?: string;
-  tokenMethod = 'POST';
-
   /**
-   *
    * @param tokenUser - Token authentication username.
    * @param tokenPassword - Token authentication password.
    * @param tokenUrl - Token authentication URL.
    * @param baseUrl - CAPS Payment URL
    * @param timeout - HTTP requests timeout. Default is `0` (no timeout).
    */
-  constructor(
-    tokenUser: string,
-    tokenPassword: string,
-    tokenUrl: string,
-    baseUrl: string,
-    timeout = 0
-  ) {
+  constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout: number = 0) {
     this.tokenUser = tokenUser;
     this.tokenPassword = tokenPassword;
     this.tokenUrl = tokenUrl;
     this.baseUrl = baseUrl;
-    this.timeout = timeout;
+    this.timeout = Utils.hasIntegerOrDefault(timeout, 0);
   }
 }
-
-export default Config;

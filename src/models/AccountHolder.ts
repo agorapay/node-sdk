@@ -1,23 +1,23 @@
-import PhysicalPersons from './PhysicalPerson';
-import Requirement from './Requirement';
-import Encodable from './Encodable';
+import PhysicalPerson from "./PhysicalPerson";
+import Requirement from "./Requirement";
+import Encodable from "./Encodable";
 
 /**
  * Class representing an account holder.
  */
-class AccountHolder implements Encodable {
+export default class AccountHolder implements Encodable {
   /** A string representing the account number. */
-  accountNumber?: string;
+  public accountNumber?: string;
   /** Alias for the payment method. */
-  paymentMethodAlias?: string;
+  public paymentMethodAlias?: string;
   /**  */
-  requirements: Array<Requirement>;
+  public requirements: Requirement[];
   /**  */
-  physicalPersons: Array<PhysicalPersons>;
+  public physicalPersons: PhysicalPerson[];
   /** Id used for futher update function call */
-  requestId?: string;
+  public requestId?: string;
   /** Status of request */
-  requestStatus?: string;
+  public requestStatus?: string;
 
   /**
    * @constructor
@@ -29,8 +29,8 @@ class AccountHolder implements Encodable {
    * @param requestStatus - Status of request
    */
   constructor(
-    requirements: Array<Requirement>,
-    physicalPersons: Array<PhysicalPersons>,
+    requirements: Requirement[],
+    physicalPersons: PhysicalPerson[],
     accountNumber?: string,
     paymentMethodAlias?: string,
     requestId?: string,
@@ -44,7 +44,7 @@ class AccountHolder implements Encodable {
     this.requestId = requestId;
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       accountNumber: this.accountNumber,
       paymentMethodAlias: this.paymentMethodAlias,
@@ -55,5 +55,3 @@ class AccountHolder implements Encodable {
     };
   }
 }
-
-export default AccountHolder;

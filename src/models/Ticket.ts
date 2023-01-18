@@ -1,39 +1,31 @@
-import { TransactionStatus, TicketSide, TicketMode } from '../../utils/enums';
-import Amount from './Amount';
+import { TicketMode, TicketSide, TransactionStatus } from "../../utils/enums";
+import Amount from "./Amount";
+import Utils from "../../utils/Utils";
 
-class Ticket {
-  /** Id of the payment transaction. */
-  transactionId?: string;
-
-  name?: string;
-  brand?: string;
-  maskedPan?: string;
+export default class Ticket {
+  /** ID of the payment transaction. */
+  public transactionId?: string;
+  public name?: string;
+  public brand?: string;
+  public maskedPan?: string;
   /** Status of a transaction. The following value may be provided: */
-  transactionStatus?: TransactionStatus;
-
+  public transactionStatus?: TransactionStatus;
   /** Date of the requested operation. The format must be YYYYMMDD */
-  operationDate?: string;
-
+  public operationDate?: string;
   /** Operation time in HH:MM:SS format */
-  operationTime?: string;
-
+  public operationTime?: string;
   /** Y if 3DS is verified */
-  safe?: string;
-
-  type?: TicketSide;
-
-  authNumber?: string;
+  public safe?: string;
+  public type?: TicketSide;
+  public authNumber?: string;
   /** Transaction number in PSP. */
-  transNumber?: string;
-
-  amount?: Amount;
-  mode?: TicketMode;
-
+  public transNumber?: string;
+  public amount?: Amount;
+  public mode?: TicketMode;
   /** PDF file content base64 encoded, if format is P */
-  fileContent?: string;
-
+  public fileContent?: string;
   /** Payment partner contract number. */
-  contract?: string;
+  public contract?: string;
 
   /**
    * @constructor
@@ -45,46 +37,16 @@ class Ticket {
     this.name = data.name;
     this.brand = data.brand;
     this.maskedPan = data.maskedPan;
-
-    if (
-      Object.values(TransactionStatus).some(
-        (transactionStatus: string) =>
-          transactionStatus === data.transactionStatus
-      )
-    ) {
-      this.transactionStatus = <TransactionStatus>data.transactionStatus;
-    } else {
-      this.transactionStatus = undefined;
-    }
-
+    this.transactionStatus = Utils.hasEnumOrDefault(data.transactionStatus, TransactionStatus, undefined);
     this.operationDate = data.operationDate;
     this.operationTime = data.operationTime;
     this.safe = data.safe;
-
-    if (
-      Object.values(TicketSide).some(
-        (type: string) => type === data.type.toString()
-      )
-    ) {
-      this.type = <TicketSide>data.type.toString();
-    } else {
-      this.type = undefined;
-    }
-
+    this.type = Utils.hasEnumOrDefault(data.type, TicketSide, undefined);
     this.authNumber = data.authNumber;
     this.transNumber = data.transNumber;
-
     this.amount = data.amount ? new Amount(data.amount) : undefined;
-
-    if (Object.values(TicketMode).some((mode: string) => mode === data.mode)) {
-      this.mode = <TicketMode>data.mode;
-    } else {
-      this.mode = undefined;
-    }
-
+    this.mode = Utils.hasEnumOrDefault(data.mode, TicketMode, undefined);
     this.fileContent = data.fileContent;
     this.contract = data.contract;
   }
 }
-
-export default Ticket;

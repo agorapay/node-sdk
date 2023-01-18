@@ -1,14 +1,14 @@
-import { PaymentMethodType } from '../../utils/enums';
-import Alias from './Alias';
-import Encodable from './Encodable';
+import { PaymentMethodType } from "../../utils/enums";
+import Alias from "./Alias";
+import Encodable from "./Encodable";
 
-class PaymentMethod implements Encodable {
+export default class PaymentMethod implements Encodable {
   /** If alias exist for the customer and the payment Method. */
-  aliasList?: Array<Alias>;
+  public aliasList?: Alias[];
   /** Identifier of the payment method. */
-  id: string;
+  public id: string;
   /** label of the payment Method. */
-  label?: string;
+  public label?: string;
   /** Id of the type of payment method
    * * Sepa Direct Debit (1)
    * * Sepa Credit Transfer (2)
@@ -20,7 +20,7 @@ class PaymentMethod implements Encodable {
    * * Voucher (8)
    * * Remainder(9)
    */
-  type?: PaymentMethodType;
+  public type?: PaymentMethodType;
 
   /**
    *
@@ -38,26 +38,19 @@ class PaymentMethod implements Encodable {
    * * Voucher (8)
    * * Remainder(9)
    */
-  constructor(
-    id: string,
-    aliasList?: Array<Alias>,
-    label?: string,
-    type?: PaymentMethodType
-  ) {
+  constructor(id: string, aliasList?: Alias[], label?: string, type?: PaymentMethodType) {
     this.aliasList = aliasList;
     this.id = id;
     this.label = label;
     this.type = type;
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
-      aliasList: this.aliasList ? this.aliasList.map((x) => x.encode()) : [],
+      aliasList: (this.aliasList ?? []).map((x) => x.encode()),
       id: this.id,
       label: this.label,
       type: this.type
     };
   }
 }
-
-export default PaymentMethod;

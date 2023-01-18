@@ -1,29 +1,26 @@
-import { Gender } from '../../utils/enums';
-import Encodable from './Encodable';
+import { Gender } from "../../utils/enums";
+import Encodable from "./Encodable";
 
 /**
  * Class representing a person.
  */
-class Owner implements Encodable {
-  /**
-   * * Male (M),
-   * * Female (F)
-   */
-  gender: Gender;
+export default class Owner implements Encodable {
   /**  */
-  firstName: string;
+  public gender: Gender;
   /**  */
-  lastName: string;
+  public firstName: string;
   /**  */
-  socialReason: string;
+  public lastName: string;
+  /**  */
+  public socialReason: string;
   /** */
-  address: string;
+  public address: string;
   /** */
-  city: string;
+  public city: string;
   /**  */
-  postalCode: string;
+  public postalCode: string;
   /** */
-  country: string;
+  public country: string;
 
   /**
    * @constructor
@@ -63,7 +60,7 @@ class Owner implements Encodable {
     this.country = country;
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       gender: this.gender,
       firstName: this.firstName,
@@ -76,5 +73,3 @@ class Owner implements Encodable {
     };
   }
 }
-
-export default Owner;
