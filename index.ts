@@ -57,6 +57,11 @@ import SignedMandateFile from "./src/models/SignedMandateFile";
 import Ticket from "./src/models/Ticket";
 import Transaction from "./src/models/Transaction";
 
+// webhooks
+import WebHook from "./src/models/webhook/WebHook";
+import PaymentAcknowledgeWebHook from "./src/models/webhook/PaymentAcknowledgeWebHook";
+import StatusUpdateWebHook from "./src/models/webhook/StatusUpdateWebHook";
+
 import {
   AccountStatus,
   AccountType,
@@ -157,5 +162,8 @@ export {
   RequirementStatus,
   AccountType,
   RequirementFileType,
-  CbChallenge
+  CbChallenge,
+  WebHook,
+  PaymentAcknowledgeWebHook,
+  StatusUpdateWebHook
 };
