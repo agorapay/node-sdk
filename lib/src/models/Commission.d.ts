@@ -4,7 +4,7 @@ import Encodable from "./Encodable";
  */
 export default class Commission implements Encodable {
     /** The commission amount. */
-    amount: number;
+    amount: string;
     /** The commission account number. */
     account?: string;
     /**

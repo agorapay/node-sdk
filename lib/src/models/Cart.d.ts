@@ -4,7 +4,7 @@ import Encodable from "./Encodable";
  */
 export default class Cart implements Encodable {
     /** Number of article in cart. */
-    quantity: number;
+    totalQuantity: number;
     /** @param quantity - Number of article in cart. */
     constructor(quantity: number);
     encode(): {
