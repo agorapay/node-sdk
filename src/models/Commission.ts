@@ -33,7 +33,7 @@ export default class Commission implements Encodable {
    *let commission1 = new Commission(new Amount(10000, "EUR"), "12345678")
    * ````
    */
-  constructor(amount: number, account?: string);
+  constructor(amount: string, account?: string);
   /**
    * @constructor
    * @param amountValue - The commission amount value.

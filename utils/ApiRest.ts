@@ -86,6 +86,8 @@ export default class ApiRest {
       .then(response => {
         if (response.status === 401) {
           return this.sendAuthenticatedRequest(payload);
+        } else if (response.data?.resultCode && response.data?.resultCode !== "0") {
+          throw new ApiRestError(response.data.resultCode, response.data.resultCodeMessage ?? "No resultCodeMessage");
         }
         return response.data;
       })

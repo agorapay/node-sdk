@@ -8,9 +8,9 @@ import Encodable from "./Encodable";
 export default class Breakdown implements Encodable {
   /** The breakdown amount. */
   public amount: Amount;
-  /** The merchant account number. */
+  /** Account number of the merchant or marketplace. */
   public sellerAccountNumber: string;
-  /** The label for the breakdown. */
+  /** The label for the breakdown. Maximum 30 characters. */
   public label?: string;
   /** The commission information. */
   public commission?: Commission;
