@@ -5,7 +5,7 @@ import Encodable from "./Encodable";
  */
 export default class Commission implements Encodable {
   /** The commission amount. */
-  public amount: number;
+  public amount: string;
   /** The commission account number. */
   public account?: string;
 
@@ -57,7 +57,7 @@ export default class Commission implements Encodable {
 
   public encode(): { [key: string]: any } {
     return {
-      amount: this.amount.toString(),
+      amount: this.amount,
       account: this.account
     };
   }

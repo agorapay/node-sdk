@@ -5,16 +5,16 @@ import Encodable from "./Encodable";
  */
 export default class Cart implements Encodable {
   /** Number of article in cart. */
-  public quantity: number;
+  public totalQuantity: number;
 
   /** @param quantity - Number of article in cart. */
   constructor(quantity: number) {
-    this.quantity = quantity;
+    this.totalQuantity = quantity;
   }
 
   public encode(): { [key: string]: any } {
     return {
-      totalQuantity: this.quantity
+      totalQuantity: this.totalQuantity
     };
   }
 }

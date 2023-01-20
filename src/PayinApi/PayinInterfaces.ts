@@ -306,7 +306,7 @@ interface PaymentIFrameOptions {
   /**  */
   payer: Payer;
   /**
-   * @example: Set to "0" for authorization only (default value))
+   * Capture indicator. Set to "0" for authorization only (default value 1 - transaction captured))
    */
   capture?: string;
   /**  */
@@ -320,13 +320,17 @@ interface PaymentIFrameOptions {
    */
   endToEndId?: string;
   /**
-   * Id of the payment method. This id must be provided in payment function to identify the payment method.
+   * Identifier of the payment method. If given, the end-user will be redirected to the corresponding payment method iFrame.
+   * If not given, the end-user will be redirected to the payment method selection iFrame.
    */
   paymentMethodId?: string;
   /**
-   * Url where the client must be redirected at the end of the payment with the partner. This URL is completed by success, error or cancel according to the partner response status.
+   * Url where the client must be redirected at the end of the payment with the partner.
+   * This URL is completed by /success, /error or /cancel according to the partner response status.
+   * When the customer will be redirected to the marketPlace at the end of the partner payment process,
+   * the paymentDetails function must be called to terminate payment with the data transmitted by the partner.
    *
-   * When client will be redirect to the marcketPlace at the end of the partner payment process, the paymentDetails function must be called to terminate payment with the data transmitted by the partner.
+   * @remarks For development purpose, you can use http://127.0.0.1 (localhost is not supported)
    */
   urlRedirect?: string;
   /** */

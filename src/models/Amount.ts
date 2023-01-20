@@ -5,7 +5,7 @@ import Encodable from "./Encodable";
  */
 export default class Amount implements Encodable {
   /** The amount value. */
-  public value: number;
+  public value: string;
   /** Currency code in 3 characters ISO format/ */
   public currency: string;
 
@@ -19,14 +19,14 @@ export default class Amount implements Encodable {
    *
    * ````
    */
-  constructor(value: number, currency: string);
+  constructor(value: string, currency: string);
   /**
    * @constructor
    * @param data - Object which contains value and currency attributes.
    * @throws Will throw an error if `value` or `currency` is missing from the `data` param.
    * @example
    * ````typescript
-   * let data = { value: 10000, currency: "EUR" }
+   * let data = { value: "10.56", currency: "EUR" }
    * try {
    *  let amount = new Amount(data)
    * } catch (err) {
@@ -35,7 +35,7 @@ export default class Amount implements Encodable {
    *
    * ````
    */
-  constructor(data: { [key: string]: any });
+  constructor(data: Partial<Amount>);
   constructor(...args: any[]) {
     if (args.length === 1) {
       const data = args[0];
@@ -45,10 +45,10 @@ export default class Amount implements Encodable {
       if (!data.currency) {
         throw new Error("Missing required field: currency");
       }
-      this.value = +data.value;
+      this.value = data.value;
       this.currency = data.currency;
     } else {
-      this.value = +args[0];
+      this.value = args[0];
       this.currency = args[1];
     }
   }
