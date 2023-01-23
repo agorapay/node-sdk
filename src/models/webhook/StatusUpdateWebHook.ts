@@ -19,8 +19,7 @@ export enum WebHookOperationStatus {
   Waiting = "W",
   Cashed = "E",
   Cancelled = "C",
-  Suspended = "S",
-  Rejected = "R" // ?
+  Suspended = "S"
 }
 
 export enum WebHookOperationSide {
