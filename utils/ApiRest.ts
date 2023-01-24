@@ -66,10 +66,10 @@ export default class ApiRest {
    * Send an authenticated request to the API and refresh the token if needed
    */
   private sendAuthenticatedRequest(payload: AxiosRequestConfig, isBase64: boolean = false): Promise<any> {
-    if (ApiRest.authToken.isInvalidOrExpired) {
+    if (ApiRest.authToken?.isInvalidOrExpired) {
       return this.authenticate()
         .then(() => {
-          if (ApiRest.authToken.isInvalidOrExpired) {
+          if (ApiRest.authToken?.isInvalidOrExpired) {
             throw new ApiRestError("Authentication error", "Looks like the authentication succeeded but the token is still invalid or expired");
           }
 
@@ -134,8 +134,8 @@ export default class ApiRest {
 
   private buildHeaders(): Record<string, string> {
     return {
-      "Authorization": `Bearer ${ApiRest.authToken.tokenValue}`,
-      "id_token": `${ApiRest.authToken.tokenId}`
+      "Authorization": `Bearer ${ApiRest.authToken?.tokenValue}`,
+      "id_token": `${ApiRest.authToken?.tokenId}`
     };
   }
 
