@@ -279,6 +279,10 @@ interface AdjustPaymentOptions {
  * @prop {string | undefined} paymentMethodId
  * @prop {string | undefined} urlRedirect
  * @prop {Cart | undefined} cart
+ * @prop {string | undefined} paymentAccount
+ * @prop {string | undefined} cbChallenge
+ * @prop {string | undefined} details
+ * @prop {string | undefined} page
  */
 interface PaymentIFrameOptions {
     /** Marketplace reference for this order */
@@ -321,6 +325,25 @@ interface PaymentIFrameOptions {
     urlRedirect?: string;
     /** */
     cart?: Cart;
+    paymentAccount?: string;
+    /**
+     * Challenge negotiation for card payment.
+     * 01: No preference
+     * 02: No challenge required
+     * 03: Desired challenge
+     * 04: Required challenge
+     */
+    cbChallenge?: "01" | "02" | "03" | "04";
+    /**
+     * Payment details information For some payment methods, additional details are needed.
+     */
+    details?: any;
+    /**
+     * Type of page to display.
+     * - iframe: integrated in marketplace site (default)
+     * - full: full page
+     */
+    page?: "iframe" | "full";
 }
 /**
  * @prop {number} orderId
