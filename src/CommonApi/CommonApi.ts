@@ -15,7 +15,7 @@ export default class CommonApi extends ApiRest {
     })
    * ````
    */
-  public authenticate(): Promise<{ id_token: string, access_token: string, expires_in: Date }> {
+  public authenticate(): Promise<{ id_token: string, access_token: string, expires_in: Date, scope: string, token_type: string }> {
     return super.authenticate();
   }
 

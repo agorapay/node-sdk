@@ -37,7 +37,9 @@ export default class ApiRest {
         id_token: string;
         access_token: string;
         expires_in: Date;
+        scope: string;
+        token_type: string;
     }>;
     private buildHeaders;
-    private jsonFieldsToString;
+    private encodeValue;
 }

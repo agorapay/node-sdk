@@ -59,8 +59,8 @@ import Transaction from "./src/models/Transaction";
 
 // webhooks
 import WebHook from "./src/models/webhook/WebHook";
-import PaymentAcknowledgeWebHook from "./src/models/webhook/PaymentAcknowledgeWebHook";
-import StatusUpdateWebHook from "./src/models/webhook/StatusUpdateWebHook";
+import PaymentAcknowledgeWebHook, {WebHookIPNTransactionStatusCode, WebHookIPNOperationType} from "./src/models/webhook/PaymentAcknowledgeWebHook";
+import StatusUpdateWebHook, { WebHookOperationSide, WebHookOperationStatus, WebHookRelatedMessageStatus, WebHookStatusUpdateOperationType } from "./src/models/webhook/StatusUpdateWebHook";
 
 import {
   AccountStatus,
@@ -165,5 +165,11 @@ export {
   CbChallenge,
   WebHook,
   PaymentAcknowledgeWebHook,
-  StatusUpdateWebHook
+  WebHookIPNTransactionStatusCode,
+  WebHookIPNOperationType,
+  StatusUpdateWebHook,
+  WebHookOperationStatus,
+  WebHookStatusUpdateOperationType,
+  WebHookOperationSide,
+  WebHookRelatedMessageStatus
 };

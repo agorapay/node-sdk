@@ -19,7 +19,7 @@ export default class ApiRest {
   /**
    * The authentication token shared between APIRest instances
    */
-  private static readonly authToken: AuthToken;
+  private static readonly authToken: AuthToken = new AuthToken({});
 
   constructor(private readonly config: Config) {
   }
@@ -28,7 +28,7 @@ export default class ApiRest {
     return this.sendAuthenticatedRequest({
       method: "POST",
       url: this.config.baseUrl + endPoint,
-      data: this.jsonFieldsToString(payload),
+      data: this.encodeValue(payload ?? {}),
       timeout: this.config.timeout,
       validateStatus: (status: number) => status == 200 || status == 401
     }, base64);
@@ -49,7 +49,7 @@ export default class ApiRest {
    * @remarks May be used in a serverless environment where the token is stored in a database.
    */
   protected setAuthTokenValue(token: AuthToken) {
-    ApiRest.authToken.tokenValue = token?.tokenValue;
+    ApiRest.authToken.accessToken = token?.accessToken;
     ApiRest.authToken.tokenId = token?.tokenId;
     ApiRest.authToken.tokenExpiry = token?.tokenExpiry;
     ApiRest.authToken.tokenMethod = token?.tokenMethod;
@@ -66,14 +66,14 @@ export default class ApiRest {
    * Send an authenticated request to the API and refresh the token if needed
    */
   private sendAuthenticatedRequest(payload: AxiosRequestConfig, isBase64: boolean = false): Promise<any> {
-    if (ApiRest.authToken?.isInvalidOrExpired) {
+    if (ApiRest.authToken.isInvalidOrExpired) {
       return this.authenticate()
         .then(() => {
-          if (ApiRest.authToken?.isInvalidOrExpired) {
+          if (ApiRest.authToken.isInvalidOrExpired) {
             throw new ApiRestError("Authentication error", "Looks like the authentication succeeded but the token is still invalid or expired");
           }
 
-          return this.sendAuthenticatedRequest(payload);
+          return this.sendAuthenticatedRequest(payload, isBase64);
         });
     }
 
@@ -104,9 +104,9 @@ export default class ApiRest {
   /**
    * Authenticate the user and update the token in the config
    */
-  protected authenticate(): Promise<{ id_token: string, access_token: string, expires_in: Date }> {
+  protected authenticate(): Promise<{ id_token: string, access_token: string, expires_in: Date, scope: string, token_type: string }> {
     return axios.request({
-      method: ApiRest.authToken.tokenMethod,
+      method: "POST",
       url: this.config.tokenUrl,
       timeout: this.config.timeout,
       headers: {
@@ -118,42 +118,58 @@ export default class ApiRest {
         const tokenInfo = {
           id_token: data.id_token,
           access_token: data.access_token,
-          expires_in: new Date(Date.now() + data.expires_in * 1000)
+          expires_in: new Date(Date.now() + data.expires_in * 1000),
+          token_type: data.token_type,
+          scope: data.scope
         };
 
-        ApiRest.authToken.tokenValue = tokenInfo.access_token;
+        ApiRest.authToken.accessToken = tokenInfo.access_token;
         ApiRest.authToken.tokenId = tokenInfo.id_token;
         ApiRest.authToken.tokenExpiry = tokenInfo.expires_in.getTime();
+        ApiRest.authToken.tokenMethod = "POST";
 
         return tokenInfo;
       })
       .catch((error: any) => {
-        throw new ApiRestError(error.response.data.resultCode.toString(), error.response.data.resultCodeMessage);
+        throw new ApiRestError(
+          error.response?.data.resultCode.toString() ?? "Unknown error authentication",
+          error.response?.data.resultCodeMessage ?? "No resultCodeMessage"
+        );
       });
   }
 
   private buildHeaders(): Record<string, string> {
     return {
-      "Authorization": `Bearer ${ApiRest.authToken?.tokenValue}`,
-      "id_token": `${ApiRest.authToken?.tokenId}`
+      "Authorization": `${ApiRest.authToken.tokenType} ${ApiRest.authToken.accessToken}`,
+      "id_token": ApiRest.authToken.tokenId
     };
   }
 
-  private jsonFieldsToString(payload: Record<string, any>): Record<string, any> {
-    return Object.keys(payload).reduce((acc, key) => {
-      if (payload[key] === undefined || payload[key] === null) {
+  private encodeValue(value: any): any {
+    if (value === undefined || value === null) {
+      return undefined;
+    }
+
+    if (value.encode) {
+      return value.encode();
+    } else if (Array.isArray(value)) {
+      return value.reduce((acc: any[], item: any) => {
+        const result = this.encodeValue(item);
+        if (result !== undefined) {
+          acc.push(result);
+        }
         return acc;
-      }
+      }, []);
+    } else if (typeof value === "object") {
+      return Object.keys(value).reduce((acc: any, key) => {
+        const result = this.encodeValue(value[key]);
+        if (result !== undefined) {
+          acc[key] = result;
+        }
+        return acc;
+      }, {});
+    }
 
-      if (payload[key].encode) {
-        acc[key] = payload[key].encode();
-      } else if (typeof payload[key] === "object") {
-        acc[key] = this.jsonFieldsToString(payload[key]);
-      } else {
-        acc[key] = payload[key].toString();
-      }
-
-      return acc;
-    }, {} as Record<string, any>);
+    return value;
   }
 }

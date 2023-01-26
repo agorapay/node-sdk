@@ -7,7 +7,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf lib && tsc",
     "lint": "eslint . --ext .ts",
     "test": "mocha -r ts-node/register tests/*.test.ts --timeout 10000",
     "testOperation": "mocha -r ts-node/register tests/operation.test.ts",
@@ -27,6 +27,7 @@
     "underscore": "^1.13.1"
   },
   "devDependencies": {
+    "rimraf": "4.1.2",
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.11.7",

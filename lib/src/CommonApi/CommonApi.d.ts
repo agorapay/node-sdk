@@ -18,6 +18,8 @@ export default class CommonApi extends ApiRest {
         id_token: string;
         access_token: string;
         expires_in: Date;
+        scope: string;
+        token_type: string;
     }>;
     /**
      * Set a default authentication token to use. Will update all API tokens but will not authenticate or refresh it if it is expired.
