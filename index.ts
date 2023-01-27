@@ -58,6 +58,7 @@ import Ticket from "./src/models/Ticket";
 import Transaction from "./src/models/Transaction";
 
 // webhooks
+import WebHookUtils from "./utils/WebHookUtils";
 import WebHook from "./src/models/webhook/WebHook";
 import PaymentAcknowledgeWebHook, {WebHookIPNTransactionStatusCode, WebHookIPNOperationType} from "./src/models/webhook/PaymentAcknowledgeWebHook";
 import StatusUpdateWebHook, { WebHookOperationSide, WebHookOperationStatus, WebHookRelatedMessageStatus, WebHookStatusUpdateOperationType } from "./src/models/webhook/StatusUpdateWebHook";
@@ -168,6 +169,7 @@ export {
   WebHookIPNTransactionStatusCode,
   WebHookIPNOperationType,
   StatusUpdateWebHook,
+  WebHookUtils,
   WebHookOperationStatus,
   WebHookStatusUpdateOperationType,
   WebHookOperationSide,

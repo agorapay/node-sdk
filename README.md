@@ -1,10 +1,10 @@
-CAPSPAYMENT Node.Js SDK
-=================================================
+# CAPSPAYMENT Node.Js SDK
 
-CAPSPayment SDK is a Node.Js client library to work with CAPSPayment REST API.
+CAPSPayment SDK is a Node.js client library to work with CAPSPayment REST API.
 
-Usage
--------------------------------------------------
+## Usage
+
+---------------
 
 ### Usage inside your app
 
@@ -53,6 +53,32 @@ if (!newToken.equals(token) && !newToken.isInvalidOrExpired) {
   await storeTokenInYourCacheOrDatabase(newToken);
 }
 ```
+
+
+### Webhooks helpers
+
+The SDK provides a method to verify the signature of a webhook. You can use it like this:
+
+```typescript
+import { WebhookUtils } from 'caps-payment'
+
+// Verify the webhook signature
+const isValid = WebhookUtils.verifyHmac({
+  headerAuthVersion: "1.0", // see doc to know which version to use, current is 1.0
+  serverHookUrl: "<your server hook url>",
+  keyId: "<your key id provided by agorapay>",
+  hmacKey: "<your hmac key provided by agorapay>",
+}, {
+  authorization: headers.authorization,
+  body: req.body,
+  method: req.method
+}, true /* Verbose mode: optional, default is false */);
+```
+
+
+## API Documentation
+
+------------
 
 List SDK functions to use for API Payin
 -------------------------------------------------
