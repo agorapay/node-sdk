@@ -9,11 +9,11 @@ import Amount from "../models/Amount";
  * @prop {string} reason - Operation label transmitted in payment system. Maximum length of 140 characters.
  */
 interface CreateTransferOptions {
-  /** A string representing the account number. */
+  /** A string representing the account number. Account number to credit. */
   accountCptNumber: string;
   /** The transfer amount. */
   transferAmount: Amount;
-  /** A string representing the account number. */
+  /** A string representing the account number. Account number to debit. */
   accountNumber: string;
   /** Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space. */
   orderRef?: string;
