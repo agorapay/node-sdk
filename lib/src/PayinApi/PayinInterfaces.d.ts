@@ -373,7 +373,7 @@ interface PaymentIFrameResponse {
  */
 interface RefundOptions {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /**  */
     transactionAmount: Amount;
     /** Id of the payment transaction. */
