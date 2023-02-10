@@ -28,7 +28,7 @@ import Transaction from "../models/Transaction";
 interface PaymentOptionsWithOrderId {
     transPaymentMethod: string;
     /** Order id obtained in order creation and to provide in each next request */
-    orderId: number;
+    orderId: string;
     /** Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space. */
     orderReference?: string;
     /** The ISO country code in 3 characters format. */
@@ -164,7 +164,7 @@ interface PaymentDetailsOptions {
     /** JSON data for the marketplace. This data is not used by payment system. */
     metaData?: object;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /** Specific data for a payment method. */
     paymentData?: string;
 }
@@ -204,7 +204,7 @@ interface PaymentMethodResponse {
  */
 interface CaptureOptions {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /**  */
     transactionAmount: Amount;
     /** JSON data for the marketplace. This data is not used by payment system. */
@@ -225,7 +225,7 @@ interface CaptureResponse {
     /** List of the order transactions. */
     transactionList: Array<Transaction>;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
 }
 /**
  * @prop {number} orderId
@@ -234,7 +234,7 @@ interface CaptureResponse {
  */
 interface CancelOptions {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /** Id of the payment transaction. */
     transactionId?: string;
     /** JSON data for the marketplace. This data is not used by payment system. */
@@ -264,7 +264,7 @@ interface AdjustPaymentOptions {
     /** */
     adjustAmount?: Amount;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
 }
 /**
  * @prop {string} orderReference
@@ -353,7 +353,7 @@ interface PaymentIFrameOptions {
  */
 interface PaymentIFrameResponse {
     /**  */
-    orderId: number;
+    orderId: string;
     /** Authentification Code to use to open user iframe. */
     authenticationCode: string;
     /** Site name or number. */
