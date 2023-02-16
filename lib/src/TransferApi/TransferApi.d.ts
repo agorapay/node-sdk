@@ -11,7 +11,7 @@ export default class TransferApi extends ApiRest {
      * @prop {string | undefined} orderRef - Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space.
      * @prop {string | undefined} metaData - JSON data for the marketplace. This data is not used by payment system.
      * @prop {string} reason - Operation label transmitted in payment system. Maximum length of 140 characters.
-     * @returns {number} The transfer transaction Id.
+     * @returns {string} The transfer transaction Id.
      * @example
      * ````javascript
      payoutApi.createPayout({
@@ -26,5 +26,5 @@ export default class TransferApi extends ApiRest {
       })
      * ````
      */
-    createTransfer(options: CreateTransferOptions): Promise<number>;
+    createTransfer(options: CreateTransferOptions): Promise<string>;
 }
