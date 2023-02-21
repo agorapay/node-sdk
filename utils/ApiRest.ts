@@ -67,9 +67,11 @@ export default class ApiRest {
    */
   private sendAuthenticatedRequest(payload: AxiosRequestConfig, isBase64: boolean = false): Promise<any> {
     if (ApiRest.authToken.isInvalidOrExpired) {
+      this.log("Token is invalid or expired, authenticating...");
       return this.authenticate()
         .then(() => {
           if (ApiRest.authToken.isInvalidOrExpired) {
+            this.log("Token is still invalid or expired after authentication");
             throw new ApiRestError("Authentication error", "Looks like the authentication succeeded but the token is still invalid or expired");
           }
 
@@ -82,16 +84,24 @@ export default class ApiRest {
       payload.headers["Content-Transfer-Encoding"] = "base64";
     }
 
+    this.log("Sending POST request to " + payload.url + " with payload:");
+    this.log(payload);
+
     return axios.request(payload)
       .then(response => {
         if (response.status === 401) {
+          this.log("401: Token is invalid, authenticating...");
           return this.sendAuthenticatedRequest(payload);
         } else if (response.data?.resultCode && response.data?.resultCode !== "0") {
+          this.log("API returned error: " + response.data.resultCodeMessage);
           throw new ApiRestError(response.data.resultCode, response.data.resultCodeMessage ?? "No resultCodeMessage");
         }
         return response.data;
       })
       .catch((error: any) => {
+        this.log("Request failed:");
+        this.log(error.response?.data);
+
         if (error instanceof ApiRestError) {
           throw error;
         } else if (error?.response?.status === 400) {
@@ -105,6 +115,7 @@ export default class ApiRest {
    * Authenticate the user and update the token in the config
    */
   protected authenticate(): Promise<{ id_token: string, access_token: string, expires_in: Date, scope: string, token_type: string }> {
+    this.log("Authenticating user, POST to " + this.config.tokenUrl);
     return axios.request({
       method: "POST",
       url: this.config.tokenUrl,
@@ -128,9 +139,12 @@ export default class ApiRest {
         ApiRest.authToken.tokenExpiry = tokenInfo.expires_in.getTime();
         ApiRest.authToken.tokenMethod = "POST";
 
+        this.log("Authentication succeeded, token expires at " + tokenInfo.expires_in);
+        this.log(tokenInfo);
         return tokenInfo;
       })
       .catch((error: any) => {
+        this.log("Authentication failed: " + error.response?.data);
         throw new ApiRestError(
           error.response?.data.resultCode.toString() ?? "Unknown error authentication",
           error.response?.data.resultCodeMessage ?? "No resultCodeMessage"
@@ -171,5 +185,11 @@ export default class ApiRest {
     }
 
     return value;
+  }
+
+  private log(message: any) {
+    if (this.config.debug) {
+      console.dir(message, { depth: null, colors: true });
+    }
   }
 }

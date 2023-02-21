@@ -407,6 +407,6 @@ interface RefundResponse {
     /**  */
     transactionList?: Array<Transaction>;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId?: number;
+    orderId?: string;
 }
 export { PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, PaymentDetailsOptions, PaymentMethodOptions, PaymentMethodResponse, CaptureOptions, CaptureResponse, CancelOptions, CancelResponse, AdjustPaymentOptions, PaymentIFrameOptions, PaymentIFrameResponse, RefundOptions, RefundResponse };

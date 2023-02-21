@@ -69,11 +69,16 @@ export default class Breakdown implements Encodable {
   }
 
   public encode(): { [key: string]: any } {
-    return {
+    const data: any = {
       amount: this.amount.encode(),
       sellerAccountNumber: this.sellerAccountNumber,
-      label: this.label,
-      commission: this.commission ? this.commission.encode() : undefined
+      label: this.label
     };
+
+    if (this.commission) {
+      data.commission = this.commission.encode();
+    }
+
+    return data;
   }
 }

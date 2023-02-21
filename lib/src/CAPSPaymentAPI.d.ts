@@ -10,7 +10,7 @@ import CommonApi from "./CommonApi/CommonApi";
  * ````typescript
  * import { CAPSPaymentAPI } from 'caps-payment'
  *
- * const capsPaymentApi = new CAPSPaymentAPI('myTokenUser', 'myTokenPassword', 'https://myTokenAuthUrl', 'https://theCAPSPaymentURL', 2000);
+ * const capsPaymentApi = new CAPSPaymentAPI('myTokenUser', 'myTokenPassword', 'https://myTokenAuthUrl', 'https://theCAPSPaymentURL', 2000, false);
  *
  * // for serverless functions you can pass a stored authToken
  * capsPaymentApi.commonApi().getAuthToken().then((authToken) => {
@@ -32,8 +32,9 @@ export default class CAPSPaymentAPI {
      * @param tokenUrl - Token authentication URL.
      * @param baseUrl - CAPS Payment URL
      * @param timeout - HTTP requests timeout. Default is `0` (no timeout).
+     * @param debug boolean - Enable debug mode. Default is `false`.
      */
-    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number);
+    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number, debug?: boolean);
     operationApi(): OperationApi;
     payoutApi(): PayoutApi;
     transferApi(): TransferApi;

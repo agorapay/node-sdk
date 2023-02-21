@@ -316,7 +316,7 @@ export default class PayinApi extends ApiRest {
 
         return {
           authenticationCode: result.authenticationCode,
-          orderId: +result.orderId,
+          orderId: result.orderId,
           site: result.site,
           url: result.url
         };
@@ -359,7 +359,7 @@ export default class PayinApi extends ApiRest {
         return {
           orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
           transactionList: result.transactionList?.map((x: any) => new Transaction(x)) ?? undefined,
-          orderId: Utils.hasIntegerOrDefault(result.orderId, undefined)
+          orderId: result.orderId ?? undefined
         };
       });
   }

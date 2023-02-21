@@ -12,6 +12,8 @@ export default class Config {
     baseUrl: string;
     /** HTTP requests timeout. Default is `0` (no timeout). */
     timeout: number;
+    /** Enable debug mode. Default is `false`. */
+    debug: boolean;
     /**
      * @param tokenUser - Token authentication username.
      * @param tokenPassword - Token authentication password.
@@ -19,5 +21,5 @@ export default class Config {
      * @param baseUrl - CAPS Payment URL
      * @param timeout - HTTP requests timeout. Default is `0` (no timeout).
      */
-    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number);
+    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number, debug?: boolean);
 }
