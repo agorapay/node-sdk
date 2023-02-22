@@ -76,7 +76,10 @@ import {
   RequirementStatus,
   AccountType,
   RequirementFileType,
-  CbChallenge
+  CbChallenge,
+  ReportType,
+  ReportFormat,
+  PageOption
 } from './utils/enums'
 
 
@@ -154,5 +157,8 @@ export {
   RequirementStatus,
   AccountType,
   RequirementFileType,
-  CbChallenge
+  CbChallenge,
+  ReportType,
+  ReportFormat,
+  PageOption
  }

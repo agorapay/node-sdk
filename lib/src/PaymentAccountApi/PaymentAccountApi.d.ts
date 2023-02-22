@@ -1,5 +1,6 @@
 import { Amount } from '../..';
 import ApiRest from '../../utils/apiRest';
+import { ReportFormat, ReportType } from '../../utils/enums';
 import PaymentAccount from '../models/PaymentAccount';
 import { PaymentAccountListOptions, PaymentAccountCreditOptions, PaymentAccountCreditResponse, PaymentAccountPayoutAutoOptions, PaymentAccountSetIBANOptions, PaymentAccountSetIBANResponse, PaymentAccountListResponse } from './PaymentAccountInterfaces';
 declare class PaymentAccountApi extends ApiRest {
@@ -159,5 +160,21 @@ declare class PaymentAccountApi extends ApiRest {
      * ````
      */
     setFloorLimit(accountNumber: string, amount: Amount): Promise<null>;
+    /**
+     * @param {string | undefined} accountNumber
+     * @param {ReportType} type
+     * @param {ReportFormat} format
+     * @param {string} year
+     * @param {string | undefined} month
+     * @example
+     * ````javascript
+     *paymentApi.report("13006EUR12641111", ReportType.ACCOUNT_STATEMENT, ReportFormat.PDF, "2022", "01").then(resp => {
+     *  console.log(resp)
+     *}).catch(error => {
+     *  console.log(error)
+     *})
+     * ````
+     */
+    report(accountNumber: string, type: ReportType, format: ReportFormat, year: string, month: string): Promise<null>;
 }
 export default PaymentAccountApi;

@@ -5,6 +5,7 @@ import TransferApi from './TransferApi/TransferApi';
 import PayinApi from './PayinApi/PayinApi';
 import PaymentAccountApi from './PaymentAccountApi/PaymentAccountApi';
 import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
+import SelfcareApi from './SelfcareApi/SelfcareApi';
 /**
  * @example
  * ````typescript
@@ -18,6 +19,7 @@ import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
  * const payinApi = capsPaymentApi.payinApi()
  * const paymentAccountApi = capsPaymentApi.paymentAccountApi()
  * const accountHolderApi = capsPaymentApi.accountHolderApi()
+ * const selfcareApi = capsPaymentApi.selfcareApi()
  *  ````
  */
 declare class CAPSPaymentAPI {
@@ -36,5 +38,6 @@ declare class CAPSPaymentAPI {
     payinApi(): PayinApi;
     paymentAccountApi(): PaymentAccountApi;
     accountHolderApi(): AccountHolderApi;
+    selfcareApi(): SelfcareApi;
 }
 export default CAPSPaymentAPI;

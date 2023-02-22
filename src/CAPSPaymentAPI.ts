@@ -5,6 +5,7 @@ import TransferApi from './TransferApi/TransferApi';
 import PayinApi from './PayinApi/PayinApi';
 import PaymentAccountApi from './PaymentAccountApi/PaymentAccountApi';
 import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
+import SelfcareApi from './SelfcareApi/SelfcareApi';
 
 /**
  * @example
@@ -19,6 +20,7 @@ import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
  * const payinApi = capsPaymentApi.payinApi()
  * const paymentAccountApi = capsPaymentApi.paymentAccountApi()
  * const accountHolderApi = capsPaymentApi.accountHolderApi()
+ * const selfcareApi = capsPaymentApi.selfcareApi()
  *  ````
  */
 class CAPSPaymentAPI {
@@ -69,6 +71,10 @@ class CAPSPaymentAPI {
 
   accountHolderApi() {
     return new AccountHolderApi(this.config);
+  }
+
+  selfcareApi() {
+    return new SelfcareApi(this.config);
   }
 }
 

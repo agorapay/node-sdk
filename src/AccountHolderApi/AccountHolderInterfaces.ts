@@ -6,12 +6,12 @@ import Owner from '../models/Owner';
 
 /**
  *  @prop {string} socialReason
- *  @prop {string} compagnyName
+ *  @prop {string} companyName
  *  @prop {string} country
  *  @prop {string} legalForm
  *  @prop {string} registrationNumber
  *  @prop {Address} masterAddress
- *  @prop {Address | undefined} billingAddress
+ *  @prop {Address | undefined} commercialAddress
  *  @prop {string} turnover
  *  @prop {boolean | YesOrNo} regulatedSociety
  *  @prop {Array<Person>} physicalPersons
@@ -24,7 +24,7 @@ interface RegisterAccountHolderOptions {
   /** Holder name. */
   socialReason: string;
   /** Commercial name. */
-  compagnyName?: string;
+  companyName?: string;
   /** The ISO country code in 3 characters format. */
   country: string;
   /**  */
@@ -34,7 +34,7 @@ interface RegisterAccountHolderOptions {
   /**  */
   masterAddress: Address;
   /**  */
-  billingAddress?: Address;
+  commercialAddress?: Address;
   /** Current or last year turnover in account currency code unit. */
   turnover: string;
   /**  */
@@ -50,11 +50,10 @@ interface RegisterAccountHolderOptions {
 }
 /**
  *  @prop {string | undefined} socialReason
- *  @prop {string | undefined} compagnyName
+ *  @prop {string | undefined} companyName
  *  @prop {string | undefined} country
- *  @prop {string | undefined} registrationNumber
  *  @prop {Address | undefined} masterAddress
- *  @prop {Address | undefined} billingAddress
+ *  @prop {Address | undefined} commercialAddress
  *  @prop {string | undefined} turnover
  *  @prop {boolean | YesOrNo | undefined} regulatedSociety
  *  @prop {Array<Person> | undefined} physicalPersons
@@ -67,15 +66,13 @@ interface UpdateAccountHolderOptions {
   /** Holder name. */
   socialReason?: string;
   /** Commercial name. */
-  compagnyName?: string;
+  companyName?: string;
   /** The ISO country code in 3 characters format. */
   country?: string;
-  /** SIRET for France. */
-  registrationNumber?: string;
   /**  */
   masterAddress?: Address;
   /**  */
-  billingAddress?: Address;
+  commercialAddress?: Address;
   /** Current or last year turnover in account currency code unit. */
   turnover?: string;
   /**  */
