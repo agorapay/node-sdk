@@ -1,3 +1,4 @@
+import { report } from 'process';
 import ApiRest from '../../utils/apiRest';
 import { OrderStatus, TicketFormat, TicketType } from '../../utils/enums';
 import OrderDetails from '../models/OrderDetails';
@@ -279,19 +280,21 @@ class PayinApi extends ApiRest {
       return this.sendToApiPost('/payin/cancel', options).then((resp: any) => {
         if (+resp.resultCode !== 0)
           reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-
-        let orderStatus: OrderStatus | undefined = undefined;
+        if (!resp.orderId === undefined)
+          reject(new Error('Missing required field: orderId'));
         if (
-          resp.orderStatus &&
-          Object.values(OrderStatus).some(
+          !resp.orderStatus ||
+          !Object.values(OrderStatus).some(
             (orderStatus: string) => orderStatus === resp.orderStatus
           )
         )
-          orderStatus = <OrderStatus>resp.orderStatus;
+          reject(
+            new Error('Missing required field or invalid data: orderStatus')
+          );
         else {
           try {
             success({
-              orderStatus: orderStatus,
+              orderStatus: <OrderStatus>resp.orderStatus,
               transactionList: resp.transactionList
                 ? resp.transactionList.map((x: any) => new Transaction(x))
                 : []
@@ -390,6 +393,7 @@ class PayinApi extends ApiRest {
    * @prop {string | undefined} paymentMethodId
    * @prop {string | undefined} urlRedirect
    * @prop {Cart | undefined} cart
+   * @prop {string | undefined} reason
    * @returns {PaymentIFrameResponse} authentificationCode and url
    * @example
    * ````javascript
@@ -424,9 +428,10 @@ class PayinApi extends ApiRest {
             try {
               success({
                 authenticationCode: resp.authenticationCode,
-                orderId: +resp.order,
-                site: resp.Site,
-                url: resp.url
+                orderId: +resp.orderId,
+                site: resp.site,
+                url: resp.url,
+                resultCode: resp.resultCode
               });
             } catch (err) {
               reject(err);
@@ -472,18 +477,21 @@ class PayinApi extends ApiRest {
       return this.sendToApiPost('/payin/refund', options).then((resp: any) => {
         if (+resp.resultCode !== 0)
           reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        let orderStatus: OrderStatus | undefined = undefined;
+        if (!resp.orderId === undefined)
+          reject(new Error('Missing required field: orderId'));
         if (
-          resp.orderStatus &&
-          Object.values(OrderStatus).some(
+          !resp.orderStatus ||
+          !Object.values(OrderStatus).some(
             (orderStatus: string) => orderStatus === resp.orderStatus
           )
         )
-          orderStatus = <OrderStatus>resp.orderStatus;
+          reject(
+            new Error('Missing required field or invalid data: orderStatus')
+          );
         else {
           try {
             success({
-              orderStatus: orderStatus,
+              orderStatus: <OrderStatus>resp.orderStatus,
               transactionList: resp.transactionList
                 ? resp.transactionList.map((x: any) => new Transaction(x))
                 : undefined,

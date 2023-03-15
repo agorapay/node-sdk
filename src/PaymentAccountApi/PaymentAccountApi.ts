@@ -1,5 +1,6 @@
 import { Amount } from '../..';
 import ApiRest from '../../utils/apiRest';
+import { ReportFormat, ReportType } from '../../utils/enums';
 import PaymentAccount from '../models/PaymentAccount';
 import {
   PaymentAccountListOptions,
@@ -70,7 +71,6 @@ class PaymentAccountApi extends ApiRest {
     return new Promise((success, reject) => {
       return this.sendToApiPost('/paymentAccount/list', options).then(
         (resp: any) => {
-          console.log(resp);
           if (+resp.resultCode !== 0)
             reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
           try {
@@ -79,7 +79,9 @@ class PaymentAccountApi extends ApiRest {
               offset: options.offset,
               lineCount: +resp.lineCount,
               paymentAccountList:
-                resp.accountList?.map((x: any) => new PaymentAccount(x)) ?? []
+                resp.accountList?.map(
+                  (x: any) => new PaymentAccount({ account: x })
+                ) ?? []
             });
           } catch (err) {
             reject(err);
@@ -217,7 +219,20 @@ class PaymentAccountApi extends ApiRest {
     options: PaymentAccountSetIBANOptions
   ): Promise<PaymentAccountSetIBANResponse> {
     return new Promise((success, reject) => {
-      return this.sendToApiPost('/paymentAccount/setIBAN', options, true).then(
+      const json = options as any;
+      const fileContent = options.fileContent;
+      delete json.fileContent;
+      const payload = {
+        json: json,
+        files: [
+          {
+            name: 'file',
+            fileName: `iban.${options.fileType}`,
+            data: fileContent
+          }
+        ]
+      };
+      return this.sendToApiPost('/paymentAccount/setIBAN', payload, true).then(
         (resp: any) => {
           if (+resp.resultCode !== 0)
             reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
@@ -282,6 +297,47 @@ class PaymentAccountApi extends ApiRest {
       return this.sendToApiPost('/paymentAccount/setFloorLimit', {
         accountNumber: accountNumber,
         amount: amount
+      }).then((resp: any) => {
+        if (+resp.resultCode !== 0)
+          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
+        try {
+          success(null);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
+  }
+
+  /**
+   * @param {string | undefined} accountNumber
+   * @param {ReportType} type
+   * @param {ReportFormat} format
+   * @param {string} year
+   * @param {string | undefined} month
+   * @example
+   * ````javascript
+   *paymentApi.report("13006EUR12641111", ReportType.ACCOUNT_STATEMENT, ReportFormat.PDF, "2022", "01").then(resp => {
+   *  console.log(resp)
+   *}).catch(error => {
+   *  console.log(error)
+   *})
+   * ````
+   */
+  report(
+    accountNumber: string,
+    type: ReportType,
+    format: ReportFormat,
+    year: string,
+    month: string
+  ): Promise<null> {
+    return new Promise((success, reject) => {
+      return this.sendToApiGet('/paymentAccount/report', {
+        accountNumber: accountNumber,
+        type: type,
+        format: format,
+        year: year,
+        month: month
       }).then((resp: any) => {
         if (+resp.resultCode !== 0)
           reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
