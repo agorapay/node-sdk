@@ -3,7 +3,7 @@ import Utils from "../../utils/Utils";
 
 export default class Payment {
   /** Order id obtained in order creation and to provide in each next request. */
-  public orderId?: number;
+  public orderId?: string;
 
   /**
    * Status of an order. the following status can be provided:
@@ -43,7 +43,7 @@ export default class Payment {
   public redirectInd?: string;
 
   constructor(data: { [key: string]: any }) {
-    this.orderId = Utils.hasIntegerOrDefault(data.orderId, undefined);
+    this.orderId = data.orderId ?? undefined;
     this.orderStatus = Utils.hasEnumOrDefault(data.orderStatus, OrderStatus, undefined);
     this.transactionId = data.transactionId;
     this.transactionStatus = Utils.hasEnumOrDefault(data.transactionStatus, TransactionStatus, undefined);

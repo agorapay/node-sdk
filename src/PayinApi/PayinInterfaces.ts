@@ -83,7 +83,7 @@ interface PaymentOptionsWithOrderId {
  * @prop {CbChallenge | undefined} cbChallenge
  */
 interface PaymentOptionsWithoutOrderId {
-  transPaymentMethod: string;
+  transPaymentMethod: { id: string };
   /** Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space. */
   orderReference: string;
   /** The ISO country code in 3 characters format. */

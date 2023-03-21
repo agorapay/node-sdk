@@ -1,7 +1,7 @@
 import { OrderStatus, TransactionStatus } from "../../utils/enums";
 export default class Payment {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId?: number;
+    orderId?: string;
     /**
      * Status of an order. the following status can be provided:
      * * `Created`: The order is created
