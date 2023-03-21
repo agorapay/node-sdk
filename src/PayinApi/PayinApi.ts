@@ -148,7 +148,7 @@ export default class PayinApi extends ApiRest {
   paymentMethods(options: PaymentMethodOptions): Promise<PaymentMethodResponse> {
     return this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods", options)
       .then(result => ({
-        paymentMethodList: result.paymentMethodList?.map((x: any) => new PaymentMethod(x)) ?? undefined,
+        paymentMethodList: result.paymentMethodList?.map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)) ?? undefined,
         orderId: result.orderId
       }));
   }
