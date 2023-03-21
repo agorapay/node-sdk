@@ -39,7 +39,7 @@ export default class PaymentMethod implements Encodable {
    * * Remainder(9)
    */
   constructor(id: string, aliasList?: Alias[], label?: string, type?: PaymentMethodType) {
-    this.aliasList = aliasList;
+    this.aliasList = (aliasList ?? []).map((x) => new Alias(x.id, x.expirationDate, x.maskedPan, x.label, x.cardBrand, x.bankCode));
     this.id = id;
     this.label = label;
     this.type = type;

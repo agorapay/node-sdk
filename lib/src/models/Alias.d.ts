@@ -11,9 +11,11 @@ export default class Alias implements Encodable {
     maskedPan?: string;
     /** label of the alias. */
     label?: string;
-    /** Card brand (CB, VISA, MASTERCARD) or bank code for IBAN. */
-    brand?: string;
-    constructor(id: string, expirationDate?: string, maskedPan?: string, label?: string, brand?: string);
+    /** Card brand (CB, VISA, MASTERCARD) */
+    cardBrand?: string;
+    /** Bank code */
+    bankCode?: string;
+    constructor(id: string, expirationDate?: string, maskedPan?: string, label?: string, cardBrand?: string, bankCode?: string);
     encode(): {
         [key: string]: any;
     };

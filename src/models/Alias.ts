@@ -12,15 +12,18 @@ export default class Alias implements Encodable {
   public maskedPan?: string;
   /** label of the alias. */
   public label?: string;
-  /** Card brand (CB, VISA, MASTERCARD) or bank code for IBAN. */
-  public brand?: string;
+  /** Card brand (CB, VISA, MASTERCARD) */
+  public cardBrand?: string;
+  /** Bank code */
+  public bankCode?: string;
 
-  constructor(id: string, expirationDate?: string, maskedPan?: string, label?: string, brand?: string) {
+  constructor(id: string, expirationDate?: string, maskedPan?: string, label?: string, cardBrand?: string, bankCode?: string) {
     this.id = id;
     this.expirationDate = expirationDate;
     this.maskedPan = maskedPan;
     this.label = label;
-    this.brand = brand;
+    this.cardBrand = cardBrand;
+    this.bankCode = bankCode;
   }
 
   public encode(): { [key: string]: any } {
@@ -29,7 +32,8 @@ export default class Alias implements Encodable {
       expirationDate: this.expirationDate,
       maskedPan: this.maskedPan,
       label: this.label,
-      brand: this.brand
+      cardBrand: this.cardBrand,
+      bankCode: this.bankCode
     };
   }
 }
