@@ -201,7 +201,7 @@ interface PaymentMethodOptions {
  */
 interface PaymentMethodResponse {
   paymentMethodList?: Array<PaymentMethod>;
-  orderId?: number;
+  orderId?: string;
 }
 
 /**
