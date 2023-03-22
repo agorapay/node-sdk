@@ -7,7 +7,7 @@ import PaymentMethod from "../models/PaymentMethod";
 import { CbChallenge, OrderStatus, PaymentSequence } from "../../utils/enums";
 import Transaction from "../models/Transaction";
 /**
- * @prop {{id: string}} transPaymentMethod
+ * @prop {string} transPaymentMethod
  * @prop {number} orderId
  * @prop {string | undefined} orderReference
  * @prop {string | undefined} orderCountryCode
@@ -26,9 +26,7 @@ import Transaction from "../models/Transaction";
  * @prop {CbChallenge | undefined} cbChallenge
  */
 interface PaymentOptionsWithOrderId {
-    transPaymentMethod: {
-        id: string;
-    };
+    transPaymentMethod: string;
     /** Order id obtained in order creation and to provide in each next request */
     orderId: string;
     /** Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space. */
@@ -65,7 +63,7 @@ interface PaymentOptionsWithOrderId {
     cbChallenge?: CbChallenge;
 }
 /**
- * @prop {{id: string}} transPaymentMethod
+ * @prop {string} transPaymentMethod
  * @prop {string} orderReference
  * @prop {string} orderCountryCode
  * @prop {Array<Breakdown> | undefined} breakdownList
@@ -83,9 +81,7 @@ interface PaymentOptionsWithOrderId {
  * @prop {CbChallenge | undefined} cbChallenge
  */
 interface PaymentOptionsWithoutOrderId {
-    transPaymentMethod: {
-        id: string;
-    };
+    transPaymentMethod: string;
     /** Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space. */
     orderReference: string;
     /** The ISO country code in 3 characters format. */
