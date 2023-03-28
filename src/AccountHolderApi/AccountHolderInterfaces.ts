@@ -1,8 +1,8 @@
-import Account from '../models/Account';
-import Address from '../models/Address';
-import Person from '../models/Person';
-import { YesOrNo } from '../../utils/enums';
-import Owner from '../models/Owner';
+import Account from "../models/Account";
+import Address from "../models/Address";
+import Person from "../models/Person";
+import { YesOrNo } from "../../utils/enums";
+import Owner from "../models/Owner";
 
 /**
  *  @prop {string} socialReason
@@ -48,6 +48,7 @@ interface RegisterAccountHolderOptions {
   /**  */
   owner: Owner;
 }
+
 /**
  *  @prop {string | undefined} socialReason
  *  @prop {string | undefined} compagnyName

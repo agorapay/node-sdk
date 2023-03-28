@@ -1,5 +1,7 @@
-/** Class representing a config. */
-declare class Config {
+/**
+ * Class representing a config.
+ */
+export default class Config {
     /** Token authentication username. */
     tokenUser: string;
     /** Token authentication password. */
@@ -10,18 +12,14 @@ declare class Config {
     baseUrl: string;
     /** HTTP requests timeout. Default is `0` (no timeout). */
     timeout: number;
-    tokenValue?: string;
-    tokenExpiry: number;
-    tokenId?: string;
-    tokenMethod: string;
+    /** Enable debug mode. Default is `false`. */
+    debug: boolean;
     /**
-     *
      * @param tokenUser - Token authentication username.
      * @param tokenPassword - Token authentication password.
      * @param tokenUrl - Token authentication URL.
      * @param baseUrl - CAPS Payment URL
      * @param timeout - HTTP requests timeout. Default is `0` (no timeout).
      */
-    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number);
+    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number, debug?: boolean);
 }
-export default Config;

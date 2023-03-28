@@ -1,15 +1,15 @@
-import Amount from './Amount';
-import Commission from './Commission';
-import Encodable from './Encodable';
+import Amount from "./Amount";
+import Commission from "./Commission";
+import Encodable from "./Encodable";
 /**
  * Class representing a breakdown.
  */
-declare class Breakdown implements Encodable {
+export default class Breakdown implements Encodable {
     /** The breakdown amount. */
     amount: Amount;
-    /** The merchant account number. */
+    /** Account number of the merchant or marketplace. */
     sellerAccountNumber: string;
-    /** The label for the breakdown. */
+    /** The label for the breakdown. Maximum 30 characters. */
     label?: string;
     /** The commission information. */
     commission?: Commission;
@@ -48,4 +48,3 @@ declare class Breakdown implements Encodable {
         [key: string]: any;
     };
 }
-export default Breakdown;

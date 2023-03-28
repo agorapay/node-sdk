@@ -1,10 +1,10 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing a commission.
  */
-declare class Commission implements Encodable {
+export default class Commission implements Encodable {
     /** The commission amount. */
-    amount: number;
+    amount: string;
     /** The commission account number. */
     account?: string;
     /**
@@ -33,9 +33,8 @@ declare class Commission implements Encodable {
      *let commission1 = new Commission(new Amount(10000, "EUR"), "12345678")
      * ````
      */
-    constructor(amount: number, account?: string);
+    constructor(amount: string, account?: string);
     encode(): {
         [key: string]: any;
     };
 }
-export default Commission;

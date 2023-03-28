@@ -1,6 +1,6 @@
-import ListingOptions from '../models/ListingOptions';
-import ListingResponse from '../models/ListingResponse';
-import Operation from '../models/Operation';
+import ListingOptions from "../models/ListingOptions";
+import ListingResponse from "../models/ListingResponse";
+import Operation from "../models/Operation";
 
 /**
  * @prop {string | undefined} startDate: Begin date of operation reporting in YYYYMMDDHHMMSS format
@@ -39,7 +39,7 @@ interface ListOperationOptions extends ListingOptions {
 
 interface ListOperationResponse extends ListingResponse {
   /** The operation list */
-  operationList: Array<Operation>;
+  operationList: Operation[];
 }
 
 export { ListOperationOptions, ListOperationResponse };

@@ -1,4 +1,4 @@
-declare class SignedMandateFile {
+export default class SignedMandateFile {
     /** Id of the payment transaction. */
     transactionId?: string;
     /** Mandate reference. */
@@ -14,4 +14,3 @@ declare class SignedMandateFile {
         [key: string]: any;
     });
 }
-export default SignedMandateFile;

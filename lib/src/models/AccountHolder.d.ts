@@ -1,18 +1,18 @@
-import PhysicalPersons from './PhysicalPerson';
-import Requirement from './Requirement';
-import Encodable from './Encodable';
+import PhysicalPerson from "./PhysicalPerson";
+import Requirement from "./Requirement";
+import Encodable from "./Encodable";
 /**
  * Class representing an account holder.
  */
-declare class AccountHolder implements Encodable {
+export default class AccountHolder implements Encodable {
     /** A string representing the account number. */
     accountNumber?: string;
     /** Alias for the payment method. */
     paymentMethodAlias?: string;
     /**  */
-    requirements: Array<Requirement>;
+    requirements: Requirement[];
     /**  */
-    physicalPersons: Array<PhysicalPersons>;
+    physicalPersons: PhysicalPerson[];
     /** Id used for futher update function call */
     requestId?: string;
     /** Status of request */
@@ -26,9 +26,8 @@ declare class AccountHolder implements Encodable {
      * @param requestId - Id used for futher update function call
      * @param requestStatus - Status of request
      */
-    constructor(requirements: Array<Requirement>, physicalPersons: Array<PhysicalPersons>, accountNumber?: string, paymentMethodAlias?: string, requestId?: string, requestStatus?: string);
+    constructor(requirements: Requirement[], physicalPersons: PhysicalPerson[], accountNumber?: string, paymentMethodAlias?: string, requestId?: string, requestStatus?: string);
     encode(): {
         [key: string]: any;
     };
 }
-export default AccountHolder;

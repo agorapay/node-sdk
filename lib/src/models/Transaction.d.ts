@@ -1,7 +1,7 @@
-import { TransactionStatus } from '../../utils/enums';
-import Amount from './Amount';
-declare class Transaction {
-    /** Id of the payment transaction. */
+import { TransactionStatus } from "../../utils/enums";
+import Amount from "./Amount";
+export default class Transaction {
+    /** ID of the payment transaction. */
     id: string;
     /**
      * Status of a transaction. The following value may be provided:
@@ -14,11 +14,10 @@ declare class Transaction {
      * * `Abandonned` : Payment is not performed
      */
     status: TransactionStatus;
-    /** Id of the payment Method used for the transaction. */
+    /** ID of the payment Method used for the transaction. */
     paymentMethodId: string;
     amount: Amount;
     constructor(data: {
         [key: string]: any;
     });
 }
-export default Transaction;

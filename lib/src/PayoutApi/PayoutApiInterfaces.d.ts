@@ -1,5 +1,5 @@
-import Amount from '../models/Amount';
-import Commission from '../models/Commission';
+import Amount from "../models/Amount";
+import Commission from "../models/Commission";
 /**
  * @prop {string | undefined} endToEndId - Use to identify transaction in SEPA transfer.
  * @prop {Amount} payoutAmount - The payout amount.

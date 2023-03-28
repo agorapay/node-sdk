@@ -1,43 +1,39 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 
 /**
  * Class representing an alias.
  */
-class Alias implements Encodable {
+export default class Alias implements Encodable {
   /** Identifier for the alias. */
-  id: string;
+  public id: string;
   /** format MMYY. */
-  expirationDate?: string;
+  public expirationDate?: string;
   /** first 6 and last 4 digits of the PAN for card or Masqued IABN for SDD. */
-  maskedPan?: string;
+  public maskedPan?: string;
   /** label of the alias. */
-  label?: string;
-  /** Card brand (CB, VISA, MASTERCARD) or bank code for IBAN. */
-  brand?: string;
+  public label?: string;
+  /** Card brand (CB, VISA, MASTERCARD) */
+  public cardBrand?: string;
+  /** Bank code */
+  public bankCode?: string;
 
-  constructor(
-    id: string,
-    expirationDate?: string,
-    maskedPan?: string,
-    label?: string,
-    brand?: string
-  ) {
+  constructor(id: string, expirationDate?: string, maskedPan?: string, label?: string, cardBrand?: string, bankCode?: string) {
     this.id = id;
     this.expirationDate = expirationDate;
     this.maskedPan = maskedPan;
     this.label = label;
-    this.brand = brand;
+    this.cardBrand = cardBrand;
+    this.bankCode = bankCode;
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       id: this.id,
       expirationDate: this.expirationDate,
       maskedPan: this.maskedPan,
       label: this.label,
-      brand: this.brand
+      cardBrand: this.cardBrand,
+      bankCode: this.bankCode
     };
   }
 }
-
-export default Alias;

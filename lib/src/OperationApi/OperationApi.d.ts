@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { ListOperationOptions, ListOperationResponse } from './OperationInterfaces';
+import ApiRest from "../../utils/ApiRest";
+import { ListOperationOptions, ListOperationResponse } from "./OperationInterfaces";
 declare class OperationApi extends ApiRest {
     /**
      * get operations matching a set of criterias.
@@ -18,8 +18,8 @@ declare class OperationApi extends ApiRest {
      * @returns {Array<Operation>} A list of operation
      * @example
      * ````javascript
-      OperationApi.list({
-        
+     OperationApi.list({
+  
       }).then(operationList => {
           console.log(operationList)
       })

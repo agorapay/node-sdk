@@ -1,8 +1,8 @@
-import { AccountStatus } from '../../utils/enums';
+import { AccountStatus } from "../../utils/enums";
 /**
  * Class representing a payment account.
  */
-declare class PaymentAccount {
+export default class PaymentAccount {
     /** Number of the account. */
     number?: string;
     /** Thirdparty name. */
@@ -21,10 +21,9 @@ declare class PaymentAccount {
     balance?: string;
     /** Account reference. */
     reference?: string;
-    /** Avalibale balance is the balance minus the floor limit. Set to 0 if result is negative */
+    /** Available balance is the balance minus the floor limit. Set to 0 if result is negative */
     availableBalance?: string;
     constructor(data: {
         [key: string]: any;
     });
 }
-export default PaymentAccount;

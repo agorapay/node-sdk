@@ -1,9 +1,9 @@
-import { PaymentMethodType } from '../../utils/enums';
-import Alias from './Alias';
-import Encodable from './Encodable';
-declare class PaymentMethod implements Encodable {
+import { PaymentMethodType } from "../../utils/enums";
+import Alias from "./Alias";
+import Encodable from "./Encodable";
+export default class PaymentMethod implements Encodable {
     /** If alias exist for the customer and the payment Method. */
-    aliasList?: Array<Alias>;
+    aliasList?: Alias[];
     /** Identifier of the payment method. */
     id: string;
     /** label of the payment Method. */
@@ -36,9 +36,8 @@ declare class PaymentMethod implements Encodable {
      * * Voucher (8)
      * * Remainder(9)
      */
-    constructor(id: string, aliasList?: Array<Alias>, label?: string, type?: PaymentMethodType);
+    constructor(id: string, aliasList?: Alias[], label?: string, type?: PaymentMethodType);
     encode(): {
         [key: string]: any;
     };
 }
-export default PaymentMethod;

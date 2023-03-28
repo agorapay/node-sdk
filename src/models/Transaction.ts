@@ -1,9 +1,10 @@
-import { TransactionStatus } from '../../utils/enums';
-import Amount from './Amount';
+import { TransactionStatus } from "../../utils/enums";
+import Amount from "./Amount";
+import Utils from "../../utils/Utils";
 
-class Transaction {
-  /** Id of the payment transaction. */
-  id: string;
+export default class Transaction {
+  /** ID of the payment transaction. */
+  public id: string;
 
   /**
    * Status of a transaction. The following value may be provided:
@@ -15,29 +16,22 @@ class Transaction {
    * * `Refused`: payment is refused
    * * `Abandonned` : Payment is not performed
    */
-  status: TransactionStatus;
+  public status: TransactionStatus;
 
-  /** Id of the payment Method used for the transaction. */
-  paymentMethodId: string;
+  /** ID of the payment Method used for the transaction. */
+  public paymentMethodId: string;
 
-  amount: Amount;
+  public amount: Amount;
 
   constructor(data: { [key: string]: any }) {
-    this.id = data.id;
-
-    if (
-      Object.values(TransactionStatus).some(
-        (status: string) => status === data.status
-      )
-    ) {
-      this.status = <TransactionStatus>data.transactionStatus;
-    } else {
-      throw new Error('Missing required field or invalid data: status');
+    const status = Utils.hasEnumOrDefault(data.status, TransactionStatus, null);
+    if (!status) {
+      throw new Error("Missing required field or invalid data: status");
     }
 
+    this.id = data.id;
+    this.status = status;
     this.paymentMethodId = data.paymentMethodId;
     this.amount = new Amount(data.amount);
   }
 }
-
-export default Transaction;

@@ -1,12 +1,13 @@
-CAPSPAYMENT Node.Js SDK
-=================================================
+# CAPSPAYMENT Node.Js SDK
 
-CAPSPayment SDK is a Node.Js client library to work with CAPSPayment REST API.
+CAPSPayment SDK is a Node.js client library to work with CAPSPayment REST API.
 
-Usage
--------------------------------------------------
+## Usage
 
-Usage inside your app
+---------------
+
+### Usage inside your app
+
 ```typescript
 import { CAPSPaymentAPI } from 'caps-payment'
 
@@ -23,8 +24,65 @@ operationApi.listOperation({
   console.log(err)
 })
 ```
+
+
+### Authenticate manually
+
+By default the SDK will try to authenticate automatically when needed. If you want to obtain a fresh token, you can use the `authenticate` method.
+
+```typescript
+const newToken = await capsPaymentApi.commonApi().authenticate();
+```
+
+### Serverless environment
+
+In a serverless environment, you may need to store the AuthToken in a cache/database to avoid requesting a new one at each function call.
+
+```typescript
+// Get the token from the cache or database if you have one
+const token = await getTokenFromYourCacheOrDatabase();
+
+capsPaymentApi.commonApi().setAuthToken(token); // optional, will authenticate at first call if not set
+// note: If you set a expired token it will be refreshed automatically
+
+// ... do your stuff with the SDK
+
+// you should store the token in the cache or database if the token has been refreshed
+const newToken = capsPaymentApi.commonApi().getAuthToken();
+if (!newToken.equals(token) && !newToken.isInvalidOrExpired) {
+  await storeTokenInYourCacheOrDatabase(newToken);
+}
+```
+
+
+### Webhooks helpers
+
+The SDK provides a method to verify the signature of a webhook. You can use it like this:
+
+```typescript
+import { WebhookUtils } from 'caps-payment'
+
+// Verify the webhook signature
+const isValid = WebhookUtils.verifyHmac({
+  headerAuthVersion: "1.0", // see doc to know which version to use, current is 1.0
+  serverHookUrl: "<your server hook url>",
+  keyId: "<your key id provided by agorapay>",
+  hmacKey: "<your hmac key provided by agorapay>",
+}, {
+  authorization: headers.authorization,
+  body: req.body,
+  method: req.method
+}, true /* Verbose mode: optional, default is false */);
+```
+
+
+## API Documentation
+
+------------
+
 List SDK functions to use for API Payin
 -------------------------------------------------
+
 | Payin Endpoint      | SDK Functions | Method |
 | ----------- | ----------- | -----------
 | /payin/payment      | Payin.payment(options: PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId)       | POST
@@ -39,14 +97,12 @@ List SDK functions to use for API Payin
 | /payin/mandate   | Payin.mandate(transactionId?: string, reference?: string)        | POST
 | /payin/ticket   | Payin.ticket(transactionId: string, type: TicketType, format: TicketFormat, message?: string)        | POST
 
-
 List SDK functions to use for API Operation
 -------------------------------------------------
 
 | Operation Endpoint      | SDK Functions | Method
 | ----------- | ----------- | ----------- |
 | /operations/list      | Operation.operationList(options: ListOperationOptions)       | POST
-
 
 List SDK functions to use for API PaymentAccount
 -------------------------------------------------
@@ -60,14 +116,12 @@ List SDK functions to use for API PaymentAccount
 | /paymentAccount/setIBAN   | PaymentAccount.setIBAN(options: PaymentAccountSetIBANOptions)       | POST
 | /paymentAccount/disableIBAN   | PaymentAccount.disableIBAN(requestId: string, accountNumber?: string)       | POST
 
-
 List SDK functions to use for API Payout
 -------------------------------------------------
 
 | Payout Endpoint      | SDK Functions | Method 
 | ----------- | ----------- | ----------- |
 | /payout/create      | Payout.createPayout(options: CreatePayoutOptions)       | POST
-
 
 List SDK functions to use for API Transfer
 -------------------------------------------------
@@ -86,3 +140,4 @@ List SDK functions to use for API Account Holder
 | /accountHolder/uploadDocument      | AccountHolder.uploadDocument(requirements: Array<Requirement>, requestId: string)       | POST
 | /accountHolder/registrationDetails      | AccountHolder.registrationDetails(requestId: string, accountNumber?: string)       | POST
 | /accountHolder/unregister      | AccountHolder.unregister(requestId: string, accountNumber?: string)       | POST
+ 

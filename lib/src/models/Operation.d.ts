@@ -1,7 +1,7 @@
-import Breakdown from './Breakdown';
-import Amount from './Amount';
-import { AccountType, OperationSide, PaymentMethodKey } from '../../utils/enums';
-declare class Operation {
+import Breakdown from "./Breakdown";
+import Amount from "./Amount";
+import { AccountType, OperationSide, PaymentMethodKey } from "../../utils/enums";
+export default class Operation {
     /** Amount of the operation */
     amount: Amount;
     /** Reference for the operation */
@@ -25,7 +25,7 @@ declare class Operation {
     /** Reference of the initial operation (in case of reimbursement) */
     parentReference?: string;
     /** breakdownList for payin */
-    breakdownList: Array<Breakdown>;
+    breakdownList: Breakdown[];
     /** Account type issuer in case of a payout or transfer */
     issuerAccountType?: string;
     /** Third Party issuer in case of a payout or transfer */
@@ -74,4 +74,3 @@ declare class Operation {
         [key: string]: any;
     });
 }
-export default Operation;

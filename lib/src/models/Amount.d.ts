@@ -1,10 +1,10 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing an amount with a value and a currency.
  */
-declare class Amount implements Encodable {
+export default class Amount implements Encodable {
     /** The amount value. */
-    value: number;
+    value: string;
     /** Currency code in 3 characters ISO format/ */
     currency: string;
     /**
@@ -17,14 +17,14 @@ declare class Amount implements Encodable {
      *
      * ````
      */
-    constructor(value: number, currency: string);
+    constructor(value: string, currency: string);
     /**
      * @constructor
      * @param data - Object which contains value and currency attributes.
      * @throws Will throw an error if `value` or `currency` is missing from the `data` param.
      * @example
      * ````typescript
-     * let data = { value: 10000, currency: "EUR" }
+     * let data = { value: "10.56", currency: "EUR" }
      * try {
      *  let amount = new Amount(data)
      * } catch (err) {
@@ -33,11 +33,8 @@ declare class Amount implements Encodable {
      *
      * ````
      */
-    constructor(data: {
-        [key: string]: any;
-    });
+    constructor(data: Partial<Amount>);
     encode(): {
         [key: string]: any;
     };
 }
-export default Amount;

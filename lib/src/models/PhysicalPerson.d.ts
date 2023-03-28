@@ -1,9 +1,9 @@
-import Requirement from './Requirement';
-import Encodable from './Encodable';
+import Requirement from "./Requirement";
+import Encodable from "./Encodable";
 /**
  * Class representing a person.
  */
-declare class PhysicalPersons implements Encodable {
+export default class PhysicalPerson implements Encodable {
     /**  */
     firstName: string;
     /**  */
@@ -24,4 +24,3 @@ declare class PhysicalPersons implements Encodable {
         [key: string]: any;
     };
 }
-export default PhysicalPersons;

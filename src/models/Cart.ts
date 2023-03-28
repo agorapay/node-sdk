@@ -1,25 +1,21 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
+import Utils from "../../utils/Utils";
 
 /**
  * Class representing a cart.
  */
-class Cart implements Encodable {
+export default class Cart implements Encodable {
   /** Number of article in cart. */
-  quantity: number;
+  public totalQuantity: string;
 
-  /**
-   *
-   * @param quantity - Number of article in cart.
-   */
+  /** @param quantity - Number of article in cart. */
   constructor(quantity: number) {
-    this.quantity = quantity;
+    this.totalQuantity = Utils.hasIntegerOrDefault(quantity, 0).toString(10);
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
-      totalQuantity: this.quantity
+      totalQuantity: this.totalQuantity
     };
   }
 }
-
-export default Cart;

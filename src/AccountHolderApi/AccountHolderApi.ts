@@ -1,14 +1,11 @@
-import ApiRest from '../../utils/apiRest';
-import PhysicalPersons from '../models/PhysicalPerson';
-import Requirement from '../models/Requirement';
-import {
-  RegisterAccountHolderOptions,
-  UpdateAccountHolderOptions
-} from './AccountHolderInterfaces';
-import { YesOrNo } from '../../utils/enums';
-import AccountHolder from '../models/AccountHolder';
+import ApiRest from "../../utils/ApiRest";
+import PhysicalPerson from "../models/PhysicalPerson";
+import Requirement from "../models/Requirement";
+import { RegisterAccountHolderOptions, UpdateAccountHolderOptions } from "./AccountHolderInterfaces";
+import { YesOrNo } from "../../utils/enums";
+import AccountHolder from "../models/AccountHolder";
 
-class AccountHolderApi extends ApiRest {
+export default class AccountHolderApi extends ApiRest {
   /**
    * Creates a new accountHolder.
    * @param {RegisterAccountHolderOptions} options accountHolder registering options.
@@ -46,41 +43,23 @@ class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  register(options: RegisterAccountHolderOptions): Promise<AccountHolder> {
-    if (typeof options.regulatedSociety === 'boolean') {
+  public register(options: RegisterAccountHolderOptions): Promise<AccountHolder> {
+    if (typeof options.regulatedSociety === "boolean") {
       options.regulatedSociety = options.regulatedSociety
         ? YesOrNo.Yes
         : YesOrNo.No;
     }
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/accountHolder/register', options).then(
-        (resp: any) => {
-          if (+resp.resultCode !== 0)
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-          else {
-            try {
-              success(
-                new AccountHolder(
-                  resp.requirements
-                    ? resp.requirements.map((x: any) => new Requirement(x))
-                    : [],
-                  resp.physicalPersons
-                    ? resp.physicalPersons.map(
-                        (x: any) => new PhysicalPersons(x)
-                      )
-                    : [],
-                  resp.paymentMethodAlias,
-                  resp.accountNumber,
-                  resp.requestId
-                )
-              );
-            } catch (err) {
-              reject(err);
-            }
-          }
-        }
-      );
-    });
+
+    return this.sendToApiPost<AccountHolder>("/accountHolder/register", options)
+      .then(result => {
+        return new AccountHolder(
+          (result.requirements ?? []).map((x: any) => new Requirement(x)),
+          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+          result.paymentMethodAlias,
+          result.accountNumber,
+          result.requestId
+        );
+      });
   }
 
   /**
@@ -122,40 +101,22 @@ class AccountHolderApi extends ApiRest {
    * ````
    */
   update(options: UpdateAccountHolderOptions): Promise<AccountHolder> {
-    if (typeof options.regulatedSociety === 'boolean') {
+    if (typeof options.regulatedSociety === "boolean") {
       options.regulatedSociety = options.regulatedSociety
         ? YesOrNo.Yes
         : YesOrNo.No;
     }
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/accountHolder/update', options).then(
-        (resp: any) => {
-          if (+resp.resultCode !== 0)
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-          else {
-            try {
-              success(
-                new AccountHolder(
-                  resp.requirements
-                    ? resp.requirements.map((x: any) => new Requirement(x))
-                    : [],
-                  resp.physicalPersons
-                    ? resp.physicalPersons.map(
-                        (x: any) => new PhysicalPersons(x)
-                      )
-                    : [],
-                  resp.paymentMethodAlias,
-                  resp.accountNumber,
-                  resp.requestId
-                )
-              );
-            } catch (err) {
-              reject(err);
-            }
-          }
-        }
-      );
-    });
+
+    return this.sendToApiPost<AccountHolder>("/accountHolder/update", options)
+      .then(result => {
+        return new AccountHolder(
+          (result.requirements ?? []).map((x: any) => new Requirement(x)),
+          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+          result.paymentMethodAlias,
+          result.accountNumber,
+          result.requestId
+        );
+      });
   }
 
   /**
@@ -172,42 +133,20 @@ class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  uploadDocument(
-    requirements: Array<Requirement>,
-    requestId: string
-  ): Promise<AccountHolder> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost(
-        '/accountHolder/uploadDocument',
-        {
-          requirements: requirements,
-          requestId: requestId
-        },
-        true
-      ).then((resp: any) => {
-        if (+resp.resultCode !== 0)
-          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        else {
-          try {
-            success(
-              new AccountHolder(
-                resp.requirements
-                  ? resp.requirements.map((x: any) => new Requirement(x))
-                  : [],
-                resp.physicalPersons
-                  ? resp.physicalPersons.map((x: any) => new PhysicalPersons(x))
-                  : [],
-                resp.paymentMethodAlias,
-                resp.accountNumber,
-                resp.requestId
-              )
-            );
-          } catch (err) {
-            reject(err);
-          }
-        }
+  uploadDocument(requirements: Array<Requirement>, requestId: string): Promise<AccountHolder> {
+    return this.sendToApiPost<AccountHolder>("/accountHolder/uploadDocument", {
+      requirements: requirements,
+      requestId: requestId
+    })
+      .then(result => {
+        return new AccountHolder(
+          (result.requirements ?? []).map((x: any) => new Requirement(x)),
+          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+          result.paymentMethodAlias,
+          result.accountNumber,
+          result.requestId
+        );
       });
-    });
   }
 
   /**
@@ -224,33 +163,16 @@ class AccountHolderApi extends ApiRest {
    * ````
    */
   registrationDetails(requestId: string): Promise<AccountHolder> {
-    return new Promise((success, reject) => {
-      return this.sendToApiGet('/accountHolder/registrationDetails', {
-        requestId: requestId
-      }).then((resp: any) => {
-        if (+resp.resultCode !== 0)
-          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        else {
-          try {
-            success(
-              new AccountHolder(
-                resp.requirements
-                  ? resp.requirements.map((x: any) => new Requirement(x))
-                  : [],
-                resp.physicalPersons
-                  ? resp.physicalPersons.map((x: any) => new PhysicalPersons(x))
-                  : [],
-                resp.paymentMethodAlias,
-                resp.accountNumber,
-                resp.requestId
-              )
-            );
-          } catch (err) {
-            reject(err);
-          }
-        }
+    return this.sendToApiPost<AccountHolder>("/accountHolder/registrationDetails", { requestId: requestId })
+      .then(result => {
+        return new AccountHolder(
+          (result.requirements ?? []).map((x: any) => new Requirement(x)),
+          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+          result.paymentMethodAlias,
+          result.accountNumber,
+          result.requestId
+        );
       });
-    });
   }
 
   /**
@@ -267,23 +189,10 @@ class AccountHolderApi extends ApiRest {
    * ````
    */
   unregister(requestId: string, accountNumber?: string): Promise<null> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/accountHolder/unregister', {
-        requestId: requestId,
-        accountNumber: accountNumber
-      }).then((resp: any) => {
-        if (+resp.resultCode !== 0)
-          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        else {
-          try {
-            success(null);
-          } catch (err) {
-            reject(err);
-          }
-        }
-      });
-    });
+    return this.sendToApiPost<void>("/accountHolder/unregister", {
+      requestId: requestId,
+      accountNumber: accountNumber
+    })
+      .then(() => null);
   }
 }
-
-export default AccountHolderApi;

@@ -1,7 +1,7 @@
-import ApiRest from '../../utils/apiRest';
-import { CreateTransferOptions } from './TransferApiInterfaces';
+import ApiRest from "../../utils/ApiRest";
+import { CreateTransferOptions } from "./TransferApiInterfaces";
 
-class TransferApi extends ApiRest {
+export default class TransferApi extends ApiRest {
   /**
    * Ask for a transfer between two accounts.
    * @description submit a transfer from one account (accountNumber) to another (accountCtpNumber).
@@ -12,10 +12,10 @@ class TransferApi extends ApiRest {
    * @prop {string | undefined} orderRef - Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space.
    * @prop {string | undefined} metaData - JSON data for the marketplace. This data is not used by payment system.
    * @prop {string} reason - Operation label transmitted in payment system. Maximum length of 140 characters.
-   * @returns {number} The transfer transaction Id.
-   * @example 
+   * @returns {string} The transfer transaction Id.
+   * @example
    * ````javascript
-    payoutApi.createPayout({
+   payoutApi.createPayout({
       endToEndId: "1",
       accountNumber: "12345678",
       paymentMethodAlias: "12334566",
@@ -27,17 +27,8 @@ class TransferApi extends ApiRest {
     })
    * ````
    */
-  createTransfer(options: CreateTransferOptions): Promise<number> {
-    return new Promise((success, reject) => {
-      return this.sendToApiPost('/transfer/create', options).then(
-        (resp: any) => {
-          if (+resp.resultCode === 0) success(resp.transactionId);
-          else
-            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
-        }
-      );
-    });
+  createTransfer(options: CreateTransferOptions): Promise<string> {
+    return this.sendToApiPost<{ transactionId: string, resultCode: string, resultCodeMessage: string }>("/transfer/create", options)
+      .then(result => result.transactionId);
   }
 }
-
-export default TransferApi;

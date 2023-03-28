@@ -1,11 +1,11 @@
-import Alias from '../models/Alias';
-import Amount from '../models/Amount';
-import Breakdown from '../models/Breakdown';
-import Cart from '../models/Cart';
-import Payer from '../models/Payer';
-import PaymentMethod from '../models/PaymentMethod';
-import { CbChallenge, OrderStatus, PaymentSequence } from '../../utils/enums';
-import Transaction from '../models/Transaction';
+import Alias from "../models/Alias";
+import Amount from "../models/Amount";
+import Breakdown from "../models/Breakdown";
+import Cart from "../models/Cart";
+import Payer from "../models/Payer";
+import PaymentMethod from "../models/PaymentMethod";
+import { CbChallenge, OrderStatus, PaymentSequence } from "../../utils/enums";
+import Transaction from "../models/Transaction";
 /**
  * @prop {string} transPaymentMethod
  * @prop {number} orderId
@@ -28,7 +28,7 @@ import Transaction from '../models/Transaction';
 interface PaymentOptionsWithOrderId {
     transPaymentMethod: string;
     /** Order id obtained in order creation and to provide in each next request */
-    orderId: number;
+    orderId: string;
     /** Marketplace reference for this order. Characters authorized are: a to z, A to Z, 0 to 9 and - / . + _ and space. */
     orderReference?: string;
     /** The ISO country code in 3 characters format. */
@@ -164,7 +164,7 @@ interface PaymentDetailsOptions {
     /** JSON data for the marketplace. This data is not used by payment system. */
     metaData?: object;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /** Specific data for a payment method. */
     paymentData?: string;
 }
@@ -193,7 +193,7 @@ interface PaymentMethodOptions {
  */
 interface PaymentMethodResponse {
     paymentMethodList?: Array<PaymentMethod>;
-    orderId?: number;
+    orderId?: string;
 }
 /**
  * @prop {number} orderId
@@ -204,7 +204,7 @@ interface PaymentMethodResponse {
  */
 interface CaptureOptions {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /**  */
     transactionAmount: Amount;
     /** JSON data for the marketplace. This data is not used by payment system. */
@@ -225,7 +225,7 @@ interface CaptureResponse {
     /** List of the order transactions. */
     transactionList: Array<Transaction>;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
 }
 /**
  * @prop {number} orderId
@@ -234,7 +234,7 @@ interface CaptureResponse {
  */
 interface CancelOptions {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /** Id of the payment transaction. */
     transactionId?: string;
     /** JSON data for the marketplace. This data is not used by payment system. */
@@ -264,7 +264,7 @@ interface AdjustPaymentOptions {
     /** */
     adjustAmount?: Amount;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
 }
 /**
  * @prop {string} orderReference
@@ -279,6 +279,10 @@ interface AdjustPaymentOptions {
  * @prop {string | undefined} paymentMethodId
  * @prop {string | undefined} urlRedirect
  * @prop {Cart | undefined} cart
+ * @prop {string | undefined} paymentAccount
+ * @prop {string | undefined} cbChallenge
+ * @prop {string | undefined} details
+ * @prop {string | undefined} page
  */
 interface PaymentIFrameOptions {
     /** Marketplace reference for this order */
@@ -292,7 +296,7 @@ interface PaymentIFrameOptions {
     /**  */
     payer: Payer;
     /**
-     * @example: Set to "0" for authorization only (default value))
+     * Capture indicator. Set to "0" for authorization only (default value 1 - transaction captured))
      */
     capture?: string;
     /**  */
@@ -306,17 +310,40 @@ interface PaymentIFrameOptions {
      */
     endToEndId?: string;
     /**
-     * Id of the payment method. This id must be provided in payment function to identify the payment method.
+     * Identifier of the payment method. If given, the end-user will be redirected to the corresponding payment method iFrame.
+     * If not given, the end-user will be redirected to the payment method selection iFrame.
      */
     paymentMethodId?: string;
     /**
-     * Url where the client must be redirected at the end of the payment with the partner. This URL is completed by success, error or cancel according to the partner response status.
+     * Url where the client must be redirected at the end of the payment with the partner.
+     * This URL is completed by /success, /error or /cancel according to the partner response status.
+     * When the customer will be redirected to the marketPlace at the end of the partner payment process,
+     * the paymentDetails function must be called to terminate payment with the data transmitted by the partner.
      *
-     * When client will be redirect to the marcketPlace at the end of the partner payment process, the paymentDetails function must be called to terminate payment with the data transmitted by the partner.
+     * @remarks For development purpose, you can use http://127.0.0.1 (localhost is not supported)
      */
     urlRedirect?: string;
     /** */
     cart?: Cart;
+    paymentAccount?: string;
+    /**
+     * Challenge negotiation for card payment.
+     * 01: No preference
+     * 02: No challenge required
+     * 03: Desired challenge
+     * 04: Required challenge
+     */
+    cbChallenge?: "01" | "02" | "03" | "04";
+    /**
+     * Payment details information For some payment methods, additional details are needed.
+     */
+    details?: any;
+    /**
+     * Type of page to display.
+     * - iframe: integrated in marketplace site (default)
+     * - full: full page
+     */
+    page?: "iframe" | "full";
 }
 /**
  * @prop {number} orderId
@@ -326,7 +353,7 @@ interface PaymentIFrameOptions {
  */
 interface PaymentIFrameResponse {
     /**  */
-    orderId: number;
+    orderId: string;
     /** Authentification Code to use to open user iframe. */
     authenticationCode: string;
     /** Site name or number. */
@@ -346,7 +373,7 @@ interface PaymentIFrameResponse {
  */
 interface RefundOptions {
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId: number;
+    orderId: string;
     /**  */
     transactionAmount: Amount;
     /** Id of the payment transaction. */
@@ -380,6 +407,6 @@ interface RefundResponse {
     /**  */
     transactionList?: Array<Transaction>;
     /** Order id obtained in order creation and to provide in each next request. */
-    orderId?: number;
+    orderId?: string;
 }
 export { PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, PaymentDetailsOptions, PaymentMethodOptions, PaymentMethodResponse, CaptureOptions, CaptureResponse, CancelOptions, CancelResponse, AdjustPaymentOptions, PaymentIFrameOptions, PaymentIFrameResponse, RefundOptions, RefundResponse };

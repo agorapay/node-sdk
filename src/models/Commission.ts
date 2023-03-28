@@ -1,14 +1,13 @@
-import Amount from './Amount';
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 
 /**
  * Class representing a commission.
  */
-class Commission implements Encodable {
+export default class Commission implements Encodable {
   /** The commission amount. */
-  amount: number;
+  public amount: string;
   /** The commission account number. */
-  account?: string;
+  public account?: string;
 
   /**
    * @constructor
@@ -34,7 +33,7 @@ class Commission implements Encodable {
    *let commission1 = new Commission(new Amount(10000, "EUR"), "12345678")
    * ````
    */
-  constructor(amount: number, account?: string);
+  constructor(amount: string, account?: string);
   /**
    * @constructor
    * @param amountValue - The commission amount value.
@@ -56,12 +55,10 @@ class Commission implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
-      amount: this.amount.toString(),
+      amount: this.amount,
       account: this.account
     };
   }
 }
-
-export default Commission;

@@ -1,6 +1,6 @@
-import ApiRest from '../../utils/apiRest';
-import { CreatePayoutOptions } from './PayoutApiInterfaces';
-declare class PayoutApi extends ApiRest {
+import ApiRest from "../../utils/ApiRest";
+import { CreatePayoutOptions } from "./PayoutApiInterfaces";
+export default class PayoutApi extends ApiRest {
     /**
      * Ask for a payout.
      * @description Submit a payout for a specific account.
@@ -15,7 +15,7 @@ declare class PayoutApi extends ApiRest {
      * @returns {number} The payout transaction Id.
      * @example
      * ````javascript
-      payoutApi.createPayout({
+     payoutApi.createPayout({
         endToEndId: "1",
         accountNumber: "12345678",
         paymentMethodAlias: "12334566",
@@ -29,4 +29,3 @@ declare class PayoutApi extends ApiRest {
      */
     createPayout(options: CreatePayoutOptions): Promise<number>;
 }
-export default PayoutApi;

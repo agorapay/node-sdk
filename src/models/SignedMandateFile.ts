@@ -1,12 +1,10 @@
-class SignedMandateFile {
+export default class SignedMandateFile {
   /** Id of the payment transaction. */
-  transactionId?: string;
-
+  public transactionId?: string;
   /** Mandate reference. */
-  reference?: string;
-
+  public reference?: string;
   /** PDF file base64 encoded. */
-  signedFileContent?: string;
+  public signedFileContent?: string;
 
   /**
    * @constructor
@@ -19,5 +17,3 @@ class SignedMandateFile {
     this.signedFileContent = data.signedFileContent;
   }
 }
-
-export default SignedMandateFile;

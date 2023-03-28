@@ -16,14 +16,14 @@ enum OrderStatus {
   Canceled = "canceled"
 }
 
-/** 
+/**
   * Status of a transaction. The following value may be provided:
   * * `Created`: The transaction is just created. No payment is already made.
   * * `InProgress`: Payment is in progress
   * * `Accepted`: Payment is accepted
   * * `Completed`: Payment confirmation is received
   * * `Canceled`: Payment is canceled
-  * * `Refused`: payment is refused 
+  * * `Refused`: payment is refused
   * * `Abandonned` : Payment is not performed
   */
 enum TransactionStatus {
@@ -64,9 +64,9 @@ enum TicketMode {
 }
 
 enum AccountStatus {
-  Activated = 'activated', 
-  Deactivated = 'deactivated', 
-  Registered = 'registered', 
+  Activated = 'activated',
+  Deactivated = 'deactivated',
+  Registered = 'registered',
   Suspended = 'suspended'
 }
 
@@ -118,7 +118,7 @@ enum FileType {
   PDF = "PDF"
 }
 
-/** 
+/**
 * * Sepa Direct Debit (1)
 * * Sepa Credit Transfer (2)
 * * Transfer (3)
@@ -131,23 +131,23 @@ enum FileType {
 */
 enum PaymentMethodType {
   /** Sepa Direct Debit   */
-  SepaDirectDebit = 1,
+  SepaDirectDebit = "1",
   /** Sepa Credit Transfer  */
-  SepaCreditTransfer = 2,
+  SepaCreditTransfer = "2",
   /** Transfer  */
-  Transfer = 3,
+  Transfer = "3",
   /** Card  */
-  Card = 4,
+  Card = "4",
   /** SWIFT  */
-  SWIFT = 5,
+  SWIFT = "5",
   /** Sepa Direct Debit B2B  */
-  SepaDirectDebitB2B = 6,
+  SepaDirectDebitB2B = "6",
   /** Letter of credit  */
-  LetterOfcredit = 7,
+  LetterOfcredit = "7",
   /** Voucher  */
-  Voucher = 8,
+  Voucher = "8",
   /** Remainder */
-  Remainder = 9
+  Remainder = "9"
 }
 
 /**
@@ -208,7 +208,7 @@ enum RequirementStatus {
 * * `Professional_RIB_on_behalf_of_the_legal_entity` - Professional RIB on behalf of the legal entity
 * * `AG_PV` - AG PV
 * * `BATICA_Certificate_of_Deposit_or_Register_Extract` - BATICA Certificate of Deposit or Register Extract
-* * `List_A` -="List A 
+* * `List_A` -="List A
 * * `FIRCOSOFT` - FIRCOSOFT
 * * `Account_agreement` - Account agreement
 * * `Country_questionnaire` - Country questionnaire
@@ -240,17 +240,17 @@ enum CbChallenge {
   RequiredChallenge = "04"
 }
 
-export { 
-  YesOrNo, 
-  OrderStatus, 
-  TransactionStatus, 
-  TicketType, 
-  TicketFormat, 
-  TicketSide, 
-  TicketMode, 
-  AccountStatus, 
-  PaymentMethodKey, 
-  PaymentSequence, 
+export {
+  YesOrNo,
+  OrderStatus,
+  TransactionStatus,
+  TicketType,
+  TicketFormat,
+  TicketSide,
+  TicketMode,
+  AccountStatus,
+  PaymentMethodKey,
+  PaymentSequence,
   PayoutAutoFrequency,
   FileType,
   PaymentMethodType,

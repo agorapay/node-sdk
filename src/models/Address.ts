@@ -1,17 +1,17 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 
 /**
  * Class representing an address.
  */
-class Address implements Encodable {
+export default class Address implements Encodable {
   /** Number and road name. */
-  address: string;
+  public address: string;
   /**  */
-  city: string;
+  public city: string;
   /** */
-  postalCode: string;
+  public postalCode: string;
   /** The ISO country code in 3 characters format. */
-  country: string;
+  public country: string;
 
   /**
    * @constructor
@@ -25,12 +25,7 @@ class Address implements Encodable {
    *
    * ````
    */
-  constructor(
-    address: string,
-    city: string,
-    postalCode: string,
-    country: string
-  );
+  constructor(address: string, city: string, postalCode: string, country: string);
   /**
    * @constructor
    * @param data - Object which contains required address attributes.
@@ -55,11 +50,16 @@ class Address implements Encodable {
   constructor(...args: any[]) {
     if (args.length === 1) {
       const data = args[0];
-      if (!data.address) throw new Error('Missing required field: address');
-      if (!data.city) throw new Error('Missing required field: city');
-      if (!data.postalCode)
-        throw new Error('Missing required field: postalCode');
-      if (!data.country) throw new Error('Missing required field: country');
+      if (!data.address) {
+        throw new Error("Missing required field: address");
+      } else if (!data.city) {
+        throw new Error("Missing required field: city");
+      } else if (!data.postalCode) {
+        throw new Error("Missing required field: postalCode");
+      } else if (!data.country) {
+        throw new Error("Missing required field: country");
+      }
+
       this.address = data.address;
       this.city = data.city;
       this.postalCode = data.postalCode;
@@ -72,7 +72,7 @@ class Address implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
+  public encode(): { [key: string]: any } {
     return {
       address: this.address,
       city: this.city,
@@ -81,5 +81,3 @@ class Address implements Encodable {
     };
   }
 }
-
-export default Address;

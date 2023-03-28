@@ -1,8 +1,8 @@
-import Encodable from './Encodable';
+import Encodable from "./Encodable";
 /**
  * Class representing an account.
  */
-declare class Account implements Encodable {
+export default class Account implements Encodable {
     /** The ISO country code in 3 characters format. */
     country: string;
     /** Currency code in 3 characters ISO format. */
@@ -50,4 +50,3 @@ declare class Account implements Encodable {
         [key: string]: any;
     };
 }
-export default Account;

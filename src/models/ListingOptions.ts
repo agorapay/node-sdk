@@ -1,4 +1,4 @@
-interface ListingOptions {
+export default interface ListingOptions {
   /**
    * Numbers of ligne in reporting. Limited to 100
    */
@@ -8,5 +8,3 @@ interface ListingOptions {
    */
   offset?: number;
 }
-
-export default ListingOptions;

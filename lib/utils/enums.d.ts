@@ -118,23 +118,23 @@ declare enum FileType {
 */
 declare enum PaymentMethodType {
     /** Sepa Direct Debit   */
-    SepaDirectDebit = 1,
+    SepaDirectDebit = "1",
     /** Sepa Credit Transfer  */
-    SepaCreditTransfer = 2,
+    SepaCreditTransfer = "2",
     /** Transfer  */
-    Transfer = 3,
+    Transfer = "3",
     /** Card  */
-    Card = 4,
+    Card = "4",
     /** SWIFT  */
-    SWIFT = 5,
+    SWIFT = "5",
     /** Sepa Direct Debit B2B  */
-    SepaDirectDebitB2B = 6,
+    SepaDirectDebitB2B = "6",
     /** Letter of credit  */
-    LetterOfcredit = 7,
+    LetterOfcredit = "7",
     /** Voucher  */
-    Voucher = 8,
+    Voucher = "8",
     /** Remainder */
-    Remainder = 9
+    Remainder = "9"
 }
 /**
  * * Male (M),

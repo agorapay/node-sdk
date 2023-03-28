@@ -1,19 +1,19 @@
-import Amount from './Amount';
-import Commission from './Commission';
-import Encodable from './Encodable';
+import Amount from "./Amount";
+import Commission from "./Commission";
+import Encodable from "./Encodable";
 
 /**
  * Class representing a breakdown.
  */
-class Breakdown implements Encodable {
+export default class Breakdown implements Encodable {
   /** The breakdown amount. */
-  amount: Amount;
-  /** The merchant account number. */
-  sellerAccountNumber: string;
-  /** The label for the breakdown. */
-  label?: string;
+  public amount: Amount;
+  /** Account number of the merchant or marketplace. */
+  public sellerAccountNumber: string;
+  /** The label for the breakdown. Maximum 30 characters. */
+  public label?: string;
   /** The commission information. */
-  commission?: Commission;
+  public commission?: Commission;
 
   /**
    * @constructor
@@ -29,12 +29,7 @@ class Breakdown implements Encodable {
    *
    * ````
    */
-  constructor(
-    amount: Amount,
-    sellerAccountNumber: string,
-    label?: string,
-    commission?: Commission
-  );
+  constructor(amount: Amount, sellerAccountNumber: string, label?: string, commission?: Commission);
   /**
    * @constructor
    * @param data - Object which contains the necessary data to create a breakdown.
@@ -53,16 +48,15 @@ class Breakdown implements Encodable {
   constructor(data: any);
   constructor(...args: any[]) {
     if (args.length === 1) {
-      // from data
       const data = args[0];
 
       this.amount = new Amount(data.amount);
-      if (!data.sellerAccountNumber)
-        throw new Error('Missing required field: sellerAccountNumber');
+      if (!data.sellerAccountNumber) {
+        throw new Error("Missing required field: sellerAccountNumber");
+      }
+
       this.sellerAccountNumber = data.sellerAccountNumber;
-
       this.label = data.label;
-
       if (data.commission) {
         this.commission = new Commission(data.commission);
       }
@@ -74,14 +68,17 @@ class Breakdown implements Encodable {
     }
   }
 
-  encode(): { [key: string]: any } {
-    return {
+  public encode(): { [key: string]: any } {
+    const data: any = {
       amount: this.amount.encode(),
       sellerAccountNumber: this.sellerAccountNumber,
-      label: this.label,
-      commission: this.commission ? this.commission.encode() : undefined
+      label: this.label
     };
+
+    if (this.commission) {
+      data.commission = this.commission.encode();
+    }
+
+    return data;
   }
 }
-
-export default Breakdown;
