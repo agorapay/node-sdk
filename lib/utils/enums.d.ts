@@ -91,7 +91,7 @@ declare enum PaymentSequence {
     /** for use of recurrent mandate */
     RCUR = "RCUR",
     /** for last use of recurrent mandate */
-    LAST = "LAST",
+    FNAL = "FNAL",
     /** for a mandate used only one time */
     OOFF = "OOFF"
 }
@@ -99,7 +99,8 @@ declare enum PayoutAutoFrequency {
     Deactivate = "0",
     OnceADay = "1",
     OnceAWeek = "2",
-    OnceAMonth = "3"
+    OnceAMonth = "3",
+    AutoOnThreshold = "10"
 }
 declare enum FileType {
     JPEG = "JPEG",
