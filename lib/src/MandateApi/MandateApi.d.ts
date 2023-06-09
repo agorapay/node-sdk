@@ -1,4 +1,4 @@
-import ApiRest from "../../utils/apiRest";
+import ApiRest from "../../utils/ApiRest";
 import { CreateMandateOptions } from "./MandateApiInterfaces";
 export default class MandateApi extends ApiRest {
     /**
