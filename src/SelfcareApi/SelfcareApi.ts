@@ -1,4 +1,4 @@
-import ApiRest from "../../utils/apiRest";
+import ApiRest from "../../utils/ApiRest";
 import { InitSelfcareOptions, InitSelfcareResponse } from "./SelfcareApiInterfaces";
 
 export default class SelfcareApi extends ApiRest {
