@@ -86,7 +86,6 @@ interface PaymentAccountPayoutAutoOptions {
  * @prop {string} iban
  * @prop {string} currency
  * @prop {string | undefined} paymentMethodAlias
- * @prop {string} activationDate
  */
 interface PaymentAccountSetIBANOptions {
     /** A string representing the account number. */
@@ -115,8 +114,6 @@ interface PaymentAccountSetIBANOptions {
     currency: string;
     /** Current payment method alias to update. If not provided a new payment method is added. */
     paymentMethodAlias?: string;
-    /** Date in the furtur to activate new IBAN. In YYYYMMDD format. */
-    activationDate: string;
 }
 interface PaymentAccountSetIBANResponse {
     /** ID to identify processing request. */

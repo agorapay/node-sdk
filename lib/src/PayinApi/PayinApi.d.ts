@@ -212,6 +212,7 @@ declare class PayinApi extends ApiRest {
      * @prop {string | undefined} paymentMethodId
      * @prop {string | undefined} urlRedirect
      * @prop {Cart | undefined} cart
+     * @prop {string | undefined} reason
      * @returns {PaymentIFrameResponse} authentificationCode and url
      * @example
      * ````javascript

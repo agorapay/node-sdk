@@ -13,12 +13,12 @@ class AccountHolderApi extends ApiRest {
    * Creates a new accountHolder.
    * @param {RegisterAccountHolderOptions} options accountHolder registering options.
    * @prop {string} socialReason
-   * @prop {string} compagnyName
+   * @prop {string} companyName
    * @prop {string} country
    * @prop {string} legalForm
    * @prop {string} registrationNumber
    * @prop {Address} masterAddress
-   * @prop {Address | undefined} billingAddress
+   * @prop {Address | undefined} commercialAddress
    * @prop {string} turnover
    * @prop {boolean | YesOrNo} regulatedSociety
    * @prop {Array<Person>} physicalPersons
@@ -28,7 +28,7 @@ class AccountHolderApi extends ApiRest {
    * ````javascript
    *accountHolderApi.create({
    *  account: new Account("FRA", "EUR", "FR7618206004320000165551134", 230.00),
-   *  compagnyName: "lusis",
+   *  companyName: "lusis",
    *  country: "FRA",
    *  legalForm: "SAS",
    *  masterAddress: new Address("entr", "ville", "91000", "FRA"),
@@ -38,7 +38,7 @@ class AccountHolderApi extends ApiRest {
    *  regulatedSociety: YesOrNo.Yes,
    *  socialReason: "entreprise",
    *  turnover: "47586.00",
-   *  billingAddress: new Address("rue", "ville", "91199", "FRA")
+   *  commercialAddress: new Address("rue", "ville", "91199", "FRA")
    *}).then(resp => {
    *  console.log(resp)
    *}).catch(error => {
@@ -87,11 +87,10 @@ class AccountHolderApi extends ApiRest {
    * Update account holder registration.
    * @param {UpdateAccountHolderOptions} options accountHolder updating options.
    * @prop {string | undefined} socialReason
-   * @prop {string | undefined} compagnyName
+   * @prop {string | undefined} companyName
    * @prop {string | undefined} country
-   * @prop {string | undefined} registrationNumber
    * @prop {Address | undefined} masterAddress
-   * @prop {Address | undefined} billingAddress
+   * @prop {Address | undefined} commercialAddress
    * @prop {string | undefined} turnover
    * @prop {boolean | YesOrNo | undefined} regulatedSociety
    * @prop {Array<Person> | undefined} physicalPersons
@@ -103,15 +102,14 @@ class AccountHolderApi extends ApiRest {
    * ````javascript
    *accountHolderApi.update({
    *  account: new Account("FRA", "EUR", "FR7618206004320000165551134", 230.00),
-   *  compagnyName: "lusis",
+   *  companyName: "lusis",
    *  country: "FRA",
    *  masterAddress: new Address("entr", "ville", "91000", "FRA"),
    *  physicalPersons: [new Person(Gender.Male, "foo", "foo", "foo@foo.fr", "0101010101", [Role.LegalRepresentative])],
-   *  registrationNumber: "49775144944556",
    *  regulatedSociety: YesOrNo.Yes,
    *  socialReason: "entreprise",
    *  turnover: "47586.00",
-   *  billingAddress: new Address("rue", "ville", "91199", "FRA"),
+   *  commercialAddress: new Address("rue", "ville", "91199", "FRA"),
    *  requestId: accountHolder.requestId!,
    *  currency: "EUR"
    *}).then(resp => {
@@ -173,16 +171,36 @@ class AccountHolderApi extends ApiRest {
    * ````
    */
   uploadDocument(
-    requirements: Array<Requirement>,
+    requirement: Requirement,
     requestId: string
   ): Promise<AccountHolder> {
     return new Promise((success, reject) => {
+      const payload = {
+        json: {
+          requestId: requestId,
+          requirements: [
+            {
+              id: requirement.id,
+              fileExt: requirement.fileExt,
+              fileType: requirement.fileType
+            }
+          ]
+        },
+        files: [
+          {
+            name: 'file',
+            fileName: `${requirement.id}.${requirement.fileExt}`,
+            data: requirement.fileContent
+          }
+        ]
+      };
       return this.sendToApiPost(
         '/accountHolder/uploadDocument',
-        {
-          requirements: requirements,
-          requestId: requestId
-        },
+        // {
+        //   requirements: requirements,
+        //   requestId: requestId
+        // },
+        payload,
         true
       ).then((resp: any) => {
         if (+resp.resultCode !== 0)
