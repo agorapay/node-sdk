@@ -10,6 +10,7 @@ import {
   PaymentAccountSetIBANOptions,
   PaymentAccountSetIBANResponse
 } from "./PaymentAccountInterfaces";
+import { ReportFormat, ReportType } from "../../utils/enums";
 
 export default class PaymentAccountApi extends ApiRest {
   /**
@@ -28,7 +29,7 @@ export default class PaymentAccountApi extends ApiRest {
    */
   details(accountNumber: string): Promise<PaymentAccount> {
     return this.sendToApiGet<PaymentAccount>("/paymentAccount", { accountNumber: accountNumber })
-      .then(result => new PaymentAccount(result));
+      .then(result => new PaymentAccount({ account: result }));
   }
 
   /**
@@ -168,7 +169,19 @@ export default class PaymentAccountApi extends ApiRest {
    * ````
    */
   setIBAN(options: PaymentAccountSetIBANOptions): Promise<PaymentAccountSetIBANResponse> {
-    return this.sendToApiPost<PaymentAccountSetIBANResponse>("/paymentAccount/setIBAN", options, true)
+    const json: Partial<PaymentAccountSetIBANOptions> = Object.assign({}, options);
+    const fileContent = options.fileContent;
+    delete json.fileContent;
+    const payload = {
+      json: json,
+      files: [{
+        name: "file",
+        fileName: `iban.${options.fileType}`,
+        data: fileContent
+      }]
+    };
+
+    return this.sendToApiPost<PaymentAccountSetIBANResponse>("/paymentAccount/setIBAN", payload, true)
       .then(result => {
         return {
           requestId: result.requestId,
@@ -215,6 +228,32 @@ export default class PaymentAccountApi extends ApiRest {
     return this.sendToApiPost<void>("/paymentAccount/setFloorLimit", {
       accountNumber: accountNumber,
       amount: amount
+    })
+      .then(() => null);
+  }
+
+  /**
+   * @param {string | undefined} accountNumber
+   * @param {ReportType} type
+   * @param {ReportFormat} format
+   * @param {string} year
+   * @param {string | undefined} month
+   * @example
+   * ````javascript
+   *paymentApi.report("13006EUR12641111", ReportType.ACCOUNT_STATEMENT, ReportFormat.PDF, "2022", "01").then(resp => {
+   *  console.log(resp)
+   *}).catch(error => {
+   *  console.log(error)
+   *})
+   * ````
+   */
+  report(accountNumber: string, type: ReportType, format: ReportFormat, year: string, month: string): Promise<null> {
+    return this.sendToApiGet<void>("/paymentAccount/report", {
+      accountNumber: accountNumber,
+      type: type,
+      format: format,
+      year: year,
+      month: month
     })
       .then(() => null);
   }

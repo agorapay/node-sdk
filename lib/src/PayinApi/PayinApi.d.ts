@@ -27,6 +27,7 @@ export default class PayinApi extends ApiRest {
      * @prop {Cart | undefined} cart
      * @prop {string | undefined} operationDate
      * @prop {CbChallenge | undefined} cbChallenge
+     * @prop {paymentOptions | undefined} paymentOptions
      *
      * OR
      *
@@ -46,6 +47,7 @@ export default class PayinApi extends ApiRest {
      * @prop {Cart | undefined} cart
      * @prop {string | undefined} operationDate
      * @prop {CbChallenge | undefined} cbChallenge
+     * @prop {paymentOptions | undefined} paymentOptions
      *
      * @returns {Payment} The created payment.
      * @example
@@ -212,6 +214,7 @@ export default class PayinApi extends ApiRest {
      * @prop {string | undefined} paymentMethodId
      * @prop {string | undefined} urlRedirect
      * @prop {Cart | undefined} cart
+     * @prop {string | undefined} reason
      * @returns {PaymentIFrameResponse} authentificationCode and url
      * @example
      * ````javascript

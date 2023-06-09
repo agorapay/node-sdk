@@ -5,6 +5,7 @@ import PayinApi from "./PayinApi/PayinApi";
 import PaymentAccountApi from "./PaymentAccountApi/PaymentAccountApi";
 import AccountHolderApi from "./AccountHolderApi/AccountHolderApi";
 import CommonApi from "./CommonApi/CommonApi";
+import SelfcareApi from "./SelfcareApi/SelfcareApi";
 /**
  * @example
  * ````typescript
@@ -41,5 +42,6 @@ export default class CAPSPaymentAPI {
     payinApi(): PayinApi;
     paymentAccountApi(): PaymentAccountApi;
     accountHolderApi(): AccountHolderApi;
+    selfcareApi(): SelfcareApi;
     commonApi(): CommonApi;
 }

@@ -4,7 +4,7 @@ import Breakdown from "../models/Breakdown";
 import Cart from "../models/Cart";
 import Payer from "../models/Payer";
 import PaymentMethod from "../models/PaymentMethod";
-import { CbChallenge, OrderStatus, PaymentSequence } from "../../utils/enums";
+import { CbChallenge, OrderStatus, PaymentSequence, PaymentOptions, PageOption } from "../../utils/enums";
 import Transaction from "../models/Transaction";
 
 /**
@@ -25,6 +25,7 @@ import Transaction from "../models/Transaction";
  * @prop {Cart | undefined} cart
  * @prop {string | undefined} operationDate
  * @prop {CbChallenge | undefined} cbChallenge
+ * @prop {paymentOptions | undefined} paymentOptions
  */
 interface PaymentOptionsWithOrderId {
   transPaymentMethod: string;
@@ -62,6 +63,8 @@ interface PaymentOptionsWithOrderId {
   operationDate?: string;
   /**  */
   cbChallenge?: CbChallenge;
+  /**  */
+  paymentOptions?: PaymentOptions;
 }
 
 /**
@@ -81,6 +84,7 @@ interface PaymentOptionsWithOrderId {
  * @prop {Cart | undefined} cart
  * @prop {string | undefined} operationDate
  * @prop {CbChallenge | undefined} cbChallenge
+ * @prop {paymentOptions | undefined} paymentOptions
  */
 interface PaymentOptionsWithoutOrderId {
   transPaymentMethod: string;
@@ -116,6 +120,8 @@ interface PaymentOptionsWithoutOrderId {
   operationDate?: string;
   /**  */
   cbChallenge?: CbChallenge;
+  /**  */
+  paymentOptions?: PaymentOptions;
 }
 
 /**
@@ -255,19 +261,23 @@ interface CancelOptions {
 /**
  * @prop {OrderStatus | undefined} orderStatus
  * @prop {Array<Transaction> | undefined} transactionList
+ * @prop {number | undefined} orderId
  */
 interface CancelResponse {
   /** */
   orderStatus?: OrderStatus;
   /** List of the order transactions. */
   transactionList?: Array<Transaction>;
+  /** */
+  orderId?: number;
 }
 
 /**
  * @prop {Array<Breakdown> | undefined} breakdownList
  * @prop {object | undefined} metaData
  * @prop {Amount | undefined} adjustAmount
- * @prop {number} orderId
+ * @prop {number | undefined} orderId
+ * @prop {number | undefined} transactionId
  */
 interface AdjustPaymentOptions {
   /** */
@@ -277,7 +287,9 @@ interface AdjustPaymentOptions {
   /** */
   adjustAmount?: Amount;
   /** Order id obtained in order creation and to provide in each next request. */
-  orderId: string;
+  orderId?: string;
+  /** */
+  transactionId?: number;
 }
 
 /**
@@ -297,6 +309,10 @@ interface AdjustPaymentOptions {
  * @prop {string | undefined} cbChallenge
  * @prop {string | undefined} details
  * @prop {string | undefined} page
+ * @prop {PaymentDetails | undefined} details
+ * @prop {PageOption | undefined} page
+ * @prop {PaymentOptions | undefined} paymentOptions
+ * @prop {string | undefined} reason
  */
 interface PaymentIFrameOptions {
   /** Marketplace reference for this order */
@@ -354,14 +370,20 @@ interface PaymentIFrameOptions {
   /**
    * Payment details information For some payment methods, additional details are needed.
    */
-  details?: any;
+  details?: PaymentDetails;
 
   /**
    * Type of page to display.
    * - iframe: integrated in marketplace site (default)
    * - full: full page
    */
-  page?: "iframe" | "full";
+  page?: PageOption;
+
+  /** */
+  paymentOptions?: PaymentOptions;
+
+  /** Operation label transmitted in payment system. Maximum length of 140 characters. */
+  reason?: string;
 }
 
 /**
@@ -369,6 +391,7 @@ interface PaymentIFrameOptions {
  * @prop {string} authenticationCode
  * @prop {string | undefined} site
  * @prop {string | undefined} url
+ * @prop {number} resultCode
  */
 interface PaymentIFrameResponse {
   /**  */
@@ -379,6 +402,8 @@ interface PaymentIFrameResponse {
   site?: string;
   /** Url to connect iframe to. */
   url?: string;
+  /** */
+  resultCode: number;
 }
 
 /**

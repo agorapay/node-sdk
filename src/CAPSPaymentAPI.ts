@@ -6,6 +6,7 @@ import PayinApi from "./PayinApi/PayinApi";
 import PaymentAccountApi from "./PaymentAccountApi/PaymentAccountApi";
 import AccountHolderApi from "./AccountHolderApi/AccountHolderApi";
 import CommonApi from "./CommonApi/CommonApi";
+import SelfcareApi from "./SelfcareApi/SelfcareApi";
 
 /**
  * @example
@@ -63,6 +64,10 @@ export default class CAPSPaymentAPI {
 
   public accountHolderApi(): AccountHolderApi {
     return new AccountHolderApi(this.config);
+  }
+
+  public selfcareApi(): SelfcareApi {
+    return new SelfcareApi(this.config);
   }
 
   public commonApi(): CommonApi {

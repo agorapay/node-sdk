@@ -15,15 +15,15 @@ declare enum OrderStatus {
     Canceled = "canceled"
 }
 /**
-  * Status of a transaction. The following value may be provided:
-  * * `Created`: The transaction is just created. No payment is already made.
-  * * `InProgress`: Payment is in progress
-  * * `Accepted`: Payment is accepted
-  * * `Completed`: Payment confirmation is received
-  * * `Canceled`: Payment is canceled
-  * * `Refused`: payment is refused
-  * * `Abandonned` : Payment is not performed
-  */
+ * Status of a transaction. The following value may be provided:
+ * * `Created`: The transaction is just created. No payment is already made.
+ * * `InProgress`: Payment is in progress
+ * * `Accepted`: Payment is accepted
+ * * `Completed`: Payment confirmation is received
+ * * `Canceled`: Payment is canceled
+ * * `Refused`: payment is refused
+ * * `Abandonned` : Payment is not performed
+ */
 declare enum TransactionStatus {
     /** The transaction is just created. No payment is already made. */
     Created = "created",
@@ -38,7 +38,13 @@ declare enum TransactionStatus {
     /** payment is refused. */
     Refused = "refused",
     /** Payment is not performed. */
-    Abandonned = "abandonned"
+    Abandonned = "abandonned",
+    /** Payment is not performed. */
+    Refund = "refund"
+}
+declare enum PaymentOptions {
+    CardOnFile = "cardOnFile",
+    WithoutCardOnFile = "withoutCardOnFile"
 }
 declare enum TicketType {
     Client = "C",
@@ -106,16 +112,16 @@ declare enum FileType {
     PDF = "PDF"
 }
 /**
-* * Sepa Direct Debit (1)
-* * Sepa Credit Transfer (2)
-* * Transfer (3)
-* * Card (4)
-* * SWIFT (5)
-* * Sepa Direct Debit B2B (6)
-* * Letter of credit (7)
-* * Voucher (8)
-* * Remainder(9)
-*/
+ * * Sepa Direct Debit (1)
+ * * Sepa Credit Transfer (2)
+ * * Transfer (3)
+ * * Card (4)
+ * * SWIFT (5)
+ * * Sepa Direct Debit B2B (6)
+ * * Letter of credit (7)
+ * * Voucher (8)
+ * * Remainder(9)
+ */
 declare enum PaymentMethodType {
     /** Sepa Direct Debit   */
     SepaDirectDebit = "1",
@@ -179,38 +185,99 @@ declare enum RequirementStatus {
     Refused = "REFUSED"
 }
 /**
-* * `Passeport` - Passeport
-* * `IdCard` - Id card
-* * `ResidencePermit` - Residence permit
-* * `Company_Kbis_extract_less_than_3_months_old` - Company Kbis extract less than 3 months old
-* * `Copy_of_the_articles_of_association` - Copy of the articles of association
-* * `Professional_RIB_on_behalf_of_the_individual` - Professional RIB on behalf of the individual
-* * `Professional_RIB_on_behalf_of_the_legal_entity` - Professional RIB on behalf of the legal entity
-* * `AG_PV` - AG PV
-* * `BATICA_Certificate_of_Deposit_or_Register_Extract` - BATICA Certificate of Deposit or Register Extract
-* * `List_A` -="List A
-* * `FIRCOSOFT` - FIRCOSOFT
-* * `Account_agreement` - Account agreement
-* * `Country_questionnaire` - Country questionnaire
-* * `Front_side_ID_card` - Front-side ID card
-* * `Back_ID_card` - Back ID card
+ INDIVIDUAL_INDIFICATION
+ * * `PASSPORT`: Passeport
+ * * `IDCARD_FRONT_BACK`: Identity document
+ * * `IDCARD_FRONT`: Identity document
+ * * `IDCARD_BACK`: Identity document
+ * * `PERMANENT_RES`: Permanent residence permit
+
+ BUSINESS_IDENTIFICATION
+ * * `COMPANY_REG`: Proof of registration
+
+ NONPROFIT_IDENTICIATION
+ * * `NONPROFIT_REG`: Proof of existence of the association
+ * * `NONPROFIT_OJ`: JOAFE publication
+
+ BUSINESS_ARTICLES
+ * * `COMPANY_ART`: Final status
+
+ NONPROFIT_DIRECTORS
+ * * `REPORT_GEN_ASS`: Minutes of last general assembly
+
+ BUSINESS_UBO
+ * * `UBO_REG`: Register of beneficial owners filed with the registry
+
+ LEGAL_EXISTENCE
+ * * `SIRENE_REG`: INSEE file less than 3 months old
+ * * `RECEIPT_APP`: Receipt of prefecture
+ * * `SIRENE_NOT`: Notice of situation
+
+ REGISTRATION_PROOF
+ * * `INDIVIDUAL_REG`: Registration with the Trade and Companies Register or Trades and Crafts Register
+
+ ADDRESS_PROOF
+ * * `PROPERTY_TAX`: Property tax less than a year old
+ * * `HOUSING_TAX`: Housing tax less than a year old
+ * * `INVOICE`: Energy or telephony supplier bill (less than 3 months old)
+
+ COOPERATIVE_APPROUVAL
+ * * `COOP_APP`: Approval of the High Council of the agricultural cooperative (if agricultural cooperative)
+
+ SUBSCRIPTION_PROOF
+ * * `PROOF_REG`: Proof of registration for SCs and SCPs
+
+ BUSINESS_IDENTIFICATION_WORLD
+ * * `COMPANY_REG_WORLD`: Extract from the commercial register (original + translation)
+ * * `COMPANY_CER_WORLD`: Certificate of legal validity of the company (original + translation)
+
+ BUSINESS_ARTICLES_WORLD
+ * * `COMPANY_ART_WORLD`: Definitive statutes or equivalent (original + translation)
+
+ BUSINESS_UBO_WORLD
+ * * `UBO_REG_WORLD`: Beneficial ownership declaration form (original + translation)
+
+ BANK_ID
+ * * `BANK_ID`: Bank Account Proof
+
+ OTHER_DOC
+ * * `OTHER_DOC`: Additional supporting documents
+
+ ACCOUNT_AGR
+ * * `ACCOUNT_AGR`: Account Agreement
+
+ QUESTIONNAIRE
+ * * `QUESTIONNAIRE`: Country Questionnaire (FR)
  */
 declare enum RequirementFileType {
-    Passeport = "Passeport",
-    IdCard = "Id card",
-    ResidencePermit = "Residence permit",
-    Company_Kbis_extract_less_than_3_months_old = "Company Kbis extract less than 3 months old",
-    Copy_of_the_articles_of_association = "Copy of the articles of association",
-    Professional_RIB_on_behalf_of_the_individual = "Professional RIB on behalf of the individual",
-    Professional_RIB_on_behalf_of_the_legal_entity = "Professional RIB on behalf of the legal entity",
-    AG_PV = "AG PV",
-    BATICA_Certificate_of_Deposit_or_Register_Extract = "BATICA Certificate of Deposit or Register Extract",
-    List_A = "List A ",
-    FIRCOSOFT = "FIRCOSOFT",
-    Account_agreement = "Account agreement",
-    Country_questionnaire = "Country questionnaire",
-    Front_side_ID_card = "Front-side ID card",
-    Back_ID_card = "Back ID card"
+    PASSPORT = "PASSPORT",
+    IDCARD_FRONT_BACK = "IDCARD_FRONT_BACK",
+    COMPANY_REG = "COMPANY_REG",
+    BANK_ID = "BANK_ID",
+    COMPANY_REG_WORLD = "COMPANY_REG_WORLD",
+    OTHER_DOC = "OTHER_DOC",
+    ACCOUNT_AGR = "ACCOUNT_AGR",
+    QUESTIONNAIRE = "QUESTIONNAIRE",
+    IDCARD_FRONT = "IDCARD_FRONT",
+    IDCARD_BACK = "IDCARD_BACK",
+    NONPROFIT_REG = "NONPROFIT_REG",
+    NONPROFIT_OJ = "NONPROFIT_OJ",
+    COMPANY_ART = "COMPANY_ART",
+    REPORT_GEN_ASS = "REPORT_GEN_ASS",
+    PERMANENT_RES = "PERMANENT_RES",
+    UBO_REG = "UBO_REG",
+    SIRENE_REG = "SIRENE_REG",
+    RECEIPT_APP = "RECEIPT_APP",
+    SIRENE_NOT = "SIRENE_NOT",
+    INDIVIDUAL_REG = "INDIVIDUAL_REG",
+    PROPERTY_TAX = "PROPERTY_TAX",
+    HOUSING_TAX = "HOUSING_TAX",
+    INVOICE = "INVOICE",
+    COOP_APP = "COOP_APP",
+    PROOF_REG = "PROOF_REG",
+    COMPANY_CER_WORLD = "COMPANY_CER_WORLD",
+    COMPANY_ART_WORLD = "COMPANY_ART_WORLD",
+    UBO_REG_WORLD = "UBO_REG_WORLD"
 }
 declare enum CbChallenge {
     NoPreference = "01",
@@ -218,4 +285,18 @@ declare enum CbChallenge {
     DesiredChallenge = "03",
     RequiredChallenge = "04"
 }
-export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge };
+declare enum ReportType {
+    ACCOUNT_STATEMENT = "ACCOUNT_STATEMENT",
+    INVOICE = "INVOICE",
+    IC_FEE_REPORT = "IC_FEE_REPORT"
+}
+declare enum ReportFormat {
+    PDF = "P",
+    CSV = "C"
+}
+declare enum PageOption {
+    iframe = "iframe",
+    full = "full",
+    page = "page"
+}
+export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, PaymentOptions, ReportType, ReportFormat, PageOption };

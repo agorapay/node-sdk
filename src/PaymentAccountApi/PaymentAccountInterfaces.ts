@@ -95,50 +95,36 @@ interface PaymentAccountPayoutAutoOptions {
  * @prop {string} iban
  * @prop {string} currency
  * @prop {string | undefined} paymentMethodAlias
- * @prop {string} activationDate
  */
 interface PaymentAccountSetIBANOptions {
   /** A string representing the account number. */
   accountNumber?: string;
-
   /** The first name of the IBAN account's owner. */
   firstName: string;
-
   /** The last name of the IBAN account's owner. */
   lastName: string;
-
   /** The name of the IBAN account's owner if compagny. */
   socialReason?: string;
-
   /** The road name and number of the IBAN account's owner. */
   address: string;
-
   /** The city of the IBAN account's owner. */
   city: string;
-
   /** The postal code of the IBAN account's owner. */
   postalCode: string;
-
   /** The country code (in 3 letter format) of the IBAN account's owner. */
   country: string;
-
   /** Type of the file contening the proof document. */
   fileType: FileType;
-
   /** The content of the file contening the proof in base64 encoding format. */
   fileContent: string;
-
   /** The new IBAN */
   iban: string;
-
   /** Currency code in 3 characters ISO format. */
   currency: string;
-
   /** Current payment method alias to update. If not provided a new payment method is added. */
   paymentMethodAlias?: string;
-
-  /** Date in the furtur to activate new IBAN. In YYYYMMDD format. */
-  activationDate: string;
+  // Date in the furtur to activate new IBAN. In YYYYMMDD format.
+  // activationDate: string;
 }
 
 interface PaymentAccountSetIBANResponse {

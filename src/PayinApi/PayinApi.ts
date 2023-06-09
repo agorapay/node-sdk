@@ -46,6 +46,7 @@ export default class PayinApi extends ApiRest {
    * @prop {Cart | undefined} cart
    * @prop {string | undefined} operationDate
    * @prop {CbChallenge | undefined} cbChallenge
+   * @prop {paymentOptions | undefined} paymentOptions
    *
    * OR
    *
@@ -65,6 +66,7 @@ export default class PayinApi extends ApiRest {
    * @prop {Cart | undefined} cart
    * @prop {string | undefined} operationDate
    * @prop {CbChallenge | undefined} cbChallenge
+   * @prop {paymentOptions | undefined} paymentOptions
    *
    * @returns {Payment} The created payment.
    * @example
@@ -218,6 +220,13 @@ export default class PayinApi extends ApiRest {
   cancel(options: CancelOptions): Promise<CancelResponse> {
     return this.sendToApiPost<CancelResponse>("/payin/cancel", options)
       .then(result => {
+        const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
+        if (!result.orderId) {
+          throw new Error("Missing required field: orderId");
+        } else if (status === null) {
+          throw new Error("Missing required field or invalid data: orderStatus");
+        }
+
         return {
           orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
           transactionList: (result.transactionList ?? []).map((x: any) => new Transaction(x))
@@ -285,6 +294,7 @@ export default class PayinApi extends ApiRest {
    * @prop {string | undefined} paymentMethodId
    * @prop {string | undefined} urlRedirect
    * @prop {Cart | undefined} cart
+   * @prop {string | undefined} reason
    * @returns {PaymentIFrameResponse} authentificationCode and url
    * @example
    * ````javascript
@@ -318,7 +328,8 @@ export default class PayinApi extends ApiRest {
           authenticationCode: result.authenticationCode,
           orderId: result.orderId,
           site: result.site,
-          url: result.url
+          url: result.url,
+          resultCode: result.resultCode
         };
       });
   }
@@ -356,6 +367,11 @@ export default class PayinApi extends ApiRest {
   refund(options: RefundOptions): Promise<RefundResponse> {
     return this.sendToApiPost<RefundResponse>("/payin/refund", options)
       .then(result => {
+        const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
+        if (status === null) {
+          throw new Error("Missing required field or invalid data: orderStatus");
+        }
+
         return {
           orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
           transactionList: result.transactionList?.map((x: any) => new Transaction(x)) ?? undefined,
