@@ -15,7 +15,7 @@ export default class ApiRest {
      */
     private static readonly authToken;
     constructor(config: Config);
-    protected sendToApiPost<T>(endPoint: string, payload: any, base64?: boolean): Promise<T>;
+    protected sendToApiPost<T>(endPoint: string, payload: any, isMultiPart?: boolean): Promise<T>;
     protected sendToApiGet<T>(endPoint: string, payload: any): Promise<T>;
     /**
      * Set the authentication token to use

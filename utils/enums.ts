@@ -106,7 +106,8 @@ enum PaymentSequence {
   /** for use of recurrent mandate */
   RCUR = "RCUR",
   /** for last use of recurrent mandate */
-  LAST = "LAST",
+  FNAL = "FNAL",
+  // LAST = "LAST",
   /** for a mandate used only one time */
   OOFF = "OOFF"
 }
@@ -115,7 +116,8 @@ enum PayoutAutoFrequency {
   Deactivate = "0",
   OnceADay = "1",
   OnceAWeek = "2",
-  OnceAMonth = "3"
+  OnceAMonth = "3",
+  AutoOnThreshold = "10"
 }
 
 enum FileType {

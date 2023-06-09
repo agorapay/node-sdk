@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import Config from "../src/models/Config";
 import AuthToken from "../src/models/AuthToken";
+import * as FormData from "form-data";
 
 export class ApiRestError {
   resultCode: string;
@@ -24,14 +25,14 @@ export default class ApiRest {
   constructor(private readonly config: Config) {
   }
 
-  protected sendToApiPost<T>(endPoint: string, payload: any, base64: boolean = false): Promise<T> {
+  protected sendToApiPost<T>(endPoint: string, payload: any, isMultiPart: boolean = false): Promise<T> {
     return this.sendAuthenticatedRequest({
       method: "POST",
       url: this.config.baseUrl + endPoint,
-      data: this.encodeValue(payload ?? {}),
+      data: payload ?? {},
       timeout: this.config.timeout,
       validateStatus: (status: number) => status == 200 || status == 401
-    }, base64);
+    }, isMultiPart);
   }
 
   protected sendToApiGet<T>(endPoint: string, payload: any): Promise<T> {
@@ -65,7 +66,7 @@ export default class ApiRest {
   /**
    * Send an authenticated request to the API and refresh the token if needed
    */
-  private sendAuthenticatedRequest(payload: AxiosRequestConfig, isBase64: boolean = false): Promise<any> {
+  private sendAuthenticatedRequest(payload: AxiosRequestConfig, isMultiPart: boolean = false): Promise<any> {
     if (ApiRest.authToken.isInvalidOrExpired) {
       this.log("Token is invalid or expired, authenticating...");
       return this.authenticate()
@@ -75,19 +76,39 @@ export default class ApiRest {
             throw new ApiRestError("Authentication error", "Looks like the authentication succeeded but the token is still invalid or expired");
           }
 
-          return this.sendAuthenticatedRequest(payload, isBase64);
+          return this.sendAuthenticatedRequest(payload, isMultiPart);
         });
     }
 
     payload.headers = this.buildHeaders();
-    if (isBase64) {
-      payload.headers["Content-Transfer-Encoding"] = "base64";
+
+    let encodedData;
+    if (isMultiPart) {
+      const initialData = payload.data ?? {};
+      const formData = new FormData();
+      const boundary = formData.getBoundary();
+
+      formData.append("json", JSON.stringify(initialData.json ?? {}), { contentType: "application/json; charset=UTF-8" });
+
+      if (initialData.files) {
+        initialData.files.forEach((file: any) => formData.append(file.name, Buffer.from(file.data).toString("base64"), {
+          header: { "Content-Transfer-Encoding": "base64" },
+          filename: file.fileName
+        }));
+      }
+
+      encodedData = formData.getBuffer();
+      payload.headers["Content-Type"] = `multipart/form-data; boundary=${boundary}`;
+      payload.headers["Content-Length"] = formData.getLengthSync();
+    } else {
+      encodedData = this.encodeValue(payload.data ?? {});
+      payload.headers["Content-Type"] = "application/json; charset=UTF-8";
     }
 
     this.log("Sending POST request to " + payload.url + " with payload:");
     this.log(payload);
 
-    return axios.request(payload)
+    return axios.request({ ...payload, data: encodedData })
       .then(response => {
         if (response.status === 401) {
           this.log("401: Token is invalid, authenticating...");
