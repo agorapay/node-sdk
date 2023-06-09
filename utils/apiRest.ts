@@ -22,10 +22,28 @@ class ApiRest {
         })
     }
 
-    sendToApiPost(endPoint: string, payload: any, base64 = false) {
+    sendToApiPost(endPoint: string, payload: any, multiPart = false) {
         const BASE_URL = this.config.baseUrl
         const url = BASE_URL + endPoint
+
         this.json_fields_toString(payload)
+
+        let boundary = null
+
+        if (multiPart) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            const FormData = require('form-data')
+            const form_data = new FormData();
+            boundary = form_data.getBoundary()
+            form_data.append('json', JSON.stringify(payload.json || {}), { contentType: 'application/json; charset=UTF-8' });
+            if (payload.files) {
+                payload.files.forEach((x: any) => {
+                    form_data.append(x.name, Buffer.from(x.data).toString('base64'), { header: { 'Content-Transfer-Encoding': 'base64' }, filename: x.fileName });
+                })
+            }
+            payload = form_data.getBuffer()
+        }
+
         const message: any  = {
             method: 'post',
             url: url,
@@ -34,16 +52,18 @@ class ApiRest {
             validateStatus: function (status: number) { return status == 200 || status == 401; }
         }
 
-        if (!this.config.tokenValue || this.config.tokenExpiry < Date.now())
-            return this.authenticate(message, true)
-
         message.headers = {
             'Authorization': `Bearer ${this.config.tokenValue}`,
             'id_token': `${this.config.tokenId}`
         };
-        if (base64) {
-            message.headers['Content-Transfer-Encoding'] = 'base64';
+
+        if (multiPart) {
+            message.headers['Content-Type'] = `multipart/form-data; boundary=${boundary}`
         }
+
+        if (!this.config.tokenValue || this.config.tokenExpiry < Date.now())
+            return this.authenticate(message, true)
+
         return this.sendRequest(message,
             function (res: any, api: ApiRest) {
                 if (res.status == 401)
@@ -95,7 +115,6 @@ class ApiRest {
     }
 
     sendRequest(message: any, success: (res: any, api: ApiRest) => void, failure: (error: any, api: ApiRest) => void) {
-        // console.log(message)
         return axios.request(message).then((res: any) => { 
             return success(res, this) 
         }).catch((error: any) => { 
@@ -116,11 +135,9 @@ class ApiRest {
                 api.config.tokenValue = res.data['access_token']
                 api.config.tokenId = res.data['id_token']
                 api.config.tokenExpiry = Date.now() + parseInt(res.data['expires_in'].toString()) * 1000
-                message.headers = {
-                    'Authorization': `Bearer ${api.config.tokenValue}`,
-                    'id_token': `${api.config.tokenId}`
-                };
-    
+                message.headers['Authorization'] = `Bearer ${api.config.tokenValue}`
+                message.headers['id_token'] = `${api.config.tokenId}`
+
                 return api.sendRequest(message,
                     function (res, api) {
                         if (res.status == 401) {
