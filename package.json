@@ -1,6 +1,6 @@
 {
   "name": "caps-payment",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "",
   "main": "./lib/index.js",
   "files": [
@@ -16,6 +16,7 @@
     "testPayin": "mocha -r ts-node/register tests/payin.test.ts --timeout 20000",
     "testPaymentAccount": "mocha -r ts-node/register tests/paymentAccount.test.ts --timeout 20000",
     "testAccountHolder": "mocha -r ts-node/register tests/accountHolder.test.ts --timeout 20000",
+    "testMandate": "mocha -r ts-node/register tests/mandate.test.ts --timeout 20000",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "author": "",

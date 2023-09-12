@@ -41,6 +41,8 @@ enum TransactionStatus {
   Refused = "refused",
   /** Payment is not performed. */
   Abandonned = "abandonned",
+  /** Payment is not performed. */
+  Refund = "refund",
 }
 
 enum TicketType {
@@ -99,7 +101,8 @@ enum PaymentSequence {
   /** for use of recurrent mandate */
   RCUR = "RCUR",
   /** for last use of recurrent mandate */
-  LAST = "LAST",
+  //LAST = "LAST",
+  FNAL = "FNAL",
   /** for a mandate used only one time */
   OOFF = "OOFF"
 }
@@ -108,7 +111,8 @@ enum PayoutAutoFrequency {
   Deactivate = "0",
   OnceADay = "1",
   OnceAWeek = "2",
-  OnceAMonth = "3"
+  OnceAMonth = "3",
+  AutoOnThreshold = "10"
 }
 
 enum FileType {
@@ -198,39 +202,105 @@ enum RequirementStatus {
   Refused = 'REFUSED'
 }
 
+enum PaymentOptions {
+  CardOnFile = 'cardOnFile',
+  WithoutCardOnFile = 'withoutCardOnFile'
+}
+
 /**
-* * `Passeport` - Passeport
-* * `IdCard` - Id card
-* * `ResidencePermit` - Residence permit
-* * `Company_Kbis_extract_less_than_3_months_old` - Company Kbis extract less than 3 months old
-* * `Copy_of_the_articles_of_association` - Copy of the articles of association
-* * `Professional_RIB_on_behalf_of_the_individual` - Professional RIB on behalf of the individual
-* * `Professional_RIB_on_behalf_of_the_legal_entity` - Professional RIB on behalf of the legal entity
-* * `AG_PV` - AG PV
-* * `BATICA_Certificate_of_Deposit_or_Register_Extract` - BATICA Certificate of Deposit or Register Extract
-* * `List_A` -="List A 
-* * `FIRCOSOFT` - FIRCOSOFT
-* * `Account_agreement` - Account agreement
-* * `Country_questionnaire` - Country questionnaire
-* * `Front_side_ID_card` - Front-side ID card
-* * `Back_ID_card` - Back ID card
+INDIVIDUAL_INDIFICATION
+ * * `PASSPORT`: Passeport
+ * * `IDCARD_FRONT_BACK`: Identity document
+ * * `IDCARD_FRONT`: Identity document
+ * * `IDCARD_BACK`: Identity document
+ * * `PERMANENT_RES`: Permanent residence permit
+
+BUSINESS_IDENTIFICATION  
+ * * `COMPANY_REG`: Proof of registration
+
+NONPROFIT_IDENTICIATION
+ * * `NONPROFIT_REG`: Proof of existence of the association
+ * * `NONPROFIT_OJ`: JOAFE publication
+
+BUSINESS_ARTICLES  
+ * * `COMPANY_ART`: Final status
+
+NONPROFIT_DIRECTORS  
+ * * `REPORT_GEN_ASS`: Minutes of last general assembly
+
+BUSINESS_UBO
+ * * `UBO_REG`: Register of beneficial owners filed with the registry
+
+LEGAL_EXISTENCE
+ * * `SIRENE_REG`: INSEE file less than 3 months old
+ * * `RECEIPT_APP`: Receipt of prefecture
+ * * `SIRENE_NOT`: Notice of situation
+
+REGISTRATION_PROOF  
+ * * `INDIVIDUAL_REG`: Registration with the Trade and Companies Register or Trades and Crafts Register
+
+ADDRESS_PROOF
+ * * `PROPERTY_TAX`: Property tax less than a year old
+ * * `HOUSING_TAX`: Housing tax less than a year old
+ * * `INVOICE`: Energy or telephony supplier bill (less than 3 months old)
+
+COOPERATIVE_APPROUVAL
+ * * `COOP_APP`: Approval of the High Council of the agricultural cooperative (if agricultural cooperative)
+
+SUBSCRIPTION_PROOF
+ * * `PROOF_REG`: Proof of registration for SCs and SCPs
+
+BUSINESS_IDENTIFICATION_WORLD
+ * * `COMPANY_REG_WORLD`: Extract from the commercial register (original + translation)
+ * * `COMPANY_CER_WORLD`: Certificate of legal validity of the company (original + translation)
+
+BUSINESS_ARTICLES_WORLD
+ * * `COMPANY_ART_WORLD`: Definitive statutes or equivalent (original + translation)
+
+BUSINESS_UBO_WORLD
+ * * `UBO_REG_WORLD`: Beneficial ownership declaration form (original + translation)
+
+BANK_ID              
+ * * `BANK_ID`: Bank Account Proof
+
+OTHER_DOC
+ * * `OTHER_DOC`: Additional supporting documents
+
+ACCOUNT_AGR
+ * * `ACCOUNT_AGR`: Account Agreement
+
+QUESTIONNAIRE
+ * * `QUESTIONNAIRE`: Country Questionnaire (FR)
  */
 enum RequirementFileType {
-  Passeport = "Passeport",
-  IdCard = "Id card",
-  ResidencePermit = "Residence permit",
-  Company_Kbis_extract_less_than_3_months_old = "Company Kbis extract less than 3 months old",
-  Copy_of_the_articles_of_association = "Copy of the articles of association",
-  Professional_RIB_on_behalf_of_the_individual = "Professional RIB on behalf of the individual",
-  Professional_RIB_on_behalf_of_the_legal_entity = "Professional RIB on behalf of the legal entity",
-  AG_PV = "AG PV",
-  BATICA_Certificate_of_Deposit_or_Register_Extract = "BATICA Certificate of Deposit or Register Extract",
-  List_A  = "List A ",
-  FIRCOSOFT = "FIRCOSOFT",
-  Account_agreement = "Account agreement",
-  Country_questionnaire = "Country questionnaire",
-  Front_side_ID_card = "Front-side ID card",
-  Back_ID_card = "Back ID card",
+  PASSPORT = 'PASSPORT',
+  IDCARD_FRONT_BACK = 'IDCARD_FRONT_BACK',
+  COMPANY_REG = 'COMPANY_REG',
+  BANK_ID = 'BANK_ID',
+  COMPANY_REG_WORLD = 'COMPANY_REG_WORLD',
+  OTHER_DOC = 'OTHER_DOC',
+  ACCOUNT_AGR = 'ACCOUNT_AGR',
+  QUESTIONNAIRE = 'QUESTIONNAIRE',
+  IDCARD_FRONT = 'IDCARD_FRONT',
+  IDCARD_BACK = 'IDCARD_BACK',
+  NONPROFIT_REG = 'NONPROFIT_REG',
+  NONPROFIT_OJ = 'NONPROFIT_OJ',
+  COMPANY_ART = 'COMPANY_ART',
+  REPORT_GEN_ASS = 'REPORT_GEN_ASS',
+  PERMANENT_RES = 'PERMANENT_RES',
+  UBO_REG = 'UBO_REG',
+  SIRENE_REG = 'SIRENE_REG',
+  RECEIPT_APP = 'RECEIPT_APP',
+  SIRENE_NOT = 'SIRENE_NOT',
+  INDIVIDUAL_REG = 'INDIVIDUAL_REG',
+  PROPERTY_TAX = 'PROPERTY_TAX',
+  HOUSING_TAX = 'HOUSING_TAX',
+  INVOICE = 'INVOICE',
+  COOP_APP = 'COOP_APP',
+  PROOF_REG = 'PROOF_REG',
+  COMPANY_CER_WORLD = 'COMPANY_CER_WORLD',
+  COMPANY_ART_WORLD = 'COMPANY_ART_WORLD',
+  UBO_REG_WORLD = 'UBO_REG_WORLD'
 }
 
 enum CbChallenge {
@@ -238,6 +308,23 @@ enum CbChallenge {
   NoChallengeRequired = "02",
   DesiredChallenge = "03",
   RequiredChallenge = "04"
+}
+
+enum ReportType {
+  ACCOUNT_STATEMENT = "ACCOUNT_STATEMENT",
+  INVOICE = "INVOICE",
+  IC_FEE_REPORT = "IC_FEE_REPORT"
+}
+
+enum ReportFormat {
+  PDF = "P",
+  CSV = "C"
+}
+
+enum PageOption {
+  iframe = "iframe",
+  full = "full",
+  page = "page"
 }
 
 export { 
@@ -262,5 +349,9 @@ export {
   RequirementStatus,
   AccountType,
   RequirementFileType,
-  CbChallenge
+  CbChallenge,
+  ReportType,
+  ReportFormat,
+  PageOption,
+  PaymentOptions
 }
