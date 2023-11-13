@@ -122,13 +122,15 @@ export default class ApiRest {
       .catch((error: any) => {
         this.log("Request failed:");
         this.log(error.response?.data);
+        this.log(error.response?.status);
+        this.log(error.response?.statusText);
 
         if (error instanceof ApiRestError) {
           throw error;
         } else if (error?.response?.status === 400) {
-          throw new ApiRestError(error.response.data.resultCode.toString(), error.response.data.resultCodeMessage);
+          throw new ApiRestError(error.response?.data.resultCode.toString(), error.response.data.resultCodeMessage);
         }
-        throw new ApiRestError(error.response.status.toString(), error.response.statusText);
+        throw new ApiRestError(error.response?.status?.toString(), error.response?.statusText ?? "Unknwon error");
       });
   }
 
