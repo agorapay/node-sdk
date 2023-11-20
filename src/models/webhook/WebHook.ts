@@ -9,7 +9,7 @@ export default abstract class WebHook {
   /** TransactionId for this payment */
   public transactionId: string;
   /** The orderReference sent by the Marketplace for this payment */
-  public orderRef: string;
+  public orderRef?: string;
 
   /**
    * @param code The expected eventCode for this webhook
@@ -26,13 +26,11 @@ export default abstract class WebHook {
       throw new Error("WebHook versionNumber is required");
     } else if (!data.transactionId) {
       throw new Error("WebHook transactionId is required");
-    } else if (!data.orderRef) {
-      throw new Error("WebHook orderRef is required");
     }
 
     this.eventCode = data.eventCode;
     this.versionNumber = data.versionNumber;
     this.transactionId = data.transactionId;
-    this.orderRef = data.orderRef;
+    this.orderRef = data.orderRef ?? undefined;
   }
 }

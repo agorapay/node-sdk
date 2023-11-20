@@ -9,7 +9,7 @@ export default abstract class WebHook {
     /** TransactionId for this payment */
     transactionId: string;
     /** The orderReference sent by the Marketplace for this payment */
-    orderRef: string;
+    orderRef?: string;
     /**
      * @param code The expected eventCode for this webhook
      * @param data The data to be used to create the webhook
