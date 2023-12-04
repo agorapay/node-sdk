@@ -113,6 +113,11 @@ export default class ApiRest {
         this.log("API returned error: " + response.data.resultCodeMessage);
         throw new ApiRestError(response.data.resultCode, response.data.resultCodeMessage ?? "No resultCodeMessage");
       }
+
+      if (this.config.logResponse) {
+        this.log(response.data);
+      }
+
       return response.data;
     } catch (error: any) {
       this.log("Request failed:");

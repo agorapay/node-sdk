@@ -239,6 +239,8 @@ interface CaptureOptions {
 interface CaptureResponse {
   /** */
   orderStatus: OrderStatus;
+  /** Id of the payment transaction. */
+  transactionId: string;
   /** List of the order transactions. */
   transactionList: Array<Transaction>;
   /** Order id obtained in order creation and to provide in each next request. */

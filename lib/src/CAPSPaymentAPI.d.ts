@@ -36,8 +36,9 @@ export default class CAPSPaymentAPI {
      * @param baseUrl - CAPS Payment URL
      * @param timeout - HTTP requests timeout. Default is `0` (no timeout).
      * @param debug boolean - Enable debug mode. Default is `false`.
+     * @param logResponses
      */
-    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number, debug?: boolean);
+    constructor(tokenUser: string, tokenPassword: string, tokenUrl: string, baseUrl: string, timeout?: number, debug?: boolean, logResponses?: boolean);
     operationApi(): OperationApi;
     payoutApi(): PayoutApi;
     transferApi(): TransferApi;

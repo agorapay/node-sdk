@@ -191,6 +191,7 @@ export default class PayinApi extends ApiRest {
 
     return {
       orderStatus: status,
+      transactionId: result.transactionId,
       transactionList: (result.transactionList ?? []).map((x: any) => new Transaction(x)),
       orderId: result.orderId
     };
