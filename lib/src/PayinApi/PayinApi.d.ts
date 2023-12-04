@@ -4,7 +4,7 @@ import OrderDetails from "../models/OrderDetails";
 import Payment from "../models/Payment";
 import SignedMandateFile from "../models/SignedMandateFile";
 import Ticket from "../models/Ticket";
-import { AdjustPaymentOptions, CancelOptions, CancelResponse, CaptureOptions, CaptureResponse, GetAliasesOptions, GetAliasesResponse, PaymentDetailsOptions, PaymentIFrameOptions, PaymentIFrameResponse, PaymentMethodOptions, PaymentMethodResponse, PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, RefundOptions, RefundResponse, RemoveAliasOptions } from "./PayinInterfaces";
+import { AdjustPaymentOptions, CancelOptions, CancelResponse, CaptureOptions, CaptureResponse, PaymentDetailsOptions, PaymentIFrameOptions, PaymentIFrameResponse, PaymentMethodOptions, PaymentMethodResponse, PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, RefundOptions, RefundResponse } from "./PayinInterfaces";
 export default class PayinApi extends ApiRest {
     /**
      * Submit a payment.
@@ -118,16 +118,6 @@ export default class PayinApi extends ApiRest {
      * ````
      */
     paymentMethods(options: PaymentMethodOptions): Promise<PaymentMethodResponse>;
-    /**
-     * Get list of aliases according to the payer reference, and eventually for a specific payment method
-     * @param {GetAliasesOptions} options
-     */
-    getPaymentMethodAliases(options: GetAliasesOptions): Promise<GetAliasesResponse>;
-    /**
-     * Remove payment method alias for a given alias id
-     * @param options
-     */
-    removePaymentAlias(options: RemoveAliasOptions): Promise<void>;
     /**
      * Capture a Transaction/Order.
      * @description Capture a payment transaction or all the capturable payment transactions of an order.

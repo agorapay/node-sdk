@@ -4,8 +4,9 @@ import Breakdown from "../models/Breakdown";
 import Cart from "../models/Cart";
 import Payer from "../models/Payer";
 import PaymentMethod from "../models/PaymentMethod";
-import { CbChallenge, OrderStatus, PaymentSequence, PaymentOptions, PageOption } from "../../utils/enums";
+import {CbChallenge, OrderStatus, PageOption, PaymentOptions, PaymentSequence} from "../../utils/enums";
 import Transaction from "../models/Transaction";
+import {PaymentMethodSimple} from "../models/PaymentMethodSimple";
 
 /**
  * @prop {string} transPaymentMethod
@@ -208,35 +209,6 @@ interface PaymentMethodOptions {
 interface PaymentMethodResponse {
   paymentMethodList?: Array<PaymentMethod>;
   orderId?: string;
-}
-
-/**
- * @prop {Payer} payer
- * @prop {PaymentMethod} transPaymentMethod
- */
-interface GetAliasesOptions {
-  payer: Payer;
-  transPaymentMethod: Pick<PaymentMethod, "id">;
-}
-
-/**
- * Available Payment Method Aliases corresponding to criteria
- * @prop {string} resultCode
- * @prop {Array<PaymentMethod>} paymentMethodList
- */
-interface GetAliasesResponse {
-  paymentMethodList: Array<PaymentMethod>;
-}
-
-/**
- * @prop {Payer} payer
- * @prop {Alias} alias
- * @prop {PaymentMethod} transPaymentMethod
- */
-interface RemoveAliasOptions {
-  payer: Payer;
-  alias: Alias;
-  transPaymentMethod: Pick<PaymentMethod, "id">;
 }
 
 /**
@@ -491,9 +463,6 @@ export {
   PaymentDetailsOptions,
   PaymentMethodOptions,
   PaymentMethodResponse,
-  GetAliasesOptions,
-  GetAliasesResponse,
-  RemoveAliasOptions,
   CaptureOptions,
   CaptureResponse,
   CancelOptions,

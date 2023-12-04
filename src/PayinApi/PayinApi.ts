@@ -12,8 +12,6 @@ import {
   CancelResponse,
   CaptureOptions,
   CaptureResponse,
-  GetAliasesOptions,
-  GetAliasesResponse,
   PaymentDetailsOptions,
   PaymentIFrameOptions,
   PaymentIFrameResponse,
@@ -22,8 +20,7 @@ import {
   PaymentOptionsWithOrderId,
   PaymentOptionsWithoutOrderId,
   RefundOptions,
-  RefundResponse,
-  RemoveAliasOptions
+  RefundResponse
 } from "./PayinInterfaces";
 import Utils from "../../utils/Utils";
 
@@ -156,25 +153,6 @@ export default class PayinApi extends ApiRest {
       paymentMethodList: result.paymentMethodList?.map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)) ?? undefined,
       orderId: result.orderId
     };
-  }
-
-  /**
-   * Get list of aliases according to the payer reference, and eventually for a specific payment method
-   * @param {GetAliasesOptions} options
-   */
-  public async getPaymentMethodAliases(options: GetAliasesOptions): Promise<GetAliasesResponse> {
-    const result = await this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods/getAlias", options);
-    return {
-      paymentMethodList: (result.paymentMethodList ?? []).map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)),
-    };
-  }
-
-  /**
-   * Remove payment method alias for a given alias id
-   * @param options
-   */
-  public async removePaymentAlias(options: RemoveAliasOptions): Promise<void> {
-    await this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods/removeAlias", options);
   }
 
   /**
