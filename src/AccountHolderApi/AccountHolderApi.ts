@@ -1,8 +1,8 @@
 import ApiRest from "../../utils/ApiRest";
 import PhysicalPerson from "../models/PhysicalPerson";
 import Requirement from "../models/Requirement";
-import { RegisterAccountHolderOptions, UpdateAccountHolderOptions } from "./AccountHolderInterfaces";
-import { YesOrNo } from "../../utils/enums";
+import {RegisterAccountHolderOptions, UpdateAccountHolderOptions} from "./AccountHolderInterfaces";
+import {YesOrNo} from "../../utils/enums";
 import AccountHolder from "../models/AccountHolder";
 
 export default class AccountHolderApi extends ApiRest {
@@ -43,23 +43,21 @@ export default class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  public register(options: RegisterAccountHolderOptions): Promise<AccountHolder> {
+  public async register(options: RegisterAccountHolderOptions): Promise<AccountHolder> {
     if (typeof options.regulatedSociety === "boolean") {
       options.regulatedSociety = options.regulatedSociety
         ? YesOrNo.Yes
         : YesOrNo.No;
     }
 
-    return this.sendToApiPost<AccountHolder>("/accountHolder/register", options)
-      .then(result => {
-        return new AccountHolder(
-          (result.requirements ?? []).map((x: any) => new Requirement(x)),
-          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
-          result.paymentMethodAlias,
-          result.accountNumber,
-          result.requestId
-        );
-      });
+    const result = await this.sendToApiPost<AccountHolder>("/accountHolder/register", options);
+    return new AccountHolder(
+      (result.requirements ?? []).map((x: any) => new Requirement(x)),
+      (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+      result.paymentMethodAlias,
+      result.accountNumber,
+      result.requestId
+    );
   }
 
   /**
@@ -100,23 +98,21 @@ export default class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  update(options: UpdateAccountHolderOptions): Promise<AccountHolder> {
+  public async update(options: UpdateAccountHolderOptions): Promise<AccountHolder> {
     if (typeof options.regulatedSociety === "boolean") {
       options.regulatedSociety = options.regulatedSociety
         ? YesOrNo.Yes
         : YesOrNo.No;
     }
 
-    return this.sendToApiPost<AccountHolder>("/accountHolder/update", options)
-      .then(result => {
-        return new AccountHolder(
-          (result.requirements ?? []).map((x: any) => new Requirement(x)),
-          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
-          result.paymentMethodAlias,
-          result.accountNumber,
-          result.requestId
-        );
-      });
+    const result = await this.sendToApiPost<AccountHolder>("/accountHolder/update", options);
+    return new AccountHolder(
+      (result.requirements ?? []).map((x: any) => new Requirement(x)),
+      (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+      result.paymentMethodAlias,
+      result.accountNumber,
+      result.requestId
+    );
   }
 
   /**
@@ -133,7 +129,7 @@ export default class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  uploadDocument(requirement: Requirement, requestId: string): Promise<AccountHolder> {
+  public async uploadDocument(requirement: Requirement, requestId: string): Promise<AccountHolder> {
     const payload = {
       json: {
         requestId: requestId,
@@ -154,16 +150,14 @@ export default class AccountHolderApi extends ApiRest {
       ]
     };
 
-    return this.sendToApiPost<AccountHolder>("/accountHolder/uploadDocument", payload)
-      .then(result => {
-        return new AccountHolder(
-          (result.requirements ?? []).map((x: any) => new Requirement(x)),
-          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
-          result.paymentMethodAlias,
-          result.accountNumber,
-          result.requestId
-        );
-      });
+    const result = await this.sendToApiPost<AccountHolder>("/accountHolder/uploadDocument", payload)
+    return new AccountHolder(
+      (result.requirements ?? []).map((x: any) => new Requirement(x)),
+      (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+      result.paymentMethodAlias,
+      result.accountNumber,
+      result.requestId
+    );
   }
 
   /**
@@ -179,17 +173,15 @@ export default class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  registrationDetails(requestId: string): Promise<AccountHolder> {
-    return this.sendToApiPost<AccountHolder>("/accountHolder/registrationDetails", { requestId: requestId })
-      .then(result => {
-        return new AccountHolder(
-          (result.requirements ?? []).map((x: any) => new Requirement(x)),
-          (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
-          result.paymentMethodAlias,
-          result.accountNumber,
-          result.requestId
-        );
-      });
+  public async registrationDetails(requestId: string): Promise<AccountHolder> {
+    const result = await this.sendToApiPost<AccountHolder>("/accountHolder/registrationDetails", {requestId: requestId})
+    return new AccountHolder(
+      (result.requirements ?? []).map((x: any) => new Requirement(x)),
+      (result.physicalPersons ?? []).map((x: any) => new PhysicalPerson(x)),
+      result.paymentMethodAlias,
+      result.accountNumber,
+      result.requestId
+    );
   }
 
   /**
@@ -205,11 +197,10 @@ export default class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
-  unregister(requestId: string, accountNumber?: string): Promise<null> {
-    return this.sendToApiPost<void>("/accountHolder/unregister", {
+  public async unregister(requestId: string, accountNumber?: string): Promise<void> {
+    await this.sendToApiPost<void>("/accountHolder/unregister", {
       requestId: requestId,
       accountNumber: accountNumber
-    })
-      .then(() => null);
+    });
   }
 }

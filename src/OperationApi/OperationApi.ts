@@ -1,6 +1,6 @@
 import Operation from "../models/Operation";
 import ApiRest from "../../utils/ApiRest";
-import { ListOperationOptions, ListOperationResponse } from "./OperationInterfaces";
+import {ListOperationOptions, ListOperationResponse} from "./OperationInterfaces";
 import Utils from "../../utils/Utils";
 
 class OperationApi extends ApiRest {
@@ -23,24 +23,22 @@ class OperationApi extends ApiRest {
    * ````javascript
    OperationApi.list({
 
-    }).then(operationList => {
-        console.log(operationList)
-    })
+   }).then(operationList => {
+   console.log(operationList)
+   })
    * ````
    */
-  listOperation(options: ListOperationOptions): Promise<ListOperationResponse> {
+  public async listOperation(options: ListOperationOptions): Promise<ListOperationResponse> {
     options.pagination = Utils.hasIntegerOrDefault(options.pagination, 25);
     options.offset = Utils.hasIntegerOrDefault(options.offset, 0);
 
-    return this.sendToApiPost<ListOperationResponse>("/operations/list", options)
-      .then(result => {
-        return {
-          lineCount: +result.lineCount,
-          offset: options.offset,
-          pagination: options.pagination,
-          operationList: (result.operationList ?? []).map((x: any) => new Operation(x))
-        };
-      });
+    const result = await this.sendToApiPost<ListOperationResponse>("/operations/list", options);
+    return {
+      lineCount: +result.lineCount,
+      offset: options.offset,
+      pagination: options.pagination,
+      operationList: (result.operationList ?? []).map((x: any) => new Operation(x))
+    };
   }
 }
 

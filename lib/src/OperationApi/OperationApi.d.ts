@@ -20,9 +20,9 @@ declare class OperationApi extends ApiRest {
      * ````javascript
      OperationApi.list({
   
-      }).then(operationList => {
-          console.log(operationList)
-      })
+     }).then(operationList => {
+     console.log(operationList)
+     })
      * ````
      */
     listOperation(options: ListOperationOptions): Promise<ListOperationResponse>;

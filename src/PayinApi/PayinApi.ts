@@ -1,5 +1,5 @@
 import ApiRest from "../../utils/ApiRest";
-import { OrderStatus, TicketFormat, TicketType } from "../../utils/enums";
+import {OrderStatus, TicketFormat, TicketType} from "../../utils/enums";
 import OrderDetails from "../models/OrderDetails";
 import Payment from "../models/Payment";
 import PaymentMethod from "../models/PaymentMethod";
@@ -12,6 +12,8 @@ import {
   CancelResponse,
   CaptureOptions,
   CaptureResponse,
+  GetAliasesOptions,
+  GetAliasesResponse,
   PaymentDetailsOptions,
   PaymentIFrameOptions,
   PaymentIFrameResponse,
@@ -20,14 +22,16 @@ import {
   PaymentOptionsWithOrderId,
   PaymentOptionsWithoutOrderId,
   RefundOptions,
-  RefundResponse
+  RefundResponse,
+  RemoveAliasOptions
 } from "./PayinInterfaces";
 import Utils from "../../utils/Utils";
 
 export default class PayinApi extends ApiRest {
   /**
    * Submit a payment.
-   * @description When your shopper choose a payment method, this call submit the choice and any data if already given. The return can be final, (transaction completed) or ask to authentification details, or redirect the shopper to PSP or 3DS pages.
+   * @description When your shopper choose a payment method, this call submit the choice and any data if already given. The return can be final, (transaction completed) or ask to authentification
+   * details, or redirect the shopper to PSP or 3DS pages.
    * @param {PaymentOptionsWithOrderId | PaymentOptionsWithoutOrderId} options Payment options.
    * @prop {PaymentMethod | undefined} transPaymentMethod
    * @prop {number} orderId
@@ -88,14 +92,13 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  payment(options: PaymentOptionsWithOrderId | PaymentOptionsWithoutOrderId): Promise<Payment> {
+  public async payment(options: PaymentOptionsWithOrderId | PaymentOptionsWithoutOrderId): Promise<Payment> {
     const args = Object.assign({});
     if (options.transPaymentMethod) {
-      args.transPaymentMethod = { id: options.transPaymentMethod };
+      args.transPaymentMethod = {id: options.transPaymentMethod};
     }
 
-    return this.sendToApiPost<Payment>("/payin/payment", Object.assign(options, args))
-      .then(result => new Payment(result));
+    return new Payment(await this.sendToApiPost<Payment>("/payin/payment", Object.assign(options, args)));
   }
 
   /**
@@ -118,14 +121,14 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  paymentDetails(options: PaymentDetailsOptions): Promise<Payment> {
-    return this.sendToApiPost<Payment>("/payin/paymentDetails", options)
-      .then(result => new Payment(result));
+  public async paymentDetails(options: PaymentDetailsOptions): Promise<Payment> {
+    return new Payment(await this.sendToApiPost<Payment>("/payin/paymentDetails", options));
   }
 
   /**
    * Submit an order/Get payment methods.
-   * @description When your shopper is ready to pay, submit an order and get a list of the available payment methods and alias. The list is based on the shopper country and the order amount and currency. This is the first call to use when going on a payment operation. The next call should be /payment.
+   * @description When your shopper is ready to pay, submit an order and get a list of the available payment methods and alias. The list is based on the shopper country and the order
+   * amount and currency. This is the first call to use when going on a payment operation. The next call should be /payment.
    * @param {PaymentMethodOptions} options.
    * @prop {string} orderReference
    * @prop {string} orderCountryCode
@@ -147,12 +150,31 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  paymentMethods(options: PaymentMethodOptions): Promise<PaymentMethodResponse> {
-    return this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods", options)
-      .then(result => ({
-        paymentMethodList: result.paymentMethodList?.map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)) ?? undefined,
-        orderId: result.orderId
-      }));
+  public async paymentMethods(options: PaymentMethodOptions): Promise<PaymentMethodResponse> {
+    const result = await this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods", options);
+    return {
+      paymentMethodList: result.paymentMethodList?.map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)) ?? undefined,
+      orderId: result.orderId
+    };
+  }
+
+  /**
+   * Get list of aliases according to the payer reference, and eventually for a specific payment method
+   * @param {GetAliasesOptions} options
+   */
+  public async getPaymentMethodAliases(options: GetAliasesOptions): Promise<GetAliasesResponse> {
+    const result = await this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods/getAlias", options);
+    return {
+      paymentMethodList: (result.paymentMethodList ?? []).map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)),
+    };
+  }
+
+  /**
+   * Remove payment method alias for a given alias id
+   * @param options
+   */
+  public async removePaymentAlias(options: RemoveAliasOptions): Promise<void> {
+    await this.sendToApiPost<PaymentMethodResponse>("/payin/paymentMethods/removeAlias", options);
   }
 
   /**
@@ -180,22 +202,20 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  capture(options: CaptureOptions): Promise<CaptureResponse> {
-    return this.sendToApiPost<CaptureResponse>("/payin/capture", options)
-      .then(result => {
-        const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
-        if (!result.orderId) {
-          throw new Error("Missing required field: orderId");
-        } else if (status === null) {
-          throw new Error("Missing required field or invalid data: orderStatus");
-        }
+  public async capture(options: CaptureOptions): Promise<CaptureResponse> {
+    const result = await this.sendToApiPost<CaptureResponse>("/payin/capture", options);
+    const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
+    if (!result.orderId) {
+      throw new Error("Missing required field: orderId");
+    } else if (status === null) {
+      throw new Error("Missing required field or invalid data: orderStatus");
+    }
 
-        return {
-          orderStatus: status,
-          transactionList: (result.transactionList ?? []).map((x: any) => new Transaction(x)),
-          orderId: result.orderId
-        };
-      });
+    return {
+      orderStatus: status,
+      transactionList: (result.transactionList ?? []).map((x: any) => new Transaction(x)),
+      orderId: result.orderId
+    };
   }
 
   /**
@@ -217,21 +237,19 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  cancel(options: CancelOptions): Promise<CancelResponse> {
-    return this.sendToApiPost<CancelResponse>("/payin/cancel", options)
-      .then(result => {
-        const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
-        if (!result.orderId) {
-          throw new Error("Missing required field: orderId");
-        } else if (status === null) {
-          throw new Error("Missing required field or invalid data: orderStatus");
-        }
+  public async cancel(options: CancelOptions): Promise<CancelResponse> {
+    const result = await this.sendToApiPost<CancelResponse>("/payin/cancel", options);
+    const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
+    if (!result.orderId) {
+      throw new Error("Missing required field: orderId");
+    } else if (status === null) {
+      throw new Error("Missing required field or invalid data: orderStatus");
+    }
 
-        return {
-          orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
-          transactionList: (result.transactionList ?? []).map((x: any) => new Transaction(x))
-        };
-      });
+    return {
+      orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
+      transactionList: (result.transactionList ?? []).map((x: any) => new Transaction(x))
+    };
   }
 
   /**
@@ -248,9 +266,8 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  orderDetails(orderId: number): Promise<OrderDetails> {
-    return this.sendToApiGet<OrderDetails>("/payin/orderDetails", { orderId: orderId })
-      .then(result => new OrderDetails(result));
+  public async orderDetails(orderId: number): Promise<OrderDetails> {
+    return new OrderDetails(await this.sendToApiGet<OrderDetails>("/payin/orderDetails", {orderId: orderId}));
   }
 
   /**
@@ -273,9 +290,8 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  adjustPayment(options: AdjustPaymentOptions): Promise<null> {
-    return this.sendToApiPost<void>("/payin/adjustPayment", options)
-      .then(() => null);
+  public async adjustPayment(options: AdjustPaymentOptions): Promise<void> {
+    await this.sendToApiPost<void>("/payin/adjustPayment", options);
   }
 
   /**
@@ -315,23 +331,21 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  paymentIframe(options: PaymentIFrameOptions): Promise<PaymentIFrameResponse> {
-    return this.sendToApiPost<PaymentIFrameResponse>("/payin/paymentIframe", options)
-      .then(result => {
-        if (!result.orderId === undefined) {
-          throw new Error("Missing required field: orderId");
-        } else if (!result.authenticationCode) {
-          throw new Error("Missing required field: authenticationCode");
-        }
+  public async paymentIframe(options: PaymentIFrameOptions): Promise<PaymentIFrameResponse> {
+    const result = await this.sendToApiPost<PaymentIFrameResponse>("/payin/paymentIframe", options);
+    if (!result.orderId === undefined) {
+      throw new Error("Missing required field: orderId");
+    } else if (!result.authenticationCode) {
+      throw new Error("Missing required field: authenticationCode");
+    }
 
-        return {
-          authenticationCode: result.authenticationCode,
-          orderId: result.orderId,
-          site: result.site,
-          url: result.url,
-          resultCode: result.resultCode
-        };
-      });
+    return {
+      authenticationCode: result.authenticationCode,
+      orderId: result.orderId,
+      site: result.site,
+      url: result.url,
+      resultCode: result.resultCode
+    };
   }
 
   /**
@@ -364,20 +378,18 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  refund(options: RefundOptions): Promise<RefundResponse> {
-    return this.sendToApiPost<RefundResponse>("/payin/refund", options)
-      .then(result => {
-        const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
-        if (status === null) {
-          throw new Error("Missing required field or invalid data: orderStatus");
-        }
+  public async refund(options: RefundOptions): Promise<RefundResponse> {
+    const result = await this.sendToApiPost<RefundResponse>("/payin/refund", options)
+    const status = Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, null);
+    if (status === null) {
+      throw new Error("Missing required field or invalid data: orderStatus");
+    }
 
-        return {
-          orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
-          transactionList: result.transactionList?.map((x: any) => new Transaction(x)) ?? undefined,
-          orderId: result.orderId ?? undefined
-        };
-      });
+    return {
+      orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
+      transactionList: result.transactionList?.map((x: any) => new Transaction(x)) ?? undefined,
+      orderId: result.orderId ?? undefined
+    };
   }
 
   /**
@@ -395,12 +407,11 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  mandate(transactionId?: string, reference?: string): Promise<SignedMandateFile> {
-    return this.sendToApiGet<SignedMandateFile>("/payin/mandate", {
+  public async mandate(transactionId?: string, reference?: string): Promise<SignedMandateFile> {
+    return new SignedMandateFile(await this.sendToApiGet<SignedMandateFile>("/payin/mandate", {
       transactionId: transactionId,
       reference: reference
-    })
-      .then(result => new SignedMandateFile(result));
+    }));
   }
 
   /**
@@ -420,13 +431,13 @@ export default class PayinApi extends ApiRest {
    *})
    * ````
    */
-  ticket(transactionId: string, type: TicketType, format: TicketFormat, message?: string): Promise<Ticket> {
-    return this.sendToApiGet<Ticket>("/payin/ticket", {
+  public async ticket(transactionId: string, type: TicketType, format: TicketFormat, message?: string): Promise<Ticket> {
+    const result = await this.sendToApiGet<Ticket>("/payin/ticket", {
       transactionId: transactionId,
       type: type,
       format: format,
       message: message
-    })
-      .then(result => new Ticket(result));
+    });
+    return new Ticket(result);
   }
 }

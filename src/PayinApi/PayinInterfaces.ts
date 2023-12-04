@@ -211,6 +211,35 @@ interface PaymentMethodResponse {
 }
 
 /**
+ * @prop {Payer} payer
+ * @prop {PaymentMethod} transPaymentMethod
+ */
+interface GetAliasesOptions {
+  payer: Payer;
+  transPaymentMethod: Pick<PaymentMethod, "id">;
+}
+
+/**
+ * Available Payment Method Aliases corresponding to criteria
+ * @prop {string} resultCode
+ * @prop {Array<PaymentMethod>} paymentMethodList
+ */
+interface GetAliasesResponse {
+  paymentMethodList: Array<PaymentMethod>;
+}
+
+/**
+ * @prop {Payer} payer
+ * @prop {Alias} alias
+ * @prop {PaymentMethod} transPaymentMethod
+ */
+interface RemoveAliasOptions {
+  payer: Payer;
+  alias: Alias;
+  transPaymentMethod: Pick<PaymentMethod, "id">;
+}
+
+/**
  * @prop {number} orderId
  * @prop {Amount} transactionAmount
  * @prop {object | undefined} metaData
@@ -403,7 +432,7 @@ interface PaymentIFrameResponse {
   /** Url to connect iframe to. */
   url?: string;
   /** */
-  resultCode: number;
+  resultCode: string;
 }
 
 /**
@@ -462,6 +491,9 @@ export {
   PaymentDetailsOptions,
   PaymentMethodOptions,
   PaymentMethodResponse,
+  GetAliasesOptions,
+  GetAliasesResponse,
+  RemoveAliasOptions,
   CaptureOptions,
   CaptureResponse,
   CancelOptions,

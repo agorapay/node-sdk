@@ -26,15 +26,15 @@ export default class MandateApi extends ApiRest {
      * @example
      * ````javascript
      payoutApi.createPayout({
-        endToEndId: "1",
-        accountNumber: "12345678",
-        paymentMethodAlias: "12334566",
-        payoutAmount: new Amount(10000, "EUR")
-      }).then(resp => {
-        console.log(resp)
-      }).catch(error => {
-        console.log(error)
-      })
+     endToEndId: "1",
+     accountNumber: "12345678",
+     paymentMethodAlias: "12334566",
+     payoutAmount: new Amount(10000, "EUR")
+     }).then(resp => {
+     console.log(resp)
+     }).catch(error => {
+     console.log(error)
+     })
      * ````
      */
     createPayout(options: CreateMandateOptions): Promise<string>;

@@ -1,4 +1,4 @@
-import { Amount } from "../..";
+import {Amount} from "../..";
 import ApiRest from "../../utils/ApiRest";
 import PaymentAccount from "../models/PaymentAccount";
 import {
@@ -10,7 +10,7 @@ import {
   PaymentAccountSetIBANOptions,
   PaymentAccountSetIBANResponse
 } from "./PaymentAccountInterfaces";
-import { ReportFormat, ReportType } from "../../utils/enums";
+import {ReportFormat, ReportType} from "../../utils/enums";
 
 export default class PaymentAccountApi extends ApiRest {
   /**
@@ -27,9 +27,9 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  details(accountNumber: string): Promise<PaymentAccount> {
-    return this.sendToApiGet<PaymentAccount>("/paymentAccount", { accountNumber: accountNumber })
-      .then(result => new PaymentAccount({ account: result }));
+  public async details(accountNumber: string): Promise<PaymentAccount> {
+    const result = await this.sendToApiGet<PaymentAccount>("/paymentAccount", {accountNumber: accountNumber});
+    return new PaymentAccount({account: result});
   }
 
   /**
@@ -54,16 +54,14 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  list(options: PaymentAccountListOptions): Promise<PaymentAccountListResponse> {
-    return this.sendToApiPost<PaymentAccountListResponse & { accountList: PaymentAccount[] | null }>("/paymentAccount/list", options)
-      .then(result => {
-        return {
-          pagination: options.pagination,
-          offset: options.offset,
-          lineCount: +result.lineCount,
-          paymentAccountList: (result.accountList ?? []).map((x: any) => new PaymentAccount(x))
-        };
-      });
+  public async list(options: PaymentAccountListOptions): Promise<PaymentAccountListResponse> {
+    const result = await this.sendToApiPost<PaymentAccountListResponse & { accountList: PaymentAccount[] | null }>("/paymentAccount/list", options);
+    return {
+      pagination: options.pagination,
+      offset: options.offset,
+      lineCount: +result.lineCount,
+      paymentAccountList: (result.accountList ?? []).map((x: any) => new PaymentAccount(x))
+    };
   }
 
   /**
@@ -88,14 +86,12 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  credit(options: PaymentAccountCreditOptions): Promise<PaymentAccountCreditResponse> {
-    return this.sendToApiPost<PaymentAccountCreditResponse>("/paymentAccount/credit", options)
-      .then(result => {
-        return {
-          virtualIban: result.virtualIban,
-          transactionId: result.transactionId
-        };
-      });
+  public async credit(options: PaymentAccountCreditOptions): Promise<PaymentAccountCreditResponse> {
+    const result = await this.sendToApiPost<PaymentAccountCreditResponse>("/paymentAccount/credit", options);
+    return {
+      virtualIban: result.virtualIban,
+      transactionId: result.transactionId
+    };
   }
 
   /**
@@ -123,9 +119,8 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  payoutAuto(options: PaymentAccountPayoutAutoOptions): Promise<null> {
-    return this.sendToApiPost<void>("/paymentAccount/payoutAuto", options)
-      .then(() => null);
+  public async payoutAuto(options: PaymentAccountPayoutAutoOptions): Promise<void> {
+    await this.sendToApiPost<void>("/paymentAccount/payoutAuto", options);
   }
 
   /**
@@ -168,7 +163,7 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  setIBAN(options: PaymentAccountSetIBANOptions): Promise<PaymentAccountSetIBANResponse> {
+  public async setIBAN(options: PaymentAccountSetIBANOptions): Promise<PaymentAccountSetIBANResponse> {
     const json: Partial<PaymentAccountSetIBANOptions> = Object.assign({}, options);
     const fileContent = options.fileContent;
     delete json.fileContent;
@@ -181,13 +176,11 @@ export default class PaymentAccountApi extends ApiRest {
       }]
     };
 
-    return this.sendToApiPost<PaymentAccountSetIBANResponse>("/paymentAccount/setIBAN", payload, true)
-      .then(result => {
-        return {
-          requestId: result.requestId,
-          paymentMethodAlias: result.paymentMethodAlias
-        };
-      });
+    const result = await this.sendToApiPost<PaymentAccountSetIBANResponse>("/paymentAccount/setIBAN", payload, true);
+    return {
+      requestId: result.requestId,
+      paymentMethodAlias: result.paymentMethodAlias
+    };
   }
 
   /**
@@ -204,12 +197,11 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  disableIBAN(requestId?: string, accountNumber?: string): Promise<null> {
-    return this.sendToApiPost<void>("/paymentAccount/disableIBAN", {
+  public async disableIBAN(requestId?: string, accountNumber?: string): Promise<void> {
+    await this.sendToApiPost<void>("/paymentAccount/disableIBAN", {
       requestId: requestId,
       accountNumber: accountNumber
-    })
-      .then(() => null);
+    });
   }
 
   /**
@@ -224,12 +216,11 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  setFloorLimit(accountNumber: string, amount: Amount): Promise<null> {
-    return this.sendToApiPost<void>("/paymentAccount/setFloorLimit", {
+  public async setFloorLimit(accountNumber: string, amount: Amount): Promise<void> {
+    await this.sendToApiPost<void>("/paymentAccount/setFloorLimit", {
       accountNumber: accountNumber,
       amount: amount
-    })
-      .then(() => null);
+    });
   }
 
   /**
@@ -247,14 +238,13 @@ export default class PaymentAccountApi extends ApiRest {
    *})
    * ````
    */
-  report(accountNumber: string, type: ReportType, format: ReportFormat, year: string, month: string): Promise<null> {
-    return this.sendToApiGet<void>("/paymentAccount/report", {
+  public async report(accountNumber: string, type: ReportType, format: ReportFormat, year: string, month: string): Promise<void> {
+    await this.sendToApiGet<void>("/paymentAccount/report", {
       accountNumber: accountNumber,
       type: type,
       format: format,
       year: year,
       month: month
-    })
-      .then(() => null);
+    });
   }
 }

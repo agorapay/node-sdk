@@ -1,5 +1,5 @@
 import ApiRest from "../../utils/ApiRest";
-import { CreateTransferOptions } from "./TransferApiInterfaces";
+import {CreateTransferOptions} from "./TransferApiInterfaces";
 
 export default class TransferApi extends ApiRest {
   /**
@@ -16,19 +16,19 @@ export default class TransferApi extends ApiRest {
    * @example
    * ````javascript
    payoutApi.createPayout({
-      endToEndId: "1",
-      accountNumber: "12345678",
-      paymentMethodAlias: "12334566",
-      payoutAmount: new Amount(10000, "EUR")
-    }).then(resp => {
-      console.log(resp)
-    }).catch(error => {
-      console.log(error)
-    })
+   endToEndId: "1",
+   accountNumber: "12345678",
+   paymentMethodAlias: "12334566",
+   payoutAmount: new Amount(10000, "EUR")
+   }).then(resp => {
+   console.log(resp)
+   }).catch(error => {
+   console.log(error)
+   })
    * ````
    */
-  createTransfer(options: CreateTransferOptions): Promise<string> {
-    return this.sendToApiPost<{ transactionId: string, resultCode: string, resultCodeMessage: string }>("/transfer/create", options)
-      .then(result => result.transactionId);
+  public async createTransfer(options: CreateTransferOptions): Promise<string> {
+    const result = await this.sendToApiPost<{ transactionId: string, resultCode: string, resultCodeMessage: string }>("/transfer/create", options);
+    return result.transactionId;
   }
 }

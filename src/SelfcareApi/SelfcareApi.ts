@@ -1,5 +1,5 @@
 import ApiRest from "../../utils/ApiRest";
-import { InitSelfcareOptions, InitSelfcareResponse } from "./SelfcareApiInterfaces";
+import {InitSelfcareOptions, InitSelfcareResponse} from "./SelfcareApiInterfaces";
 
 export default class SelfcareApi extends ApiRest {
 
@@ -18,24 +18,22 @@ export default class SelfcareApi extends ApiRest {
    * @example
    * ````javascript
    payoutApi.createPayout({
-      endToEndId: "1",
-      accountNumber: "12345678",
-      paymentMethodAlias: "12334566",
-      payoutAmount: new Amount(10000, "EUR")
-    }).then(resp => {
-      console.log(resp)
-    }).catch(error => {
-      console.log(error)
-    })
+   endToEndId: "1",
+   accountNumber: "12345678",
+   paymentMethodAlias: "12334566",
+   payoutAmount: new Amount(10000, "EUR")
+   }).then(resp => {
+   console.log(resp)
+   }).catch(error => {
+   console.log(error)
+   })
    * ````
    */
   public async init(options: InitSelfcareOptions): Promise<InitSelfcareResponse> {
-    return this.sendToApiPost<InitSelfcareResponse>("/selfcare/init", options)
-      .then(result => {
-        return {
-          requestId: result.requestId,
-          statusLabel: result.statusLabel
-        };
-      });
+    const result = await this.sendToApiPost<InitSelfcareResponse>("/selfcare/init", options);
+    return {
+      requestId: result.requestId,
+      statusLabel: result.statusLabel
+    };
   }
 }

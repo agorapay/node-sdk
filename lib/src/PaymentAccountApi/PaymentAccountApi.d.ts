@@ -90,7 +90,7 @@ export default class PaymentAccountApi extends ApiRest {
      *})
      * ````
      */
-    payoutAuto(options: PaymentAccountPayoutAutoOptions): Promise<null>;
+    payoutAuto(options: PaymentAccountPayoutAutoOptions): Promise<void>;
     /**
      * Start change IBAN process.
      * @param {PaymentAccountSetIBANOptions} options
@@ -146,7 +146,7 @@ export default class PaymentAccountApi extends ApiRest {
      *})
      * ````
      */
-    disableIBAN(requestId?: string, accountNumber?: string): Promise<null>;
+    disableIBAN(requestId?: string, accountNumber?: string): Promise<void>;
     /**
      * @param {string} accountNumber
      * @param {Amount} amount
@@ -159,7 +159,7 @@ export default class PaymentAccountApi extends ApiRest {
      *})
      * ````
      */
-    setFloorLimit(accountNumber: string, amount: Amount): Promise<null>;
+    setFloorLimit(accountNumber: string, amount: Amount): Promise<void>;
     /**
      * @param {string | undefined} accountNumber
      * @param {ReportType} type
@@ -175,5 +175,5 @@ export default class PaymentAccountApi extends ApiRest {
      *})
      * ````
      */
-    report(accountNumber: string, type: ReportType, format: ReportFormat, year: string, month: string): Promise<null>;
+    report(accountNumber: string, type: ReportType, format: ReportFormat, year: string, month: string): Promise<void>;
 }

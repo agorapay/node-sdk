@@ -28,8 +28,8 @@ export default class PayoutApi extends ApiRest {
     })
    * ````
    */
-  createPayout(options: CreatePayoutOptions): Promise<number> {
-    return this.sendToApiPost<{ transactionId: number }>("/payout/create", options)
-      .then(result => result.transactionId);
+  public async createPayout(options: CreatePayoutOptions): Promise<number> {
+    const result = await this.sendToApiPost<{ transactionId: number }>("/payout/create", options);
+    return result.transactionId;
   }
 }

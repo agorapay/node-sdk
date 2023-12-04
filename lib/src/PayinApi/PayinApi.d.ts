@@ -4,11 +4,12 @@ import OrderDetails from "../models/OrderDetails";
 import Payment from "../models/Payment";
 import SignedMandateFile from "../models/SignedMandateFile";
 import Ticket from "../models/Ticket";
-import { AdjustPaymentOptions, CancelOptions, CancelResponse, CaptureOptions, CaptureResponse, PaymentDetailsOptions, PaymentIFrameOptions, PaymentIFrameResponse, PaymentMethodOptions, PaymentMethodResponse, PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, RefundOptions, RefundResponse } from "./PayinInterfaces";
+import { AdjustPaymentOptions, CancelOptions, CancelResponse, CaptureOptions, CaptureResponse, GetAliasesOptions, GetAliasesResponse, PaymentDetailsOptions, PaymentIFrameOptions, PaymentIFrameResponse, PaymentMethodOptions, PaymentMethodResponse, PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, RefundOptions, RefundResponse, RemoveAliasOptions } from "./PayinInterfaces";
 export default class PayinApi extends ApiRest {
     /**
      * Submit a payment.
-     * @description When your shopper choose a payment method, this call submit the choice and any data if already given. The return can be final, (transaction completed) or ask to authentification details, or redirect the shopper to PSP or 3DS pages.
+     * @description When your shopper choose a payment method, this call submit the choice and any data if already given. The return can be final, (transaction completed) or ask to authentification
+     * details, or redirect the shopper to PSP or 3DS pages.
      * @param {PaymentOptionsWithOrderId | PaymentOptionsWithoutOrderId} options Payment options.
      * @prop {PaymentMethod | undefined} transPaymentMethod
      * @prop {number} orderId
@@ -93,7 +94,8 @@ export default class PayinApi extends ApiRest {
     paymentDetails(options: PaymentDetailsOptions): Promise<Payment>;
     /**
      * Submit an order/Get payment methods.
-     * @description When your shopper is ready to pay, submit an order and get a list of the available payment methods and alias. The list is based on the shopper country and the order amount and currency. This is the first call to use when going on a payment operation. The next call should be /payment.
+     * @description When your shopper is ready to pay, submit an order and get a list of the available payment methods and alias. The list is based on the shopper country and the order
+     * amount and currency. This is the first call to use when going on a payment operation. The next call should be /payment.
      * @param {PaymentMethodOptions} options.
      * @prop {string} orderReference
      * @prop {string} orderCountryCode
@@ -116,6 +118,16 @@ export default class PayinApi extends ApiRest {
      * ````
      */
     paymentMethods(options: PaymentMethodOptions): Promise<PaymentMethodResponse>;
+    /**
+     * Get list of aliases according to the payer reference, and eventually for a specific payment method
+     * @param {GetAliasesOptions} options
+     */
+    getPaymentMethodAliases(options: GetAliasesOptions): Promise<GetAliasesResponse>;
+    /**
+     * Remove payment method alias for a given alias id
+     * @param options
+     */
+    removePaymentAlias(options: RemoveAliasOptions): Promise<void>;
     /**
      * Capture a Transaction/Order.
      * @description Capture a payment transaction or all the capturable payment transactions of an order.
@@ -197,7 +209,7 @@ export default class PayinApi extends ApiRest {
      *})
      * ````
      */
-    adjustPayment(options: AdjustPaymentOptions): Promise<null>;
+    adjustPayment(options: AdjustPaymentOptions): Promise<void>;
     /**
      * Submit an Order for payment with iFrame.
      * @description When your shopper is ready to pay, submit your order/payment by this request and get an Authent Code. Then save the orderId and open an iframe for the shopper with the authentCode.

@@ -1,5 +1,5 @@
 import ApiRest from "../../utils/ApiRest";
-import { CreateMandateOptions } from "./MandateApiInterfaces";
+import {CreateMandateOptions} from "./MandateApiInterfaces";
 
 export default class MandateApi extends ApiRest {
 
@@ -28,19 +28,19 @@ export default class MandateApi extends ApiRest {
    * @example
    * ````javascript
    payoutApi.createPayout({
-      endToEndId: "1",
-      accountNumber: "12345678",
-      paymentMethodAlias: "12334566",
-      payoutAmount: new Amount(10000, "EUR")
-    }).then(resp => {
-      console.log(resp)
-    }).catch(error => {
-      console.log(error)
-    })
+   endToEndId: "1",
+   accountNumber: "12345678",
+   paymentMethodAlias: "12334566",
+   payoutAmount: new Amount(10000, "EUR")
+   }).then(resp => {
+   console.log(resp)
+   }).catch(error => {
+   console.log(error)
+   })
    * ````
    */
-  async createPayout(options: CreateMandateOptions): Promise<string> {
-    const payload = {
+  public async createPayout(options: CreateMandateOptions): Promise<string> {
+    const result = await this.sendToApiPost<{ reference: string }>("/mandate/create", {
       transPaymentMethod: options.transPaymentMethod,
       payer: options.payer,
       details: {
@@ -61,9 +61,8 @@ export default class MandateApi extends ApiRest {
         address2: options.address2
       },
       urlRedirect: options.urlRedirect
-    };
+    });
 
-    return this.sendToApiPost<{ reference: string }>("/mandate/create", payload)
-      .then(result => result.reference);
+    return result.reference;
   }
 }

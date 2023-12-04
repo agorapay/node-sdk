@@ -122,5 +122,5 @@ export default class AccountHolderApi extends ApiRest {
      *})
      * ````
      */
-    unregister(requestId: string, accountNumber?: string): Promise<null>;
+    unregister(requestId: string, accountNumber?: string): Promise<void>;
 }
