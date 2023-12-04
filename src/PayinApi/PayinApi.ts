@@ -366,6 +366,7 @@ export default class PayinApi extends ApiRest {
 
     return {
       orderStatus: Utils.hasEnumOrDefault(result.orderStatus, OrderStatus, undefined),
+      transactionId: result.transactionId ?? undefined,
       transactionList: result.transactionList?.map((x: any) => new Transaction(x)) ?? undefined,
       orderId: result.orderId ?? undefined
     };

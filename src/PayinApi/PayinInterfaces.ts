@@ -453,6 +453,7 @@ interface RefundResponse {
    * * `canceled`: The order is canceled
    */
   orderStatus?: OrderStatus;
+  transactionId?: string;
   /**  */
   transactionList?: Array<Transaction>;
   /** Order id obtained in order creation and to provide in each next request. */
