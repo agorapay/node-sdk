@@ -60,7 +60,7 @@ export default class CAPSPaymentAPI {
     return new PayinApi(this.config);
   }
 
-  public paymentMethod(): PaymentMethodApi {
+  public paymentMethodApi(): PaymentMethodApi {
     return new PaymentMethodApi(this.config);
   }
 

@@ -42,7 +42,7 @@ export default class CAPSPaymentAPI {
     payoutApi(): PayoutApi;
     transferApi(): TransferApi;
     payinApi(): PayinApi;
-    paymentMethod(): PaymentMethodApi;
+    paymentMethodApi(): PaymentMethodApi;
     paymentAccountApi(): PaymentAccountApi;
     accountHolderApi(): AccountHolderApi;
     selfcareApi(): SelfcareApi;
