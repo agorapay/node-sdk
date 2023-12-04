@@ -12,14 +12,15 @@ import Alias from "../models/Alias";
 interface ListPaymentMethodsOptions {
   countryCode: string;
   amount: Amount;
-  payer: Payer;
+  payer?: Payer;
 }
 
 /**
  * @prop {Array<PaymentMethod>} paymentMethodList
  */
 interface ListPaymentMethodsResponse {
-  paymentMethodList: Array<PaymentMethod>;
+  paymentMethodList?: Array<PaymentMethod>;
+  resultCodeMessage?: string;
 }
 
 /**
@@ -28,7 +29,7 @@ interface ListPaymentMethodsResponse {
  */
 interface GetAliasesOptions {
   payer: Payer;
-  transPaymentMethod: PaymentMethodSimple;
+  transPaymentMethod?: PaymentMethodSimple;
 }
 
 /**
@@ -37,7 +38,7 @@ interface GetAliasesOptions {
  * @prop {Array<PaymentMethod>} paymentMethodList
  */
 interface GetAliasesResponse {
-  paymentMethodList: Array<PaymentMethod>;
+  paymentMethodList?: Array<PaymentMethod>;
 }
 
 /**
