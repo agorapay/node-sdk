@@ -9,7 +9,7 @@ export default class PaymentMethodApi extends ApiRest {
    * @param {ListPaymentMethodsOptions} options
    */
   public async listPaymentMethods(options: ListPaymentMethodsOptions): Promise<ListPaymentMethodsResponse> {
-    const result = await this.sendToApiPost<PaymentMethodResponse>("/paymentMethods/list", options);
+    const result = await this.sendToApiPost<PaymentMethodResponse>("/paymentMethod/list", options);
     return {
       paymentMethodList: (result.paymentMethodList ?? []).map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)) ?? undefined,
     };
@@ -20,7 +20,7 @@ export default class PaymentMethodApi extends ApiRest {
    * @param {GetAliasesOptions} options
    */
   public async getPaymentMethodAliases(options: GetAliasesOptions): Promise<GetAliasesResponse> {
-    const result = await this.sendToApiPost<PaymentMethodResponse>("/paymentMethods/getAlias", options);
+    const result = await this.sendToApiPost<PaymentMethodResponse>("/paymentMethod/getAlias", options);
     return {
       paymentMethodList: (result.paymentMethodList ?? []).map(method => new PaymentMethod(method.id, method.aliasList, method.label, method.type)),
     };
@@ -31,6 +31,6 @@ export default class PaymentMethodApi extends ApiRest {
    * @param options
    */
   public async removePaymentAlias(options: RemoveAliasOptions): Promise<void> {
-    await this.sendToApiPost<PaymentMethodResponse>("/paymentMethods/removeAlias", options);
+    await this.sendToApiPost<PaymentMethodResponse>("/paymentMethod/removeAlias", options);
   }
 }
