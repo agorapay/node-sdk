@@ -172,7 +172,12 @@ declare enum OperationType {
     Manual = "Manual",
     Transfer = "Transfer",
     Purchase = "Purchase",
-    Reload = "Reload"
+    Reload = "Reload",
+    Authorization = "Authorization",
+    PreAutho = "Pre-autho",
+    Unpaid = "Unpaid",
+    Reject = "Reject",
+    Fee = "Fee"
 }
 declare enum RequirementStatus {
     Missing = "MISSING",
@@ -184,6 +189,13 @@ declare enum RequirementStatus {
 declare enum PaymentOptions {
     CardOnFile = "cardOnFile",
     WithoutCardOnFile = "withoutCardOnFile"
+}
+declare enum OTP {
+    One = "1",
+    Y = "Y"
+}
+declare enum InstantPayment {
+    Expected = "EXPECTED"
 }
 /**
 INDIVIDUAL_INDIFICATION
@@ -300,4 +312,4 @@ declare enum PageOption {
     full = "full",
     page = "page"
 }
-export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, ReportType, ReportFormat, PageOption, PaymentOptions };
+export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, ReportType, ReportFormat, PageOption, PaymentOptions, OTP, InstantPayment };

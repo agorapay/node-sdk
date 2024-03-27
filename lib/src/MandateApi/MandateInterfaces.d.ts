@@ -1,6 +1,6 @@
-import { PaymentSequence } from "../../utils/enums";
-import Payer from "../models/Payer";
-import PaymentMethod from "../models/PaymentMethod";
+import { PaymentSequence, OTP } from '../../utils/enums';
+import Payer from '../models/Payer';
+import PaymentMethod from '../models/PaymentMethod';
 /**
  * @prop {PaymentMethod}      transPaymentMethod: Payment method information
  * @prop {Payer}              payer: Payer's details
@@ -20,6 +20,7 @@ import PaymentMethod from "../models/PaymentMethod";
  * @prop {string | undefined} socialReason: Compagny name
  * @prop {string | undefined} address2: Additional address
  * @prop {string | undefined} urlRedirect: Url where the customer must be redirected at the end of the payment with the partner. This URL is completed by /success, /error or /cancel according to the partner response status. When the customer will be redirected to the marketPlace at the end of the partner payment process, the paymentDetails function must be called to terminate payment with the data transmitted by the partner. For development purpose, you can use http:\/\/127.0.0.1 (localhost is not supported)
+ * @prop {OTP | undefined} otp: Force signature by OTP
  */
 interface CreateMandateOptions {
     /** Payment method information */
@@ -58,5 +59,27 @@ interface CreateMandateOptions {
     address2?: string;
     /** Url where the customer must be redirected at the end of the payment with the partner. This URL is completed by /success, /error or /cancel according to the partner response status. When the customer will be redirected to the marketPlace at the end of the partner payment process, the paymentDetails function must be called to terminate payment with the data transmitted by the partner. For development purpose, you can use http://127.0.0.1 (localhost is not supported) */
     urlRedirect?: string;
+    /**Force signature by OTP */
+    otp?: OTP;
 }
-export { CreateMandateOptions };
+/**
+ * @prop {string | undefined} reference
+ * @prop {string | undefined} mndtId
+ */
+interface CreateMandateResponse {
+    /** Should be present if the Unique Mandate Reference (UMR) is set*/
+    reference?: string;
+    /** Mandate identifier, should be present if the Unique Mandate Reference (UMR) is not set yet (field reference is absent) */
+    mandateId?: string;
+}
+/**
+ * @prop {string} reference
+ * @prop {string} mandateId
+ */
+interface UpdateMandateOptions {
+    /** Unique Mandate Reference (UMR) value to be added on the mandate */
+    reference: string;
+    /** Identifier for the mandate to update */
+    mandateId: string;
+}
+export { CreateMandateOptions, CreateMandateResponse, UpdateMandateOptions };
