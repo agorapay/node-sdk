@@ -191,7 +191,12 @@ enum OperationType {
   Manual = 'Manual',
   Transfer = 'Transfer',
   Purchase = 'Purchase',
-  Reload = 'Reload'
+  Reload = 'Reload',
+  Authorization = 'Authorization',
+  PreAutho = 'Pre-autho',
+  Unpaid = 'Unpaid',
+  Reject = 'Reject',
+  Fee = 'Fee'
 }
 
 enum RequirementStatus {
@@ -205,6 +210,15 @@ enum RequirementStatus {
 enum PaymentOptions {
   CardOnFile = 'cardOnFile',
   WithoutCardOnFile = 'withoutCardOnFile'
+}
+
+enum OTP {
+  One = '1',
+  Y = 'Y'
+}
+
+enum InstantPayment {
+  Expected = 'EXPECTED'
 }
 
 /**
@@ -353,5 +367,7 @@ export {
   ReportType,
   ReportFormat,
   PageOption,
-  PaymentOptions
+  PaymentOptions,
+  OTP,
+  InstantPayment
 }
