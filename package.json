@@ -1,6 +1,6 @@
 {
   "name": "caps-payment",
-  "version": "1.8.0",
+  "version": "1.10.1",
   "description": "",
   "main": "./lib/index.js",
   "files": [
@@ -17,6 +17,7 @@
     "testPaymentAccount": "mocha -r ts-node/register tests/paymentAccount.test.ts --timeout 20000",
     "testAccountHolder": "mocha -r ts-node/register tests/accountHolder.test.ts --timeout 20000",
     "testMandate": "mocha -r ts-node/register tests/mandate.test.ts --timeout 20000",
+    "testPaymentMethod": "mocha -r ts-node/register tests/paymentMethod.test.ts --timeout 20000",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "author": "",
@@ -38,8 +39,8 @@
     "@typescript-eslint/parser": "^5.4.0",
     "chai": "^4.3.4",
     "eslint": "^8.3.0",
-    "mocha": "^9.1.3",
-    "prettier": "^2.5.0",
+    "mocha": "^9.2.2",
+    "prettier": "2.8.8",
     "request": "^2.88.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2",

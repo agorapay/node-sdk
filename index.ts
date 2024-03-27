@@ -15,7 +15,9 @@ import { PaymentOptionsWithOrderId,
          PaymentIFrameOptions,
          PaymentIFrameResponse,
          RefundOptions,
-         RefundResponse } from './src/PayinApi/PayinInterfaces'
+         RefundResponse,
+         ReloadOptions,
+         ReloadResponse } from './src/PayinApi/PayinInterfaces'
 
 import { PaymentAccountListOptions,
         PaymentAccountListResponse,
@@ -25,6 +27,17 @@ import { PaymentAccountListOptions,
          PaymentAccountSetIBANOptions,
          PaymentAccountSetIBANResponse
         } from './src/PaymentAccountApi/PaymentAccountInterfaces'
+
+import { CreateMandateOptions,
+         UpdateMandateOptions
+        } from './src/MandateApi/MandateInterfaces'
+
+import { RemoveAliasOptions,
+         GetAliasOptions,
+         PaymentMethodListOptions,
+         PaymentMethodListResponse,
+         GetIbanResponse
+        } from './src/PaymentMethodApi/PaymentMethodInterfaces'
 
 import { CreatePayoutOptions } from './src/PayoutApi/PayoutApiInterfaces'
 import { CreateTransferOptions } from './src/TransferApi/TransferApiInterfaces'
@@ -79,7 +92,9 @@ import {
   CbChallenge,
   ReportType,
   ReportFormat,
-  PageOption
+  PageOption,
+  OTP,
+  InstantPayment
 } from './utils/enums'
 
 
@@ -112,6 +127,13 @@ export {
   PaymentAccountSetIBANResponse,
   CreatePayoutOptions,
   CreateTransferOptions,
+  CreateMandateOptions,
+  UpdateMandateOptions,  
+  RemoveAliasOptions,
+  GetAliasOptions,
+  PaymentMethodListOptions,
+  PaymentMethodListResponse,
+  GetIbanResponse,
   Account,
   AccountHolder,
   Address,
@@ -160,5 +182,9 @@ export {
   CbChallenge,
   ReportType,
   ReportFormat,
-  PageOption
+  PageOption,
+  OTP,
+  InstantPayment,
+  ReloadOptions,
+  ReloadResponse
  }

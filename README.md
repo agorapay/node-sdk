@@ -25,27 +25,28 @@ operationApi.listOperation({
 ```
 List SDK functions to use for API Payin
 -------------------------------------------------
-| Payin Endpoint      | SDK Functions | Method |
-| ----------- | ----------- | -----------
-| /payin/payment      | Payin.payment(options: PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId)       | POST
-| /payin/paymentDetails   | Payin.paymentDetails(options: PaymentDetailsOptions)        | POST
-| /payin/paymentMethods   | Payin.paymentMethods(options: PaymentMethodOptions)        | POST
-| /payin/capture   | Payin.capture(options: CaptureOptions)        | POST
-| /payin/cancel   | Payin.cancel(options: CancelOptions)        | POST
-| /payin/orderDetails   | Payin.orderDetails(orderId: number)        | GET
-| /payin/adjustPayment   | Payin.adjustPayment(options: AdjustPaymentOptions)        | POST
-| /payin/paymentIframe   | Payin.paymentIframe(options: PaymentIFrameOptions)        | POST
-| /payin/refund   | Payin.refund(options: RefundOptions)        | POST
-| /payin/mandate   | Payin.mandate(transactionId?: string, reference?: string)        | POST
-| /payin/ticket   | Payin.ticket(transactionId: string, type: TicketType, format: TicketFormat, message?: string)        | POST
+| Payin Endpoint          | SDK Functions                                                                   | Method |
+| ----------------------- | ------------------------------------------------------------------------------- | -----------
+| /payin/payment          | Payin.payment(options: PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId) | POST
+| /payin/paymentDetails   | Payin.paymentDetails(options: PaymentDetailsOptions)                            | POST
+| /payin/paymentMethods   | Payin.paymentMethods(options: PaymentMethodOptions)                             | POST
+| /payin/capture          | Payin.capture(options: CaptureOptions)                                          | POST
+| /payin/cancel           | Payin.cancel(options: CancelOptions)                                            | POST
+| /payin/orderDetails     | Payin.orderDetails(orderId: number)                                             | GET
+| /payin/adjustPayment    | Payin.adjustPayment(options: AdjustPaymentOptions)                              | POST
+| /payin/paymentIframe    | Payin.paymentIframe(options: PaymentIFrameOptions)                              | POST
+| /payin/refund           | Payin.refund(options: RefundOptions)                                            | POST
+| /payin/mandate          | Payin.mandate(transactionId?: string, reference?: string)                       | POST
+| /payin/ticket           | Payin.ticket(transactionId: string, type: TicketType, format: TicketFormat, message?: string)        | POST
+| /payin/reload           | Payin.reload(options: ReloadOptions)                                            | POST
 
 
 List SDK functions to use for API Operation
 -------------------------------------------------
 
-| Operation Endpoint      | SDK Functions | Method
-| ----------- | ----------- | ----------- |
-| /operations/list      | Operation.operationList(options: ListOperationOptions)       | POST
+| Operation Endpoint      | SDK Functions                                                | Method
+| ----------------------- | ------------------------------------------------------------ | ----------- |
+| /operations/list        | Operation.operationList(options: ListOperationOptions)       | POST
 
 
 List SDK functions to use for API PaymentAccount
@@ -86,3 +87,23 @@ List SDK functions to use for API Account Holder
 | /accountHolder/uploadDocument      | AccountHolder.uploadDocument(requirements: Array<Requirement>, requestId: string)       | POST
 | /accountHolder/registrationDetails      | AccountHolder.registrationDetails(requestId: string, accountNumber?: string)       | POST
 | /accountHolder/unregister      | AccountHolder.unregister(requestId: string, accountNumber?: string)       | POST
+
+
+List SDK functions to use for API Payment Method
+-------------------------------------------------
+
+| Payment Method Endpoint     | SDK Functions                                             | Method 
+| -----------                 | -----------                                               | ----------- |
+| /paymentMethod/removeAlias  | PaymentMethod.removeAlias(options: RemoveAliasOptions)    | POST
+| /paymentMethod/getAlias     | PaymentMethod.getAlias(options: GetAliasOptions)          | POST
+| /paymentMethod/list         | PaymentMethod.list(options: PaymentMethodListOptions)     | POST
+| /paymentMethod/getIBAN      | PaymentMethod.getIBAN(paymentMethodAlias: string)         | POST
+
+
+List SDK functions to use for API Mandate
+-------------------------------------------------
+
+| Mandate Endpoint        | SDK Functions                                           | Method 
+| -----------             | -----------                                             | ----------- |
+| /mandate/createPayout   | Mandate.createPayout(options: CreateMandateOptions)     | POST
+| /mandate/updateMandate  | Mandate.updateMandate(options: UpdateMandateOptions)    | POST
