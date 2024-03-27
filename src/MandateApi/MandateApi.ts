@@ -1,5 +1,5 @@
 import ApiRest from '../../utils/apiRest';
-import { CreateMandateOptions } from './MandateInterfaces';
+import { CreateMandateOptions, CreateMandateResponse, UpdateMandateOptions } from './MandateInterfaces';
 
 class MandateApi extends ApiRest {
   /**
@@ -23,7 +23,8 @@ class MandateApi extends ApiRest {
    * @prop {string | undefined} socialReason: Compagny name
    * @prop {string | undefined} address2: Additional address
    * @prop {string | undefined} urlRedirect: Url where the customer must be redirected at the end of the payment with the partner. This URL is completed by /success, /error or /cancel according to the partner response status. When the customer will be redirected to the marketPlace at the end of the partner payment process, the paymentDetails function must be called to terminate payment with the data transmitted by the partner. For development purpose, you can use http:\/\/127.0.0.1 (localhost is not supported)
-   * @returns {number} The mandate reference.
+   * @prop {OTP | undefined} otp: Force signature by OTP
+   * @returns {CreateMandateResponse}  New direct debit mandate generation response. If ok, either reference (UMR) or mandateId (withour UMR) should be present.
    * @example 
    * ````javascript
     payoutApi.createPayout({
@@ -38,7 +39,7 @@ class MandateApi extends ApiRest {
     })
    * ````
    */
-  async createPayout(options: CreateMandateOptions): Promise<string> {
+  async createPayout(options: CreateMandateOptions): Promise<CreateMandateResponse> {
     return new Promise((success, reject) => {
       const opt = {
         transPaymentMethod: options.transPaymentMethod,
@@ -60,10 +61,41 @@ class MandateApi extends ApiRest {
           socialReason: options.socialReason,
           address2: options.address2
         },
-        urlRedirect: options.urlRedirect
+        urlRedirect: options.urlRedirect,
+        otp: options.otp
       };
       return this.sendToApiPost('/mandate/create', opt).then((resp: any) => {
-        if (+resp.resultCode === 0) success(resp.reference);
+        if (+resp.resultCode === 0) success({
+          reference: resp.reference,
+          mandateId: resp.mandateId
+        });
+        else
+          reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
+      });
+    });
+  }
+
+  /**
+  * @description "Update existing SEPA Direct Debit mandate with information like Unique Mandate Reference (UMR).
+  * @param {UpdateMandateOptions} options mandate update options.
+  * @prop {string} reference: Unique Mandate Reference (UMR) value to be added on the mandate
+  * @prop {string} mandateId: Identifier for the mandate to update
+  * @example 
+  * ````javascript
+    payoutApi.updatePayout({
+      reference: "2020110907201100Y0H1102",
+      mandateId: "5120"
+    }).then(resp => {
+      console.log(resp)
+    }).catch(error => {
+      console.log(error)
+    })
+  * ````
+  */
+  async updateMandate(options: UpdateMandateOptions): Promise<null> {
+    return new Promise((success, reject) => {
+      return this.sendToApiPost('/mandate/update', options).then((resp: any) => {
+        if (+resp.resultCode === 0) success(null);
         else
           reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
       });

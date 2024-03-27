@@ -9,7 +9,8 @@ import {
   OrderStatus,
   PaymentSequence,
   PageOption,
-  PaymentOptions
+  PaymentOptions,
+  InstantPayment
 } from '../../utils/enums';
 import Transaction from '../models/Transaction';
 
@@ -31,6 +32,7 @@ import Transaction from '../models/Transaction';
  * @prop {Cart | undefined} cart
  * @prop {string | undefined} operationDate
  * @prop {CbChallenge | undefined} cbChallenge
+ * @prop {InstantPayment | undefined} instantPayment
  * @prop {PaymentOptions | undefined} paymentOptions
  */
 interface PaymentOptionsWithOrderId {
@@ -69,6 +71,8 @@ interface PaymentOptionsWithOrderId {
   operationDate?: string;
   /**  */
   cbChallenge?: CbChallenge;
+  /** The only purpose of this flag is to force Instant Payment for SCT. */
+  instantPayment?: InstantPayment;  /**"enum": ["EXPECTED"]*/
   /**  */
   paymentOptions?: PaymentOptions;
 }
@@ -90,6 +94,7 @@ interface PaymentOptionsWithOrderId {
  * @prop {Cart | undefined} cart
  * @prop {string | undefined} operationDate
  * @prop {CbChallenge | undefined} cbChallenge
+ * @prop {InstantPayment | undefined} instantPayment
  * @prop {PaymentOptions | undefined} paymentOptions
  */
 interface PaymentOptionsWithoutOrderId {
@@ -126,6 +131,8 @@ interface PaymentOptionsWithoutOrderId {
   operationDate?: string;
   /**  */
   cbChallenge?: CbChallenge;
+  /** The only purpose of this flag is to force Instant Payment for SCT. */
+  instantPayment?: InstantPayment;  /**"enum": ["EXPECTED"]*/
   /**  */
   paymentOptions?: PaymentOptions;
 }
@@ -145,7 +152,7 @@ interface PaymentOptionsWithoutOrderId {
  * @prop {PaymentSequence | undefined} sequence
  * @prop {string | undefined} reference
  * @prop {string | undefined} socialReason
- * @prop {string | undefined} address2
+ * @prop {string | undefined} bic
  */
 interface PaymentDetails {
   firstName?: string;
@@ -169,6 +176,8 @@ interface PaymentDetails {
   socialReason?: string;
   /** Additional address */
   address2?: string;
+  /** For SCT Inst payment path, the client BIC allows the partner's API (open banking mechanism) to select a specific bank web site and enable the client to connect through */
+  bic?: string;
 }
 
 /**
@@ -429,6 +438,47 @@ interface RefundResponse {
   orderId?: number;
 }
 
+/**
+ * @prop {string} accountNumber
+ * @prop {string} amount
+ * @prop {string} currency
+ * @prop {string} paymentMethodAlias
+ * @prop {PaymentSequence} sequence
+ * @prop {string} reference
+ * @prop {string | undefined} reason
+ * @prop {string | undefined} endToEndId
+ */
+interface ReloadOptions {
+  /** A string representing the account number. */
+  accountNumber: string;
+  /** Amount converted in cents, using the exponent defined in table ISO_CURRENCY */
+  amount: string;
+  /** Currency code in 3 characters ISO format */
+  currency: string;
+  /** Sequence, enum. 
+   * Possible values:
+   * RCUR for use of recurrent mandate
+   * FNAL for last use of recurrent mandate
+  */
+  sequence: PaymentSequence;
+  /** Alias identifying a previously registered payment method */
+  paymentMethodAlias: string;
+  /** Mandate reference (mndtRef) */
+  reference: string;
+  /** Operation label */
+  reason?: string;
+  /** Used to identify transaction in SEPA transfer. */
+  endToEndId?: string;
+}
+
+/**
+ * @prop {string | undefined} transactionId
+ */
+interface ReloadResponse {
+  /** Transaction identifier */
+  transactionId?: string;
+}
+
 export {
   PaymentOptionsWithOrderId,
   PaymentOptionsWithoutOrderId,
@@ -443,5 +493,7 @@ export {
   PaymentIFrameOptions,
   PaymentIFrameResponse,
   RefundOptions,
-  RefundResponse
+  RefundResponse,
+  ReloadOptions,
+  ReloadResponse
 };

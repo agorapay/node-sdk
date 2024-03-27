@@ -21,7 +21,9 @@ import {
   PaymentIFrameOptions,
   PaymentIFrameResponse,
   RefundOptions,
-  RefundResponse
+  RefundResponse,
+  ReloadOptions,
+  ReloadResponse
 } from './PayinInterfaces';
 
 class PayinApi extends ApiRest {
@@ -46,6 +48,7 @@ class PayinApi extends ApiRest {
    * @prop {Cart | undefined} cart
    * @prop {string | undefined} operationDate
    * @prop {CbChallenge | undefined} cbChallenge
+   * @prop {InstantPayment | undefined} instantPayment
    *
    * OR
    *
@@ -65,6 +68,7 @@ class PayinApi extends ApiRest {
    * @prop {Cart | undefined} cart
    * @prop {string | undefined} operationDate
    * @prop {CbChallenge | undefined} cbChallenge
+   * @prop {InstantPayment | undefined} instantPayment
    *
    * @returns {Payment} The created payment.
    * @example
@@ -582,6 +586,55 @@ class PayinApi extends ApiRest {
           }
         }
       });
+    });
+  }
+
+  /**
+   * Credit payment account by PayIn SEPA Direct Debit (SDD) for B2C.
+   * @description This call is used to credit an account by SDD payment for B2C.
+   * @param {ReloadOptions} options Payment options.
+   * @prop {string} accountNumber
+   * @prop {string} amount
+   * @prop {string} currency
+   * @prop {string} paymentMethodAlias
+   * @prop {PaymentSequence} sequence
+   * @prop {string} reference
+   * @prop {string | undefined} reason
+   * @prop {string | undefined} endToEndId
+   * @returns {ReloadResponse} Contains transaction id, if ok.
+   * @example
+   * ````javascript
+   *payinApi..paymentDetails({
+   *  "accountNumber": "1300600000EUR01005110",
+   *  "reason": "Prélèvement mensuel",
+   *  "endToEndId": "20231026PRLV10-12",
+   *  "paymentMethodAlias": "PM202310230V3FG1100",
+   *  "amount": "500.23",
+   *  "currency": "EUR",
+   *  "sequence": "RCUR",
+   *  "reference": "2020110907201100Y0H1102"
+   * }).then(resp => {
+   *  console.log(resp)
+   *}).catch(error => {
+   *  console.log(error)
+   *})
+   * ````
+   */
+   reload(options: ReloadOptions): Promise<ReloadResponse> {
+    return new Promise((success, reject) => {
+      return this.sendToApiPost('/payin/reload', options).then(
+        (resp: any) => {
+          if (+resp.resultCode !== 0)
+            reject(new Error(`${resp.resultCode} - ${resp.resultCodeMessage}`));
+          else {
+            try {
+              success({ transactionId: resp.transactionId});
+            } catch (err) {
+              reject(err);
+            }
+          }
+        }
+      );
     });
   }
 }
