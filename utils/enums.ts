@@ -119,7 +119,10 @@ enum FileType {
   JPEG = "JPEG",
   JPG = "JPG",
   PNG = "PNG",
-  PDF = "PDF"
+  PDF = "PDF",
+  DOC = "DOC",
+  XLS = "XLS",
+  XLSX = "XLSX"
 }
 
 /** 
@@ -221,6 +224,11 @@ enum InstantPayment {
   Expected = 'EXPECTED'
 }
 
+enum IbanPaymentMethodKey {
+  SCT = 'SCT',
+  SCTInst = 'SCT INST'
+}
+
 /**
 INDIVIDUAL_INDIFICATION
  * * `PASSPORT`: Passeport
@@ -314,7 +322,9 @@ enum RequirementFileType {
   PROOF_REG = 'PROOF_REG',
   COMPANY_CER_WORLD = 'COMPANY_CER_WORLD',
   COMPANY_ART_WORLD = 'COMPANY_ART_WORLD',
-  UBO_REG_WORLD = 'UBO_REG_WORLD'
+  UBO_REG_WORLD = 'UBO_REG_WORLD',
+  SYND_ID = 'SYND_ID',
+  REPORT_GEN_SYND = 'REPORT_GEN_SYND'
 }
 
 enum CbChallenge {
@@ -369,5 +379,6 @@ export {
   PageOption,
   PaymentOptions,
   OTP,
-  InstantPayment
+  InstantPayment,
+  IbanPaymentMethodKey
 }
