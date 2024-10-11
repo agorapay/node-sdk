@@ -106,7 +106,10 @@ declare enum FileType {
     JPEG = "JPEG",
     JPG = "JPG",
     PNG = "PNG",
-    PDF = "PDF"
+    PDF = "PDF",
+    DOC = "DOC",
+    XLS = "XLS",
+    XLSX = "XLSX"
 }
 /**
 * * Sepa Direct Debit (1)
@@ -196,6 +199,10 @@ declare enum OTP {
 }
 declare enum InstantPayment {
     Expected = "EXPECTED"
+}
+declare enum IbanPaymentMethodKey {
+    SCT = "SCT",
+    SCTInst = "SCT INST"
 }
 /**
 INDIVIDUAL_INDIFICATION
@@ -290,7 +297,9 @@ declare enum RequirementFileType {
     PROOF_REG = "PROOF_REG",
     COMPANY_CER_WORLD = "COMPANY_CER_WORLD",
     COMPANY_ART_WORLD = "COMPANY_ART_WORLD",
-    UBO_REG_WORLD = "UBO_REG_WORLD"
+    UBO_REG_WORLD = "UBO_REG_WORLD",
+    SYND_ID = "SYND_ID",
+    REPORT_GEN_SYND = "REPORT_GEN_SYND"
 }
 declare enum CbChallenge {
     NoPreference = "01",
@@ -312,4 +321,4 @@ declare enum PageOption {
     full = "full",
     page = "page"
 }
-export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, ReportType, ReportFormat, PageOption, PaymentOptions, OTP, InstantPayment };
+export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, ReportType, ReportFormat, PageOption, PaymentOptions, OTP, InstantPayment, IbanPaymentMethodKey };

@@ -1,5 +1,5 @@
 import ApiRest from '../../utils/apiRest';
-import Requirement from '../models/Requirement';
+import UploadRequirement from '../models/UploadRequirement';
 import { RegisterAccountHolderOptions, UpdateAccountHolderOptions } from './AccountHolderInterfaces';
 import AccountHolder from '../models/AccountHolder';
 declare class AccountHolderApi extends ApiRest {
@@ -92,7 +92,7 @@ declare class AccountHolderApi extends ApiRest {
      *})
      * ````
      */
-    uploadDocument(requirement: Requirement, requestId: string): Promise<AccountHolder>;
+    uploadDocument(requirement: UploadRequirement, requestId: string): Promise<AccountHolder>;
     /**
      * Gets registration information.
      * @param {string} requestId Registration request identifier.

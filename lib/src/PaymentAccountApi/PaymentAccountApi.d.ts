@@ -95,8 +95,8 @@ declare class PaymentAccountApi extends ApiRest {
      * Start change IBAN process.
      * @param {PaymentAccountSetIBANOptions} options
      * @prop {string | undefined} accountNumber
-     * @prop {string} firstName
-     * @prop {string} lastName
+     * @prop {string | undefined} firstName
+     * @prop {string | undefined} lastName
      * @prop {string | undefined} socialReason
      * @prop {string} address
      * @prop {string} city
@@ -107,7 +107,7 @@ declare class PaymentAccountApi extends ApiRest {
      * @prop {string} iban
      * @prop {string} currency
      * @prop {string | undefined} paymentMethodAlias
-     * @prop {string | undefined} activationDate
+     * @prop {IbanPaymentMethodKey | undefined} paymentMethodKey
      * @returns {string} The requestId
      * @example
      * ````javascript
