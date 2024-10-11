@@ -1,7 +1,8 @@
 import {
   FileType,
   PaymentMethodKey,
-  PayoutAutoFrequency
+  PayoutAutoFrequency,
+  IbanPaymentMethodKey
 } from '../../utils/enums';
 import ListingOptions from '../models/ListingOptions';
 import ListingResponse from '../models/ListingResponse';
@@ -87,8 +88,8 @@ interface PaymentAccountPayoutAutoOptions {
 
 /**
  * @prop {string | undefined} accountNumber
- * @prop {string} firstName
- * @prop {string} lastName
+ * @prop {string | undefined} firstName
+ * @prop {string | undefined} lastName
  * @prop {string | undefined} socialReason
  * @prop {string} address
  * @prop {string} city
@@ -99,16 +100,17 @@ interface PaymentAccountPayoutAutoOptions {
  * @prop {string} iban
  * @prop {string} currency
  * @prop {string | undefined} paymentMethodAlias
+ * @prop {IbanPaymentMethodKey | undefined} paymentMethodKey
  */
 interface PaymentAccountSetIBANOptions {
   /** A string representing the account number. */
   accountNumber?: string;
 
   /** The first name of the IBAN account's owner. */
-  firstName: string;
+  firstName?: string;
 
   /** The last name of the IBAN account's owner. */
-  lastName: string;
+  lastName?: string;
 
   /** The name of the IBAN account's owner if compagny. */
   socialReason?: string;
@@ -140,8 +142,10 @@ interface PaymentAccountSetIBANOptions {
   /** Current payment method alias to update. If not provided a new payment method is added. */
   paymentMethodAlias?: string;
 
-  /** Date in the furtur to activate new IBAN. In YYYYMMDD format. */
-  // activationDate: string;
+  /** Type of payment method
+   * - SCT
+   * - SCT INST */
+  paymentMethodKey?: IbanPaymentMethodKey;
 }
 
 interface PaymentAccountSetIBANResponse {

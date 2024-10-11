@@ -1,6 +1,7 @@
 import ApiRest from '../../utils/apiRest';
 import PhysicalPersons from '../models/PhysicalPerson';
 import Requirement from '../models/Requirement';
+import UploadRequirement from '../models/UploadRequirement';
 import {
   RegisterAccountHolderOptions,
   UpdateAccountHolderOptions
@@ -171,7 +172,7 @@ class AccountHolderApi extends ApiRest {
    * ````
    */
   uploadDocument(
-    requirement: Requirement,
+    requirement: UploadRequirement,
     requestId: string
   ): Promise<AccountHolder> {
     return new Promise((success, reject) => {
@@ -196,10 +197,6 @@ class AccountHolderApi extends ApiRest {
       };
       return this.sendToApiPost(
         '/accountHolder/uploadDocument',
-        // {
-        //   requirements: requirements,
-        //   requestId: requestId
-        // },
         payload,
         true
       ).then((resp: any) => {
