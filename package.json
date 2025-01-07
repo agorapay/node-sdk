@@ -1,6 +1,6 @@
 {
   "name": "caps-payment",
-  "version": "1.10.2",
+  "version": "1.10.3",
   "description": "",
   "main": "./lib/index.js",
   "files": [
