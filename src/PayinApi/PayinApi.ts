@@ -1,9 +1,9 @@
-import { report } from 'process';
 import ApiRest from '../../utils/apiRest';
 import { OrderStatus, TicketFormat, TicketType } from '../../utils/enums';
 import OrderDetails from '../models/OrderDetails';
 import Payment from '../models/Payment';
 import PaymentMethod from '../models/PaymentMethod';
+import Alias from '../models/Alias';
 import SignedMandateFile from '../models/SignedMandateFile';
 import Ticket from '../models/Ticket';
 import Transaction from '../models/Transaction';
@@ -189,8 +189,11 @@ class PayinApi extends ApiRest {
             try {
               success({
                 paymentMethodList: resp.paymentMethodList
-                  ? resp.paymentMethodList.map((x: any) => new PaymentMethod(x))
-                  : undefined,
+                  ? resp.paymentMethodList.map((x: any) => {
+                    const aliasList = x.aliasList ? x.aliasList.map((y:any) => new Alias(y.id, y.expirationDate, y.maskedPan, y.label, y.bankCode || y.cardBrand)) : []
+                    return new PaymentMethod(x.id, aliasList, x.label, x.type)
+                  })
+                  : [],
                 orderId: resp.orderId
               });
             } catch (err) {
