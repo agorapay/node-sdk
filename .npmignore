@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+dist
+.vscode-test
+/lib
+.vscode/
+.eslintignore
+.eslintrc
+package-lock.json
+tsconfig.json
+src/
