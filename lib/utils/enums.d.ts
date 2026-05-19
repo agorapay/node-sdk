@@ -219,6 +219,15 @@ declare enum IbanPaymentMethodKey {
     SCT = "SCT",
     SCTInst = "SCT INST"
 }
+declare enum VirtualIbanStatus {
+    inactive = "0",
+    active = "1"
+}
+declare enum VirtualIbanMode {
+    singleUse = "0",
+    multipleUse = "1",
+    unlimited = "2"
+}
 /**
 INDIVIDUAL_INDIFICATION
  * * `PASSPORT`: Passeport
@@ -390,4 +399,4 @@ declare enum UnsignificantAmount {
     true = "1"
 }
 declare function isEnumValue<T extends Record<string, string | number>>(enumObj: T, value: unknown): value is T[keyof T];
-export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, ReportType, ReportFormat, PageOption, PaymentOptions, OTP, InstantPayment, IbanPaymentMethodKey, Resident, HasCountryQuestionnaire, Channel, RequestStatus, UnsignificantAmount, isEnumValue };
+export { YesOrNo, OrderStatus, TransactionStatus, TicketType, TicketFormat, TicketSide, TicketMode, AccountStatus, PaymentMethodKey, PaymentSequence, PayoutAutoFrequency, FileType, PaymentMethodType, Gender, Role, OperationSide, OperationStatus, OperationType, RequirementStatus, AccountType, RequirementFileType, CbChallenge, ReportType, ReportFormat, PageOption, PaymentOptions, OTP, InstantPayment, IbanPaymentMethodKey, Resident, HasCountryQuestionnaire, Channel, RequestStatus, UnsignificantAmount, VirtualIbanStatus, VirtualIbanMode, isEnumValue };

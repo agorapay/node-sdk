@@ -1,7 +1,7 @@
-import CAPSPaymentAPI from './src/CAPSPaymentAPI'
+import CAPSPaymentAPI from './src/CAPSPaymentAPI.js'
 
-import { RegisterAccountHolderOptions, UpdateAccountHolderOptions, OnlineRegisterAccountHolderOptions } from './src/AccountHolderApi/AccountHolderInterfaces'
-import { ListOperationOptions, ListOperationResponse } from './src/OperationApi/OperationInterfaces'
+import { RegisterAccountHolderOptions, UpdateAccountHolderOptions, OnlineRegisterAccountHolderOptions } from './src/AccountHolderApi/AccountHolderInterfaces.js'
+import { ListOperationOptions, ListOperationResponse } from './src/OperationApi/OperationInterfaces.js'
 import { PaymentOptionsWithOrderId, 
          PaymentOptionsWithoutOrderId, 
          PaymentDetailsOptions, 
@@ -17,7 +17,7 @@ import { PaymentOptionsWithOrderId,
          RefundOptions,
          RefundResponse,
          ReloadOptions,
-         ReloadResponse } from './src/PayinApi/PayinInterfaces'
+         ReloadResponse } from './src/PayinApi/PayinInterfaces.js'
 
 import { PaymentAccountListOptions,
         PaymentAccountListResponse,
@@ -26,46 +26,53 @@ import { PaymentAccountListOptions,
          PaymentAccountPayoutAutoOptions,
          PaymentAccountSetIBANOptions,
          PaymentAccountSetIBANResponse
-        } from './src/PaymentAccountApi/PaymentAccountInterfaces'
+        } from './src/PaymentAccountApi/PaymentAccountInterfaces.js'
 
 import { CreateMandateOptions,
          UpdateMandateOptions
-        } from './src/MandateApi/MandateInterfaces'
+        } from './src/MandateApi/MandateInterfaces.js'
 
 import { RemoveAliasOptions,
          GetAliasOptions,
          PaymentMethodListOptions,
          PaymentMethodListResponse,
          GetIbanResponse
-        } from './src/PaymentMethodApi/PaymentMethodInterfaces'
+        } from './src/PaymentMethodApi/PaymentMethodInterfaces.js'
 
-import { CreatePayoutOptions } from './src/PayoutApi/PayoutApiInterfaces'
-import { CreateTransferOptions } from './src/TransferApi/TransferApiInterfaces'
+import { CreatePayoutOptions } from './src/PayoutApi/PayoutApiInterfaces.js'
+import { CreateTransferOptions } from './src/TransferApi/TransferApiInterfaces.js'
+import { CreateVirtualIbanOptions,
+  CreateVirtualIbanResponse,
+  DeleteVirtualIbanOptions,
+  VirtualIbanListOptions,
+  VirtualIbanListResponse } from './src/VirtualIbanApi/VirtualIbanApiInterfaces.js'
 
-import Account from './src/models/Account'
-import AccountHolder from './src/models/AccountHolder'
-import Address from './src/models/Address'
-import Alias from './src/models/Alias'
-import Amount from './src/models/Amount'
-import Breakdown from './src/models/Breakdown'
-import Cart from './src/models/Cart'
-import Commission from './src/models/Commission'
-import Config from './src/models/Config'
-import Encodable from './src/models/Encodable'
-import ListingOptions from './src/models/ListingOptions'
-import ListingResponse from './src/models/ListingResponse'
-import Operation from './src/models/Operation'
-import OrderDetails from './src/models/OrderDetails'
-import Payer from './src/models/Payer'
-import Payment from './src/models/Payment'
-import PaymentAccount from './src/models/PaymentAccount'
-import PaymentMethod from './src/models/PaymentMethod'
-import Person from './src/models/Person'
-import PhysicalPerson from './src/models/PhysicalPerson'
-import Requirement from './src/models/Requirement'
-import SignedMandateFile from './src/models/SignedMandateFile'
-import Ticket from './src/models/Ticket'
-import Transaction from './src/models/Transaction'
+import Account from './src/models/Account.js'
+import AccountHolder from './src/models/AccountHolder.js'
+import Address from './src/models/Address.js'
+import Alias from './src/models/Alias.js'
+import Amount from './src/models/Amount.js'
+import Breakdown from './src/models/Breakdown.js'
+import Cart from './src/models/Cart.js'
+import Commission from './src/models/Commission.js'
+import Config from './src/models/Config.js'
+import Encodable from './src/models/Encodable.js'
+import ListingOptions from './src/models/ListingOptions.js'
+import ListingResponse from './src/models/ListingResponse.js'
+import Operation from './src/models/Operation.js'
+import OrderDetails from './src/models/OrderDetails.js'
+import Payer from './src/models/Payer.js'
+import PayerBasic from './src/models/PayerBasic.js'
+import Payment from './src/models/Payment.js'
+import PaymentAccount from './src/models/PaymentAccount.js'
+import PaymentMethod from './src/models/PaymentMethod.js'
+import Person from './src/models/Person.js'
+import PhysicalPerson from './src/models/PhysicalPerson.js'
+import Requirement from './src/models/Requirement.js'
+import SignedMandateFile from './src/models/SignedMandateFile.js'
+import Ticket from './src/models/Ticket.js'
+import Transaction from './src/models/Transaction.js'
+import VirtualIbanInfo from './src/models/VirtualIbanInfo.js'
 
 import {
   YesOrNo, 
@@ -94,8 +101,10 @@ import {
   ReportFormat,
   PageOption,
   OTP,
-  InstantPayment
-} from './utils/enums'
+  InstantPayment,
+  VirtualIbanStatus,
+  VirtualIbanMode
+} from './utils/enums.js'
 
 
 export { 
@@ -135,6 +144,11 @@ export {
   PaymentMethodListOptions,
   PaymentMethodListResponse,
   GetIbanResponse,
+  CreateVirtualIbanOptions,
+  CreateVirtualIbanResponse,
+  DeleteVirtualIbanOptions,
+  VirtualIbanListOptions,
+  VirtualIbanListResponse,
   Account,
   AccountHolder,
   Address,
@@ -150,6 +164,7 @@ export {
   Operation,
   OrderDetails,
   Payer,
+  PayerBasic,
   Payment,
   PaymentAccount,
   PaymentMethod,
@@ -187,5 +202,8 @@ export {
   OTP,
   InstantPayment,
   ReloadOptions,
-  ReloadResponse
+  ReloadResponse,
+  VirtualIbanInfo,
+  VirtualIbanStatus,
+  VirtualIbanMode
  }

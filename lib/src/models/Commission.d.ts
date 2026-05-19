@@ -1,4 +1,4 @@
-import Encodable from './Encodable';
+import Encodable from './Encodable.js';
 /**
  * Class representing a commission.
  */

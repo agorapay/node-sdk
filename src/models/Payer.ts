@@ -1,4 +1,4 @@
-import Encodable from './Encodable';
+import Encodable from './Encodable.js';
 
 class Payer implements Encodable {
   /** IP Address of the customer. */

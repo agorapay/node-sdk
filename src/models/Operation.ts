@@ -1,13 +1,13 @@
-import Breakdown from './Breakdown';
-import Amount from './Amount';
-import Utils from '../../utils/Utils';
+import Breakdown from './Breakdown.js';
+import Amount from './Amount.js';
+import Utils from '../../utils/Utils.js';
 import {
   AccountType,
   OperationSide,
   OperationStatus,
   OperationType,
   PaymentMethodKey
-} from '../../utils/enums';
+} from '../../utils/enums.js';
 
 class Operation {
   /** Amount of the operation */
@@ -102,23 +102,24 @@ class Operation {
     } else {
       throw new Error('Missing required field or invalid data: side');
     }
-
+    const statusIn = data.status || data.operationStatus;
     if (
-      data.status &&
+      statusIn &&
       Object.values(OperationStatus).some(
-        (status: string) => status === data.status
+        (status: string) => status === statusIn
       )
     ) {
-      this.status = <OperationStatus>data.status;
+      this.status = <OperationStatus>statusIn;
     } else {
       throw new Error('Missing required field or invalid data: status');
     }
 
+    const typeIn = data.type || data.operationType;
     if (
-      data.type &&
-      Object.values(OperationType).some((type: string) => type === data.type)
+      typeIn &&
+      Object.values(OperationType).some((type: string) => type === typeIn)
     ) {
-      this.type = <OperationType>data.type;
+      this.type = <OperationType>typeIn;
     } else {
       throw new Error('Missing required field or invalid data: type');
     }

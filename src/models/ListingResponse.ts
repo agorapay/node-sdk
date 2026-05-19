@@ -1,4 +1,4 @@
-import ListingOptions from './ListingOptions';
+import ListingOptions from './ListingOptions.js';
 
 interface ListingResponse extends ListingOptions {
   /**

@@ -4,9 +4,9 @@ import {
   Resident,
   YesOrNo,
   isEnumValue
-} from '../../utils/enums';
-import Address from '../models/Address';
-import Encodable from './Encodable';
+} from '../../utils/enums.js';
+import Address from '../models/Address.js';
+import Encodable from './Encodable.js';
 
 /**
  * Class representing a person, for online registration.
@@ -44,7 +44,7 @@ class OnlineRegisterPerson implements Encodable {
   /**  */
   percentageHeld?: string;
   /**  */
-  usPerson?: YesOrNo;
+  usPerson: YesOrNo;
 
   constructor(
     gender: Gender,
@@ -54,14 +54,14 @@ class OnlineRegisterPerson implements Encodable {
     citizenShip: string,
     birthDate: string,
     birthCountryCode: string,
+    usPerson: YesOrNo,
     email?: string,
     phoneNumber?: string,
     resident?: Resident,
     birthPlaceTown?: string,
     birthPlaceZipCode?: string,
     physicalAddress?: Address,
-    percentageHeld?: string,
-    usPerson?: YesOrNo
+    percentageHeld?: string
   );
   /**
    * @constructor
@@ -136,6 +136,8 @@ class OnlineRegisterPerson implements Encodable {
 
       if (!isEnumValue(Gender, data.gender))
         throw new Error('Missing required field or invalid data: gender');
+      if (!isEnumValue(YesOrNo, data.usPerson))
+        throw new Error('Missing required field or invalid data: usPerson');
       if (!data.firstName) throw new Error('Missing required field: firstName');
       if (!data.lastName) throw new Error('Missing required field: lastName');
       if (!data.birthDate) throw new Error('Missing required field: birthDate');

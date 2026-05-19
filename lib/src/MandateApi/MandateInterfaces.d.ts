@@ -1,6 +1,6 @@
-import { PaymentSequence, OTP } from '../../utils/enums';
-import Payer from '../models/Payer';
-import PaymentMethod from '../models/PaymentMethod';
+import { PaymentSequence, OTP } from '../../utils/enums.js';
+import Payer from '../models/Payer.js';
+import PaymentMethod from '../models/PaymentMethod.js';
 /**
  * @prop {PaymentMethod}      transPaymentMethod: Payment method information
  * @prop {Payer}              payer: Payer's details

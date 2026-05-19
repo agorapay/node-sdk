@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { InitSelfcareOptions, InitSelfcareResponse } from './SelfcareApiInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { InitSelfcareOptions, InitSelfcareResponse } from './SelfcareApiInterfaces.js';
 declare class SelfcareApi extends ApiRest {
     /**
      * Register Selfcare enrollment informations in request.

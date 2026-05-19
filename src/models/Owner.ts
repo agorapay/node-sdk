@@ -1,5 +1,5 @@
-import { Gender } from '../../utils/enums';
-import Encodable from './Encodable';
+import { Gender } from '../../utils/enums.js';
+import Encodable from './Encodable.js';
 
 /**
  * Class representing a person.

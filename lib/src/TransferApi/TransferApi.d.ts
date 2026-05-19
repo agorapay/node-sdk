@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { CreateTransferOptions } from './TransferApiInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { CreateTransferOptions } from './TransferApiInterfaces.js';
 declare class TransferApi extends ApiRest {
     /**
      * Ask for a transfer between two accounts.

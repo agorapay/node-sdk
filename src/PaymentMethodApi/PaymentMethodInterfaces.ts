@@ -1,7 +1,7 @@
-import Alias from '../models/Alias';
-import Payer from '../models/Payer';
-import Amount from '../models/Amount';
-import PaymentMethod from '../models/PaymentMethod';
+import Alias from '../models/Alias.js';
+import Payer from '../models/Payer.js';
+import Amount from '../models/Amount.js';
+import PaymentMethod from '../models/PaymentMethod.js';
 
 /**
  * @prop {PaymentMethod}      transPaymentMethod: Payment method information

@@ -1,5 +1,7 @@
 import axios from 'axios'
-import Config from '../src/models/Config'
+import FormData from 'form-data';
+import Config from '../src/models/Config.js'
+
 class ApiRest {
 
     config: Config
@@ -22,26 +24,69 @@ class ApiRest {
         })
     }
 
+    looksLikeBase64(str: string) {
+        return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+            .test(str.replace(/\r?\n/g, ''));
+    }
+
+    toBase64(input: string | Buffer): string {
+        // real binary
+        if (Buffer.isBuffer(input)) {
+            return input.toString('base64');
+        }
+
+        if (typeof input !== 'string') {
+            throw new Error('filecontent must be a string or Buffer');
+        }
+
+        const normalized = input.replace(/\r?\n/g, '');
+
+        // Already base64
+        if (this.looksLikeBase64(normalized)) {
+            return normalized;
+        }
+
+        // Try UTF-8 (correct for real text)
+        const utf8Encoded = Buffer.from(input, 'utf8').toString('base64');
+        const roundTrip = Buffer.from(utf8Encoded, 'base64').toString('utf8');
+
+        if (roundTrip === input) {
+            return utf8Encoded;
+        }
+
+        // Fallback: treat as binary-ish string
+        return Buffer.from(input, 'latin1').toString('base64');
+    }
+
     sendToApiPost(endPoint: string, payload: any, multiPart = false) {
-        const BASE_URL = this.config.baseUrl
-        const url = BASE_URL + endPoint
+        const BASE_URL = this.config.baseUrl;
+        const url = BASE_URL + endPoint;
 
-        this.json_fields_toString(payload)
-
-        let boundary = null
+        this.json_fields_toString(payload);
+        let additionnalHeaders = {};
 
         if (multiPart) {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const FormData = require('form-data')
             const form_data = new FormData();
-            boundary = form_data.getBoundary()
+            
             form_data.append('json', JSON.stringify(payload.json || {}), { contentType: 'application/json; charset=UTF-8' });
             if (payload.files) {
                 payload.files.forEach((x: any) => {
-                    form_data.append(x.name, Buffer.from(x.data).toString('base64'), { header: { 'Content-Transfer-Encoding': 'base64' }, filename: x.fileName });
+                    const base64Data = this.toBase64(x.data);
+                    form_data.append(
+                        x.name, 
+                        base64Data, 
+                        { 
+                            header: { 
+                                'Content-Transfer-Encoding': 'base64', 
+                                'Content-Disposition': `form-data; name="${x.name}"; filename="${x.fileName}"` },
+                            filename: x.fileName
+                        }
+                    );
                 })
             }
-            payload = form_data.getBuffer()
+            payload = form_data;
+            additionnalHeaders = form_data.getHeaders();
         }
 
         const message: any  = {
@@ -56,10 +101,10 @@ class ApiRest {
             'Authorization': `Bearer ${this.config.tokenValue}`,
             'id_token': `${this.config.tokenId}`
         };
-
-        if (multiPart) {
-            message.headers['Content-Type'] = `multipart/form-data; boundary=${boundary}`
-        }
+        message.headers = {
+            ...message.headers,
+            ...additionnalHeaders
+        };
 
         if (!this.config.tokenValue || this.config.tokenExpiry < Date.now())
             return this.authenticate(message, true)

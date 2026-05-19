@@ -1,6 +1,6 @@
-import { Gender, Role, Resident, YesOrNo } from '../../utils/enums';
-import Address from '../models/Address';
-import Encodable from './Encodable';
+import { Gender, Role, Resident, YesOrNo } from '../../utils/enums.js';
+import Address from '../models/Address.js';
+import Encodable from './Encodable.js';
 /**
  * Class representing a person, for online registration.
  */
@@ -37,8 +37,8 @@ declare class OnlineRegisterPerson implements Encodable {
     /**  */
     percentageHeld?: string;
     /**  */
-    usPerson?: YesOrNo;
-    constructor(gender: Gender, firstName: string, lastName: string, roles: Array<Role>, citizenShip: string, birthDate: string, birthCountryCode: string, email?: string, phoneNumber?: string, resident?: Resident, birthPlaceTown?: string, birthPlaceZipCode?: string, physicalAddress?: Address, percentageHeld?: string, usPerson?: YesOrNo);
+    usPerson: YesOrNo;
+    constructor(gender: Gender, firstName: string, lastName: string, roles: Array<Role>, citizenShip: string, birthDate: string, birthCountryCode: string, usPerson: YesOrNo, email?: string, phoneNumber?: string, resident?: Resident, birthPlaceTown?: string, birthPlaceZipCode?: string, physicalAddress?: Address, percentageHeld?: string);
     /**
      * @constructor
      * @param data - Object which contains required person attributes for online registration.

@@ -1,13 +1,14 @@
-import OperationApi from './OperationApi/OperationApi';
-import Config from './models/Config';
-import PayoutApi from './PayoutApi/PayoutApi';
-import TransferApi from './TransferApi/TransferApi';
-import PayinApi from './PayinApi/PayinApi';
-import PaymentAccountApi from './PaymentAccountApi/PaymentAccountApi';
-import AccountHolderApi from './AccountHolderApi/AccountHolderApi';
-import SelfcareApi from './SelfcareApi/SelfcareApi';
-import MandateApi from './MandateApi/MandateApi';
-import PaymentMethodApi from './PaymentMethodApi/PaymentMethodApi';
+import OperationApi from './OperationApi/OperationApi.js';
+import Config from './models/Config.js';
+import PayoutApi from './PayoutApi/PayoutApi.js';
+import TransferApi from './TransferApi/TransferApi.js';
+import PayinApi from './PayinApi/PayinApi.js';
+import PaymentAccountApi from './PaymentAccountApi/PaymentAccountApi.js';
+import AccountHolderApi from './AccountHolderApi/AccountHolderApi.js';
+import SelfcareApi from './SelfcareApi/SelfcareApi.js';
+import MandateApi from './MandateApi/MandateApi.js';
+import PaymentMethodApi from './PaymentMethodApi/PaymentMethodApi.js';
+import VirtualIbanApi from './VirtualIbanApi/VirtualIbanApi.js';
 /**
  * @example
  * ````typescript
@@ -45,5 +46,6 @@ declare class CAPSPaymentAPI {
     selfcareApi(): SelfcareApi;
     mandateApi(): MandateApi;
     paymentMethodApi(): PaymentMethodApi;
+    virtualIbanApi(): VirtualIbanApi;
 }
 export default CAPSPaymentAPI;

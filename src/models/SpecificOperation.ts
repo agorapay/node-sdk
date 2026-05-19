@@ -1,6 +1,6 @@
-import { HasCountryQuestionnaire, isEnumValue } from '../../utils/enums';
-import CountryPurchase from './CountryPurchase';
-import Encodable from './Encodable';
+import { HasCountryQuestionnaire, isEnumValue } from '../../utils/enums.js';
+import CountryPurchase from './CountryPurchase.js';
+import Encodable from './Encodable.js';
 
 /**
  *

@@ -244,6 +244,17 @@ enum IbanPaymentMethodKey {
   SCTInst = 'SCT INST'
 }
 
+enum VirtualIbanStatus {
+  inactive = '0',
+  active = '1'
+}
+
+enum VirtualIbanMode {
+  singleUse = '0',
+  multipleUse = '1',
+  unlimited = '2'
+}
+
 /**
 INDIVIDUAL_INDIFICATION
  * * `PASSPORT`: Passeport
@@ -466,5 +477,7 @@ export {
   Channel,
   RequestStatus,
   UnsignificantAmount,
+  VirtualIbanStatus,
+  VirtualIbanMode,
   isEnumValue
 }

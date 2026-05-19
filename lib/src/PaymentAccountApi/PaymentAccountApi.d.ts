@@ -1,8 +1,8 @@
-import { Amount } from '../..';
-import ApiRest from '../../utils/apiRest';
-import { ReportFormat, ReportType } from '../../utils/enums';
-import PaymentAccount from '../models/PaymentAccount';
-import { PaymentAccountListOptions, PaymentAccountCreditOptions, PaymentAccountCreditResponse, PaymentAccountPayoutAutoOptions, PaymentAccountSetIBANOptions, PaymentAccountSetIBANResponse, PaymentAccountListResponse, PaymentAccountSetAuthorizedOverdraftRequest } from './PaymentAccountInterfaces';
+import Amount from '../models/Amount.js';
+import ApiRest from '../../utils/apiRest.js';
+import { ReportFormat, ReportType } from '../../utils/enums.js';
+import PaymentAccount from '../models/PaymentAccount.js';
+import { PaymentAccountListOptions, PaymentAccountCreditOptions, PaymentAccountCreditResponse, PaymentAccountPayoutAutoOptions, PaymentAccountSetIBANOptions, PaymentAccountSetIBANResponse, PaymentAccountListResponse, PaymentAccountSetAuthorizedOverdraftRequest } from './PaymentAccountInterfaces.js';
 declare class PaymentAccountApi extends ApiRest {
     /**
      * get Account details.

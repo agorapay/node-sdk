@@ -1,13 +1,13 @@
-import ApiRest from '../../utils/apiRest';
-import Alias from '../models/Alias';
-import PaymentMethod from '../models/PaymentMethod';
+import ApiRest from '../../utils/apiRest.js';
+import Alias from '../models/Alias.js';
+import PaymentMethod from '../models/PaymentMethod.js';
 import {
   RemoveAliasOptions,
   GetAliasOptions,
   PaymentMethodListOptions,
   PaymentMethodListResponse,
   GetIbanResponse
-} from './PaymentMethodInterfaces';
+} from './PaymentMethodInterfaces.js';
 
 class PaymentMethodApi extends ApiRest {
   /**

@@ -1,11 +1,11 @@
-import Alias from '../models/Alias';
-import Amount from '../models/Amount';
-import Breakdown from '../models/Breakdown';
-import Cart from '../models/Cart';
-import Payer from '../models/Payer';
-import PaymentMethod from '../models/PaymentMethod';
-import { CbChallenge, OrderStatus, PaymentSequence, PageOption, PaymentOptions, InstantPayment, UnsignificantAmount } from '../../utils/enums';
-import Transaction from '../models/Transaction';
+import Alias from '../models/Alias.js';
+import Amount from '../models/Amount.js';
+import Breakdown from '../models/Breakdown.js';
+import Cart from '../models/Cart.js';
+import Payer from '../models/Payer.js';
+import PaymentMethod from '../models/PaymentMethod.js';
+import { CbChallenge, OrderStatus, PaymentSequence, PageOption, PaymentOptions, InstantPayment, UnsignificantAmount } from '../../utils/enums.js';
+import Transaction from '../models/Transaction.js';
 /**
  * @prop {string} transPaymentMethod
  * @prop {number} orderId

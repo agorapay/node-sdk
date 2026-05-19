@@ -1,4 +1,4 @@
-import { OrderStatus, TransactionStatus } from '../../utils/enums';
+import { OrderStatus, TransactionStatus } from '../../utils/enums.js';
 declare class Payment {
     /** Order id obtained in order creation and to provide in each next request. */
     orderId?: number;

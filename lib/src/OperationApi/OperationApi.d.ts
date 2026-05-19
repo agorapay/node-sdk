@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { ListOperationOptions, ListOperationResponse } from './OperationInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { ListOperationOptions, ListOperationResponse } from './OperationInterfaces.js';
 declare class OperationApi extends ApiRest {
     /**
      * get operations matching a set of criterias.
@@ -15,6 +15,8 @@ declare class OperationApi extends ApiRest {
      * @prop {string | undefined} paymentMethodKey: Key identifier of the payment method type id
      * @prop {string | undefined} sellerAccountNumber: Account number of the merchant
      * @prop {string | undefined} parentAccountNumber: A string representing the account number
+     * @prop {OperationStatus | undefined} operationStatus: The status of the operation
+     * @prop {OperationType | undefined} operationType: The type of the operation
      * @returns {Array<Operation>} A list of operation
      * @example
      * ````javascript

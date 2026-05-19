@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { CreatePayoutOptions } from './PayoutApiInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { CreatePayoutOptions } from './PayoutApiInterfaces.js';
 
 class PayoutApi extends ApiRest {
   /**

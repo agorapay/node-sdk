@@ -1,6 +1,6 @@
-import { OrderStatus } from '../../utils/enums';
-import Amount from './Amount';
-import Transaction from './Transaction';
+import { OrderStatus } from '../../utils/enums.js';
+import Amount from './Amount.js';
+import Transaction from './Transaction.js';
 declare class OrderDetails {
     /**  */
     orderAmount?: Amount;

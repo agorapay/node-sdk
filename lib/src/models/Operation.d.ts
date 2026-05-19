@@ -1,6 +1,6 @@
-import Breakdown from './Breakdown';
-import Amount from './Amount';
-import { AccountType, OperationSide, PaymentMethodKey } from '../../utils/enums';
+import Breakdown from './Breakdown.js';
+import Amount from './Amount.js';
+import { AccountType, OperationSide, PaymentMethodKey } from '../../utils/enums.js';
 declare class Operation {
     /** Amount of the operation */
     amount: Amount;

@@ -1,8 +1,8 @@
-import { Amount } from '../..';
-import ApiRest from '../../utils/apiRest';
-import Utils from '../../utils/Utils';
-import { ReportFormat, ReportType } from '../../utils/enums';
-import PaymentAccount from '../models/PaymentAccount';
+import Amount from '../models/Amount.js';
+import ApiRest from '../../utils/apiRest.js';
+import Utils from '../../utils/Utils.js';
+import { ReportFormat, ReportType } from '../../utils/enums.js';
+import PaymentAccount from '../models/PaymentAccount.js';
 import {
   PaymentAccountListOptions,
   PaymentAccountCreditOptions,
@@ -12,7 +12,7 @@ import {
   PaymentAccountSetIBANResponse,
   PaymentAccountListResponse,
   PaymentAccountSetAuthorizedOverdraftRequest
-} from './PaymentAccountInterfaces';
+} from './PaymentAccountInterfaces.js';
 
 class PaymentAccountApi extends ApiRest {
   /**

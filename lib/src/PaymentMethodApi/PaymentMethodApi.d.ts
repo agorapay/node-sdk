@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { RemoveAliasOptions, GetAliasOptions, PaymentMethodListOptions, PaymentMethodListResponse, GetIbanResponse } from './PaymentMethodInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { RemoveAliasOptions, GetAliasOptions, PaymentMethodListOptions, PaymentMethodListResponse, GetIbanResponse } from './PaymentMethodInterfaces.js';
 declare class PaymentMethodApi extends ApiRest {
     /**
      * @description Remove a given payment method alias

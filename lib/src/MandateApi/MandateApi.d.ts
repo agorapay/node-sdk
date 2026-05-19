@@ -1,5 +1,5 @@
-import ApiRest from '../../utils/apiRest';
-import { CreateMandateOptions, CreateMandateResponse, UpdateMandateOptions } from './MandateInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { CreateMandateOptions, CreateMandateResponse, UpdateMandateOptions } from './MandateInterfaces.js';
 declare class MandateApi extends ApiRest {
     /**
      * @description Generate a new direct debit mandate without payment.

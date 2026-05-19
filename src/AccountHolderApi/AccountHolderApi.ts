@@ -1,16 +1,16 @@
-import ApiRest from '../../utils/apiRest';
-import Utils from '../../utils/Utils';
-import PhysicalPersons from '../models/PhysicalPerson';
-import Requirement from '../models/Requirement';
-import UploadRequirement from '../models/UploadRequirement';
+import ApiRest from '../../utils/apiRest.js';
+import Utils from '../../utils/Utils.js';
+import PhysicalPersons from '../models/PhysicalPerson.js';
+import Requirement from '../models/Requirement.js';
+import UploadRequirement from '../models/UploadRequirement.js';
 import {
   RegisterAccountHolderOptions,
   UpdateAccountHolderOptions,
   OnlineRegisterAccountHolderOptions
-} from './AccountHolderInterfaces';
-import { RequestStatus, YesOrNo, isEnumValue } from '../../utils/enums';
-import AccountHolder from '../models/AccountHolder';
-import AccountHolderOnlineRegisterResponse from '../models/AccountHolderOnlineRegisterResponse';
+} from './AccountHolderInterfaces.js';
+import { RequestStatus, YesOrNo, isEnumValue } from '../../utils/enums.js';
+import AccountHolder from '../models/AccountHolder.js';
+import AccountHolderOnlineRegisterResponse from '../models/AccountHolderOnlineRegisterResponse.js';
 
 class AccountHolderApi extends ApiRest {
   /**
@@ -169,18 +169,23 @@ class AccountHolderApi extends ApiRest {
    *})
    * ````
    */
+  protected createAccountHolderOnlineRegisterResponse(
+    resp: any
+  ): AccountHolderOnlineRegisterResponse {
+    return new AccountHolderOnlineRegisterResponse(
+      resp.sellerReference,
+      resp.requestId,
+      resp.tokenId,
+      resp.externalReference
+    );
+  }
+
   async onlineRegister(
     options: OnlineRegisterAccountHolderOptions
   ): Promise<AccountHolderOnlineRegisterResponse> {
     return Utils.handleApiResponse(
       this.sendToApiPost('/accountHolder/onlineRegister', options),
-      (resp) =>
-        new AccountHolderOnlineRegisterResponse(
-          resp.sellerReference,
-          resp.requestId,
-          resp.tokenId,
-          resp.externalReference
-        )
+      (resp) => this.createAccountHolderOnlineRegisterResponse(resp)
     );
   }
 
@@ -260,12 +265,12 @@ class AccountHolderApi extends ApiRest {
 
   /**
    * Upload document in registration process.
-   * @param {Array<Requirement>} requirements The requirements to upload.
+   * @param {UploadRequirement} requirement The requirement to upload.
    * @param {string} requestId ID to identify processing request.
    * @returns {AccountHolder} The updated account holder.
    * @example
    * ````javascript
-   *accountHolderApi.uploadDocument([new Requirement("52211", "Y", "", "JPEG", "test", "Passeport")], "12345")).then(resp => {
+   *accountHolderApi.uploadDocument(new UploadRequirement("52211", "Y", "", "JPEG", "test", "Passeport"), "12345").then(resp => {
    *  console.log(resp)
    *}).catch(error => {
    *  console.log(error)
@@ -291,7 +296,7 @@ class AccountHolderApi extends ApiRest {
         files: [
           {
             name: 'file',
-            fileName: `${requirement.id}.${requirement.fileExt}`,
+            fileName: `${requirement.id}.${requirement.fileExt?.replace(/^\.+/, '').toLowerCase()}`,
             data: requirement.fileContent
           }
         ]

@@ -1,6 +1,6 @@
-import Amount from './Amount';
-import Commission from './Commission';
-import Encodable from './Encodable';
+import Amount from './Amount.js';
+import Commission from './Commission.js';
+import Encodable from './Encodable.js';
 /**
  * Class representing a breakdown.
  */

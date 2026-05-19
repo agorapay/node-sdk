@@ -1,13 +1,13 @@
-import Account from '../models/Account';
-import Address from '../models/Address';
-import Person from '../models/Person';
-import OnlineRegisterPerson from '../models/OnlineRegisterPerson';
-import { YesOrNo, Channel } from '../../utils/enums';
-import Owner from '../models/Owner';
-import RiskCountry from '../models/RiskCountry';
-import CountryPurchase from '../models/CountryPurchase';
-import SpecificOperation from '../models/SpecificOperation';
-import LicensedOperation from '../models/LicensedOperation';
+import Account from '../models/Account.js';
+import Address from '../models/Address.js';
+import Person from '../models/Person.js';
+import OnlineRegisterPerson from '../models/OnlineRegisterPerson.js';
+import { YesOrNo, Channel } from '../../utils/enums.js';
+import Owner from '../models/Owner.js';
+import RiskCountry from '../models/RiskCountry.js';
+import CountryPurchase from '../models/CountryPurchase.js';
+import SpecificOperation from '../models/SpecificOperation.js';
+import LicensedOperation from '../models/LicensedOperation.js';
 /**
  *  @prop {string} socialReason
  *  @prop {string} companyName
@@ -90,17 +90,15 @@ interface OnlineRegisterAccountHolderOptions {
     /** Y or N */
     regulatedSociety: YesOrNo;
     /** US-Person for legal entity */
-    usPerson?: YesOrNo;
+    usPerson: YesOrNo;
     /** At least one person must be provided with CP role */
     physicalPersons: Array<OnlineRegisterPerson>;
     /**  */
     account: Account;
     /** Account owner information */
     owner: Owner;
-    /** Scoring information */
-    scoring?: string;
     /** Vigilance level */
-    introducerRiskLevel?: string;
+    introducerRiskLevel: string;
     /** Scoring */
     introducerRiskScore?: string;
     /** Tax address for a legal entity: limited to the registered office address and, where applicable, the commercial address. */

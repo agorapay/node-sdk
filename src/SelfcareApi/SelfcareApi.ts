@@ -1,8 +1,8 @@
-import ApiRest from '../../utils/apiRest';
+import ApiRest from '../../utils/apiRest.js';
 import {
   InitSelfcareOptions,
   InitSelfcareResponse
-} from './SelfcareApiInterfaces';
+} from './SelfcareApiInterfaces.js';
 
 class SelfcareApi extends ApiRest {
   /**

@@ -1,7 +1,7 @@
-import PhysicalPersons from './PhysicalPerson';
-import Requirement from './Requirement';
-import Encodable from './Encodable';
-import { RequestStatus } from '../../utils/enums';
+import PhysicalPersons from './PhysicalPerson.js';
+import Requirement from './Requirement.js';
+import Encodable from './Encodable.js';
+import { RequestStatus } from '../../utils/enums.js';
 /**
  * Class representing an account holder.
  */

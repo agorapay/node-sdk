@@ -1,6 +1,6 @@
-import Requirement from './Requirement';
-import Encodable from './Encodable';
-import { isEnumValue, Resident } from '../../utils/enums';
+import Requirement from './Requirement.js';
+import Encodable from './Encodable.js';
+import { isEnumValue, Resident } from '../../utils/enums.js';
 
 /**
  * Class representing a person.

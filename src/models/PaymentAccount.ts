@@ -1,4 +1,4 @@
-import { AccountStatus } from '../../utils/enums';
+import { AccountStatus } from '../../utils/enums.js';
 
 /**
  * Class representing a payment account.

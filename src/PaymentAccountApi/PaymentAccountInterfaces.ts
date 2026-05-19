@@ -3,10 +3,10 @@ import {
   PaymentMethodKey,
   PayoutAutoFrequency,
   IbanPaymentMethodKey
-} from '../../utils/enums';
-import ListingOptions from '../models/ListingOptions';
-import ListingResponse from '../models/ListingResponse';
-import PaymentAccount from '../models/PaymentAccount';
+} from '../../utils/enums.js';
+import ListingOptions from '../models/ListingOptions.js';
+import ListingResponse from '../models/ListingResponse.js';
+import PaymentAccount from '../models/PaymentAccount.js';
 
 /**
  * @prop {string | undefined} accountNumber

@@ -1,5 +1,5 @@
-import { RequirementFileType, RequirementStatus } from '../../utils/enums';
-import Encodable from './Encodable';
+import { RequirementFileType, RequirementStatus } from '../../utils/enums.js';
+import Encodable from './Encodable.js';
 
 class Requirement implements Encodable {
   /** Requirement identification number. */

@@ -1,8 +1,8 @@
-import ApiRest from '../../utils/apiRest';
-import UploadRequirement from '../models/UploadRequirement';
-import { RegisterAccountHolderOptions, UpdateAccountHolderOptions, OnlineRegisterAccountHolderOptions } from './AccountHolderInterfaces';
-import AccountHolder from '../models/AccountHolder';
-import AccountHolderOnlineRegisterResponse from '../models/AccountHolderOnlineRegisterResponse';
+import ApiRest from '../../utils/apiRest.js';
+import UploadRequirement from '../models/UploadRequirement.js';
+import { RegisterAccountHolderOptions, UpdateAccountHolderOptions, OnlineRegisterAccountHolderOptions } from './AccountHolderInterfaces.js';
+import AccountHolder from '../models/AccountHolder.js';
+import AccountHolderOnlineRegisterResponse from '../models/AccountHolderOnlineRegisterResponse.js';
 declare class AccountHolderApi extends ApiRest {
     /**
      * Creates a new accountHolder.
@@ -123,6 +123,7 @@ declare class AccountHolderApi extends ApiRest {
      *})
      * ````
      */
+    protected createAccountHolderOnlineRegisterResponse(resp: any): AccountHolderOnlineRegisterResponse;
     onlineRegister(options: OnlineRegisterAccountHolderOptions): Promise<AccountHolderOnlineRegisterResponse>;
     /**
      * Update account holder registration.
@@ -163,12 +164,12 @@ declare class AccountHolderApi extends ApiRest {
     update(options: UpdateAccountHolderOptions): Promise<AccountHolder>;
     /**
      * Upload document in registration process.
-     * @param {Array<Requirement>} requirements The requirements to upload.
+     * @param {UploadRequirement} requirement The requirement to upload.
      * @param {string} requestId ID to identify processing request.
      * @returns {AccountHolder} The updated account holder.
      * @example
      * ````javascript
-     *accountHolderApi.uploadDocument([new Requirement("52211", "Y", "", "JPEG", "test", "Passeport")], "12345")).then(resp => {
+     *accountHolderApi.uploadDocument(new UploadRequirement("52211", "Y", "", "JPEG", "test", "Passeport"), "12345").then(resp => {
      *  console.log(resp)
      *}).catch(error => {
      *  console.log(error)

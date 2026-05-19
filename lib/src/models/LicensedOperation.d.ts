@@ -1,6 +1,6 @@
-import { HasCountryQuestionnaire } from '../../utils/enums';
-import Authority from './Authority';
-import Encodable from './Encodable';
+import { HasCountryQuestionnaire } from '../../utils/enums.js';
+import Authority from './Authority.js';
+import Encodable from './Encodable.js';
 /**
  *
  */

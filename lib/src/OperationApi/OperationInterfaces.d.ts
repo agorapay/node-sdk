@@ -1,6 +1,7 @@
-import ListingOptions from '../models/ListingOptions';
-import ListingResponse from '../models/ListingResponse';
-import Operation from '../models/Operation';
+import ListingOptions from '../models/ListingOptions.js';
+import ListingResponse from '../models/ListingResponse.js';
+import Operation from '../models/Operation.js';
+import { OperationStatus, OperationType } from '../../utils/enums.js';
 /**
  * @prop {string | undefined} startDate: Begin date of operation reporting in YYYYMMDDHHMMSS format
  * @prop {string | undefined} endDate: Ended Date of operation Reporting in YYYYMMDDHHMMSS format
@@ -34,6 +35,10 @@ interface ListOperationOptions extends ListingOptions {
     sellerAccountNumber?: string;
     /** A string representing the account number */
     parentAccountNumber?: string;
+    /**  */
+    operationType?: OperationType;
+    /**  */
+    operationStatus?: OperationStatus;
 }
 interface ListOperationResponse extends ListingResponse {
     /** The operation list */

@@ -1,12 +1,12 @@
-import ApiRest from '../../utils/apiRest';
-import { OrderStatus, TicketFormat, TicketType } from '../../utils/enums';
-import OrderDetails from '../models/OrderDetails';
-import Payment from '../models/Payment';
-import PaymentMethod from '../models/PaymentMethod';
-import Alias from '../models/Alias';
-import SignedMandateFile from '../models/SignedMandateFile';
-import Ticket from '../models/Ticket';
-import Transaction from '../models/Transaction';
+import ApiRest from '../../utils/apiRest.js';
+import { OrderStatus, TicketFormat, TicketType } from '../../utils/enums.js';
+import OrderDetails from '../models/OrderDetails.js';
+import Payment from '../models/Payment.js';
+import PaymentMethod from '../models/PaymentMethod.js';
+import Alias from '../models/Alias.js';
+import SignedMandateFile from '../models/SignedMandateFile.js';
+import Ticket from '../models/Ticket.js';
+import Transaction from '../models/Transaction.js';
 import {
   PaymentOptionsWithOrderId,
   PaymentOptionsWithoutOrderId,
@@ -24,7 +24,7 @@ import {
   RefundResponse,
   ReloadOptions,
   ReloadResponse
-} from './PayinInterfaces';
+} from './PayinInterfaces.js';
 
 class PayinApi extends ApiRest {
   /**

@@ -1,5 +1,5 @@
-import { TransactionStatus, TicketSide, TicketMode } from '../../utils/enums';
-import Amount from './Amount';
+import { TransactionStatus, TicketSide, TicketMode } from '../../utils/enums.js';
+import Amount from './Amount.js';
 
 class Ticket {
   /** Id of the payment transaction. */

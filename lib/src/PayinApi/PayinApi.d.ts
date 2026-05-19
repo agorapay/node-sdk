@@ -1,10 +1,10 @@
-import ApiRest from '../../utils/apiRest';
-import { TicketFormat, TicketType } from '../../utils/enums';
-import OrderDetails from '../models/OrderDetails';
-import Payment from '../models/Payment';
-import SignedMandateFile from '../models/SignedMandateFile';
-import Ticket from '../models/Ticket';
-import { PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, PaymentDetailsOptions, PaymentMethodOptions, PaymentMethodResponse, CaptureOptions, CaptureResponse, CancelOptions, CancelResponse, AdjustPaymentOptions, PaymentIFrameOptions, PaymentIFrameResponse, RefundOptions, RefundResponse, ReloadOptions, ReloadResponse } from './PayinInterfaces';
+import ApiRest from '../../utils/apiRest.js';
+import { TicketFormat, TicketType } from '../../utils/enums.js';
+import OrderDetails from '../models/OrderDetails.js';
+import Payment from '../models/Payment.js';
+import SignedMandateFile from '../models/SignedMandateFile.js';
+import Ticket from '../models/Ticket.js';
+import { PaymentOptionsWithOrderId, PaymentOptionsWithoutOrderId, PaymentDetailsOptions, PaymentMethodOptions, PaymentMethodResponse, CaptureOptions, CaptureResponse, CancelOptions, CancelResponse, AdjustPaymentOptions, PaymentIFrameOptions, PaymentIFrameResponse, RefundOptions, RefundResponse, ReloadOptions, ReloadResponse } from './PayinInterfaces.js';
 declare class PayinApi extends ApiRest {
     /**
      * Submit a payment.

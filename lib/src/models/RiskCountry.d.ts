@@ -1,4 +1,4 @@
-import Encodable from './Encodable';
+import Encodable from './Encodable.js';
 /**
  * For all countries considered high-risk where the client operates and carries out activities.
  */

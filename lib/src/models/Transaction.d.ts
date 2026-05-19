@@ -1,5 +1,5 @@
-import { TransactionStatus } from '../../utils/enums';
-import Amount from './Amount';
+import { TransactionStatus } from '../../utils/enums.js';
+import Amount from './Amount.js';
 declare class Transaction {
     /** Id of the payment transaction. */
     id: string;

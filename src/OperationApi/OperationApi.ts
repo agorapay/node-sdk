@@ -1,9 +1,9 @@
-import Operation from '../models/Operation';
-import ApiRest from '../../utils/apiRest';
+import Operation from '../models/Operation.js';
+import ApiRest from '../../utils/apiRest.js';
 import {
   ListOperationOptions,
   ListOperationResponse
-} from './OperationInterfaces';
+} from './OperationInterfaces.js';
 
 class OperationApi extends ApiRest {
   /**
@@ -20,6 +20,8 @@ class OperationApi extends ApiRest {
    * @prop {string | undefined} paymentMethodKey: Key identifier of the payment method type id
    * @prop {string | undefined} sellerAccountNumber: Account number of the merchant
    * @prop {string | undefined} parentAccountNumber: A string representing the account number
+   * @prop {OperationStatus | undefined} operationStatus: The status of the operation
+   * @prop {OperationType | undefined} operationType: The type of the operation
    * @returns {Array<Operation>} A list of operation
    * @example 
    * ````javascript

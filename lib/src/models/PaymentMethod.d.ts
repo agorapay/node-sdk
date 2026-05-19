@@ -1,6 +1,6 @@
-import { PaymentMethodType } from '../../utils/enums';
-import Alias from './Alias';
-import Encodable from './Encodable';
+import { PaymentMethodType } from '../../utils/enums.js';
+import Alias from './Alias.js';
+import Encodable from './Encodable.js';
 declare class PaymentMethod implements Encodable {
     /** If alias exist for the customer and the payment Method. */
     aliasList?: Array<Alias>;

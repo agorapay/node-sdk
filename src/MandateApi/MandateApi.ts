@@ -1,9 +1,9 @@
-import ApiRest from '../../utils/apiRest';
+import ApiRest from '../../utils/apiRest.js';
 import {
   CreateMandateOptions,
   CreateMandateResponse,
   UpdateMandateOptions
-} from './MandateInterfaces';
+} from './MandateInterfaces.js';
 
 class MandateApi extends ApiRest {
   /**
